@@ -14,12 +14,10 @@ function App() {
         <BrowserRouter>
           {/* puedes disponer del navbar para usuario o admin con true o false */}
           <Navbar isAdmin={true} />
-          <div className="flex flex-col justify-center items-center">
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-            </Routes>
-          </div>
-          <Footer />
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+          </Routes>
+          <Footer/>
         </BrowserRouter>
       </AuthContextProvider>
     </div>
