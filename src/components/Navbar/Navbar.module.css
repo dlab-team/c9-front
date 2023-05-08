@@ -1,0 +1,64 @@
+.navbar {
+  background-color: white;
+  height: 100px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar .link {
+  color: #f3f4f6;
+}
+
+.navbar .link:hover {
+  color: #e5e7eb;
+}
+
+.navImg {
+  width: 176px;
+  margin-left: 59px;
+}
+
+.divblue {
+  position: absolute;
+  left: 265px;
+  top: 0;
+  height: 100%;
+  width: calc(100% - 265px);
+  background: linear-gradient(0deg, #00235c, #00235c), #00425a;
+  border-radius: 0px 0px 0px 60px;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  font-family: 'Caveat Brush', cursive;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 1.5px;
+  min-width: 160px;
+  width: 40%;
+  height: 36px;
+  margin-left: auto;
+  margin-right: 10%;
+  text-indent: 50px;
+  border: 3px solid #ffe600;
+  border-radius: 10px;
+  background-size: 20px 20px;
+  background-position: 12px center;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/icons/magnifying-glass.png');
+}
+
+
+.loginIcon {
+  position: absolute;
+  top: 50%;
+  left: 95%;
+  transform: translate(-50%, -50%);
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  z-index: 1;
+}
