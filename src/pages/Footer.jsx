@@ -1,16 +1,17 @@
 import React from 'react';
+import './main.css'
+import LogoYellow from '../assets/images/logo_innova_yellow.png';
 
-const Footer = () => {
+const Footer= () => {
   return (
-    <footer className="bg-white border-t border-gray-400 shadow">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
-          <img className="h-8 w-auto" src="https://via.placeholder.com/150" alt="Logo" />
-          <p className="py-2 text-gray-500 sm:py-0">Todos los derechos reservados</p>
-        </div>
+    <footer class="text-center lg:text-left">
+      <div class="p-4 text-center">
+        <img src={LogoYellow}
+          href="https://www.emol.com/" target="_blank" rel="noopener noreferrer" alt="Logo InnovaXD"
+          ></img>
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;

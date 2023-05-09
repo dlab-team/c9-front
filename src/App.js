@@ -19,7 +19,7 @@ const App = () => {
     <div>
       <AuthContextProvider>
         <BrowserRouter>
-          <Navbar />
+          <Navbar isAdmin={false}/>
           <Routes>
             <Route exact path="/" element={<Home />} />
           </Routes>
@@ -27,19 +27,3 @@ const App = () => {
       </AuthContextProvider>
     </div>
     ); }; export default App;
-{/* function App() {
-  return (
-    <div>
-      <AuthContextProvider>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-          </Routes>
-        </BrowserRouter>
-      </AuthContextProvider>
-    </div>
-  );
-}
-
-export default App; */}

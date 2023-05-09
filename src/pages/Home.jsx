@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from './Header';
 import Footer from './Footer';
 
 import { useContext } from 'react';
@@ -10,7 +9,6 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
       <main>
         <div className="py-8 px-16">
           <h2>Home</h2>
