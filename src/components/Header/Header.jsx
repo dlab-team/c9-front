@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import logoBlue from '../assets/images/logo_innova_blue.png';
-import styles from './Navbar.module.css';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
+import logoBlue from '../../assets/images/logo_innova_blue.png';
+import styles from './Header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';

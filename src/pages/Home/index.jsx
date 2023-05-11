@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
-import { Footer } from '../../components';
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -16,7 +15,6 @@ const Home = () => {
         </div>
       </main>
     </div>
-
   );
 };
 
