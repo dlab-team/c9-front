@@ -6,7 +6,7 @@ Frontend para C9 InnovaXD
 
 Nuestro proyecto, en colaboración con Microsoft y el diario El Mercurio, consiste en desarrollar una aplicación web que permitirá a los administradores y editores del diario transformar noticias para que sean aptas para niños. A través de nuestra herramienta, podrán copiar y pegar una noticia en su formato original, y la aplicación se encargará de adaptarla a una versión adecuada para la lectura infantil. Esta asociación con Microsoft y El Mercurio garantiza la utilización de tecnología de vanguardia y la experiencia periodística de renombre para ofrecer una experiencia segura y enriquecedora, manteniendo a los niños informados de manera apropiada para su edad y fomentando su interés por la lectura.
 
-![Logo del proyecto](../c9-front/src/assets/images/logo_innova_blue.png)
+![Logo del proyecto](../assets/images/logo_innova_blue.png)
 
 ## Dependencias
 
@@ -50,7 +50,14 @@ REACT_APP_BACKEND_URL=http://localhost:3000/api/
 
 Este proyecto utiliza Google Fonts para la fuente de la interfaz de usuario y Font Awesome para los iconos. Los enlaces para la carga de estos recursos se encuentran en el archivo index.html en la carpeta public.
 
+
+Fonts:
+
+- Caveat Brush 
+- Sora
+
 Links google fonts
+
 ```bash
 <link
       href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap"
@@ -61,13 +68,9 @@ Links google fonts
       rel="stylesheet"
 />
 ```
-Links font awesome
+Diseño Figma del proyecto
 
-```bash
-<link href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" rel="stylesheet">
-```
-
-- [Diseño del proyecto en Figma](https://www.figma.com/file/VnhCQuQqPkpG91cMHEJMIG/Edición-Proyecto?type=design&node-id=4-596&t=nuNz0b38I35khcBI-0)
+- [Link](https://www.figma.com/file/VnhCQuQqPkpG91cMHEJMIG/Edición-Proyecto?type=design&node-id=4-596&t=nuNz0b38I35khcBI-0)
 
 ## Equipo
 
@@ -77,11 +80,19 @@ TL: [Sebastian Vidal Aedo](https://github.com/sebavidal10)
 
 Frontend
 
-- [Nombre](url)
-- [Nombre](url)
-- [Nombre](url)
-- [Nombre](url)
-- [Nombre](url)
-- [Nombre](url)
+- [Carolina Morah](url)
+- [Ray Cardenas](url)
+- [Carlos Garcia](url)
+- [Gabriel Balbontin](url)
+- [Alfredo Villegas](url)
+- [Marco Camargo](url)
+- [Javier Figueroa](url)
 
 Backend
+
+- [Rene Donaire](url)
+- [Agustin Zapata](url)
+- [Alejandro Gonzalez](url)
+- [Santiago Cisneros](url)
+- [Miguel Viloria](url)
+- [Joaquin](url)
