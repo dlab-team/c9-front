@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import logoBlue from '../assets/images/logo_innova_blue.png';
-import loginIcon from '../assets/images/loginIcon.svg';
-import styles from "./Navbar.module.css";
+import { AuthContext } from '../../context/AuthContext/AuthContext';
+import logoBlue from '../../assets/images/logo_innova_blue.png';
+import loginIcon from '../../assets/images/loginIcon.svg';
+import styles from "./Header.module.css";
 
-const Navbar = ({ isAdmin }) => {
+const Header = ({ isAdmin }) => {
   const { currentUser } = useContext(AuthContext);
 
   return (
@@ -38,4 +38,4 @@ const Navbar = ({ isAdmin }) => {
   );
 };
 
-export default Navbar;
+export default Header;
