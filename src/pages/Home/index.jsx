@@ -15,7 +15,6 @@ const Home = () => {
           {currentUser ? 'Hay User' : 'No hay User'}
         </div>
       </main>
-      <Footer />
     </div>
 
   );
