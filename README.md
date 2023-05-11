@@ -2,7 +2,19 @@
 
 Frontend para C9 InnovaXD
 
-![Logo del proyecto](./logo.png)
+# Descripción del proyecto InnovaXD
+
+Nuestro proyecto, en colaboración con Microsoft y el diario El Mercurio, consiste en desarrollar una aplicación web que permitirá a los administradores y editores del diario transformar noticias para que sean aptas para niños. A través de nuestra herramienta, podrán copiar y pegar una noticia en su formato original, y la aplicación se encargará de adaptarla a una versión adecuada para la lectura infantil. Esta asociación con Microsoft y El Mercurio garantiza la utilización de tecnología de vanguardia y la experiencia periodística de renombre para ofrecer una experiencia segura y enriquecedora, manteniendo a los niños informados de manera apropiada para su edad y fomentando su interés por la lectura.
+
+![Logo del proyecto](../c9-front/src/assets/images/logo_innova_blue.png)
+
+## Dependencias
+
+- React: versión 18.2.0
+- Tailwind CSS: versión 3.3.2
+- TW-elements: version 1.0.0-beta2
+- Google Fonts
+- FontAwesome
 
 ## Instalación
 
@@ -59,8 +71,17 @@ Links font awesome
 
 ## Equipo
 
-Este proyecto ha sido desarrollado por el equipo de Frontend de C9 InnovaXD. Los miembros del equipo incluyen:
+Technical Leader:
 
-- Nombre Apellido (nombre.apellido@innovaxd.com)
-- Nombre Apellido (nombre.apellido@innovaxd.com)
-- Nombre Apellido (nombre.apellido@innovaxd.com)
+TL: [Sebastian Vidal Aedo](https://github.com/sebavidal10)
+
+Frontend
+
+- [Nombre](url)
+- [Nombre](url)
+- [Nombre](url)
+- [Nombre](url)
+- [Nombre](url)
+- [Nombre](url)
+
+Backend
