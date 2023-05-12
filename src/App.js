@@ -4,6 +4,7 @@ import { AuthContextProvider } from './context';
 import Layout from './layout/Layout';
 import Home from './pages/Home';
 import AdminPublications from './pages/Admin/Publications';
+import Publication from './pages/Publication';
 
 import './App.css';
 
@@ -15,7 +16,12 @@ const App = () => {
           <Layout>
             <Routes>
               <Route exact path="/" element={<Home />} />
-              <Route exact path="admin/publications" element={<AdminPublications />} />
+              <Route exact path="/noticias/:slug" element={<Publication />} />
+              <Route
+                exact
+                path="admin/publications"
+                element={<AdminPublications />}
+              />
             </Routes>
           </Layout>
         </BrowserRouter>
