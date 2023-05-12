@@ -13,7 +13,7 @@ const Header = ({ isAdmin }) => {
   return (
     <nav
       className={`${styles.navbar} relative flex w-full flex-wrap items-center justify-between bg-white-500 py-2 
-    text-neutral-500 shadow-lg hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600 lg:py-4`}
+    text-neutral-500 hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600 lg:py-4`}
     >
       <div>
         <Link to="/">
