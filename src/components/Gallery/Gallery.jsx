@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import styles from './Gallery.module.css';
 import { Filters } from '../../components';
 import axios from 'axios';
 
 const Gallery = () => {
   const [news, setNews] = useState([]);
+  const navigate = useNavigate();
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications`;
 
-  const getNewsData = async () => {
+  const getPublicationsData = async () => {
     try {
       const response = await axios.get(endpoint);
       const data = response.data;
@@ -19,9 +22,8 @@ const Gallery = () => {
     }
   };
 
-  //Llamar a la función
   useEffect(() => {
-    getNewsData();
+    getPublicationsData();
   }, []);
 
   return (
@@ -33,8 +35,9 @@ const Gallery = () => {
       >
         {news.map((n) => (
           <div
-            className="block max-h-100 max-w-sm rounded-2xl overflow-hidden border border-gray-200 mb-3 mr-1 bg-white shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/20"
+            className="cursor-pointer block max-h-100 max-w-sm rounded-2xl overflow-hidden border border-gray-200 mb-3 mr-1 bg-white shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/20"
             key={n.id}
+            onClick={() => navigate(`/noticias/${n.slug}`)}
           >
             <div
               className="relative overflow-hidden bg-cover bg-no-repeat"
