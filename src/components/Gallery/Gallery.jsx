@@ -22,6 +22,10 @@ const Gallery = () => {
     }
   };
 
+  // TODO: cuando se devuelvan imagenes desde el back, eliminar esta linea
+  const getRandomId = () => Math.floor(Math.random() * 1000);
+  const getRandomHeight = () => Math.floor(Math.random() * 300) + 200;
+
   useEffect(() => {
     getPublicationsData();
   }, []);
@@ -46,7 +50,8 @@ const Gallery = () => {
             >
               <img
                 className="max-w-full h-full object-cover rounded-t-lg transition duration-300 ease-in-out hover:opacity-70"
-                src={n.imagen}
+                // src={n.imagen}
+                src={`https://picsum.photos/id/${getRandomId()}/400/${getRandomHeight()}`}
                 alt={n.name}
               />
             </div>
