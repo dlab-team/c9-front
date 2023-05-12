@@ -1,5 +1,9 @@
 footer {
-    background-color: #116CEF;
-    display: flex;
-    justify-content: center;
+  background-color: #116cef;
+  display: flex;
+  justify-content: center;
+  /* añadido position bottom y width */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
