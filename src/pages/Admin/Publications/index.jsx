@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PublicationsTable from '../components/PublicationsTable/PublicationsTable';
+import PublicationsTable from '../../../components/PublicationsTable/PublicationsTable';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
-const Edit = () => {
+const AdminPublications = () => {
   const publications = [
     {
       id: 1,
@@ -66,4 +66,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default AdminPublications;

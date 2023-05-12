@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from './context';
 import Layout from './layout/Layout';
 import Home from './pages/Home';
-import Edit from './pages/Edit';
+import AdminPublications from './pages/Admin/Publications';
 
 import './App.css';
 
@@ -15,7 +15,7 @@ const App = () => {
           <Layout>
             <Routes>
               <Route exact path="/" element={<Home />} />
-              <Route exact path="admin/publications" element={<Edit />} />
+              <Route exact path="admin/publications" element={<AdminPublications />} />
             </Routes>
           </Layout>
         </BrowserRouter>
