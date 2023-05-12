@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from './context';
-import Home from './pages/Home';
 import Layout from './layout/Layout';
+import Home from './pages/Home';
+import AdminPublications from './pages/Admin/Publications';
 
 import './App.css';
 
@@ -14,6 +15,7 @@ const App = () => {
           <Layout>
             <Routes>
               <Route exact path="/" element={<Home />} />
+              <Route exact path="admin/publications" element={<AdminPublications />} />
             </Routes>
           </Layout>
         </BrowserRouter>
