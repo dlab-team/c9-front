@@ -34,8 +34,8 @@ const Gallery = () => {
     <>
       <Filters />
       <div
-        className={`${styles.gallery} columns-1 md:columns-3 lg:columns-3`}
-        style={{ columnGap: '1px' }}
+        className={`${styles.gallery} columns-2 w-screen md:columns-3 lg:columns-3 `}
+        style={{ columnGap: '1px', }}
       >
         {news.map((n) => (
           <div

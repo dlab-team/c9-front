@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from './Filters.module.css';
 import { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const Filters = () => {
   const [isRegionActive, setIsRegionActive] = useState(
@@ -32,10 +34,12 @@ const Filters = () => {
   };
 
   return (
-    <div className="filtros flex flex-wrap justify-end space-x-3 lg:mr-40 md:mr-12 invisible md:visible">
-      <div className="relative inline-block" data-te-dropdown-ref>
+    <div className="filtros flex flex-wrap justify-end space-x-0.2 lg:mr-40 md:mr-12 md:gap-x-5 md:my-14  md:bg-white">
+      <div className="relative inline-block  " data-te-dropdown-ref>
         <button
-          className="flex whitespace-nowrap rounded px-5 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent border-2 border-blue-950"
+          className=" md:flex sm: border-white 
+          md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-blue-950
+          "
           type="button"
           onClick={toggleRegionDropdown}
           id="dropdownMenuButton3"
@@ -43,7 +47,7 @@ const Filters = () => {
           aria-expanded={isRegionActive}
         >
           Región
-          <span className="lg:ml-16 w-2 sm:ml-6">
+          <span className="lg:ml-16 w-2 sm:ml-6 hidden sm:block">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -61,7 +65,7 @@ const Filters = () => {
         <ul
           className={`absolute z-[1000] float-left m-0 ${
             isRegionActive ? '' : 'hidden'
-          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
+          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
           aria-labelledby="dropdownMenuButton3"
           data-te-dropdown-menu-ref
         >
@@ -96,7 +100,8 @@ const Filters = () => {
       </div>
       <div className="relative inline-block" data-te-dropdown-ref>
         <button
-          className="flex whitespace-nowrap rounded px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent border-2 border-blue-950"
+          className="md:flex sm: border-white 
+          md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-blue-950"
           type="button"
           onClick={toggleComunaDropdown}
           id="dropdownMenuButton3"
@@ -104,7 +109,7 @@ const Filters = () => {
           aria-expanded={isComunaActive}
         >
           Comuna
-          <span className="lg:ml-16 w-2 sm:ml-6">
+          <span className="lg:ml-16 w-2 sm:ml-6 hidden sm:block">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -122,7 +127,7 @@ const Filters = () => {
         <ul
           className={`absolute z-[1000] float-left m-0 ${
             isComunaActive ? '' : 'hidden'
-          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
+          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
           aria-labelledby="dropdownMenuButton3"
           data-te-dropdown-menu-ref
         >
@@ -158,7 +163,9 @@ const Filters = () => {
 
       <div className="relative inline-block" data-te-dropdown-ref>
         <button
-          className="flex whitespace-nowrap rounded px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent border-2 border-blue-950"
+          className="md:flex whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 border-blue-950
+          sm:border-0
+          "
           type="button"
           onClick={toggleCategoriaDropdown}
           id="dropdownMenuButton3"
@@ -166,7 +173,7 @@ const Filters = () => {
           aria-expanded={isCategoriaActive}
         >
           Categoría
-          <span className="lg:ml-16 w-2 sm:ml-6">
+          <span className="lg:ml-16 w-2 sm:ml-6 hidden sm:block">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -220,10 +227,19 @@ const Filters = () => {
 
       <button
         type="button"
-        className={`${styles.filterButton} inline-block bg-primary rounded lg:px-10 pb-2 pt-2.5 text-md text-white sm:px-4 `}
+        className={`${styles.filterButton} inline-block bg-primary rounded lg:px-10 pb-2 pt-2.5 text-md text-white sm:px-4 hidden sm:block`}
       >
         Filtrar
+      
       </button>
+      <button
+        type="button"
+        className="md:hidden"
+      >
+       <FontAwesomeIcon icon={faFilter} className= "pt-4 text-lg text-white sm:px-4 absolute left-16 top-24 text-blue-500"/>
+      
+      </button>
+      
     </div>
   );
 };
