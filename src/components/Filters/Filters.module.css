@@ -1,0 +1,19 @@
+.filterButton {
+    background-color: #116CEF;
+}
+
+.filterButton:hover {
+    background-color: #FFE600;
+    color: black;
+    transition-duration: 0.3s;
+}
+
+.borderFilter {
+    border-color: #00235c;
+}
+
+@media (max-width: 640px) {
+    .filtros {
+        display: none;
+    }
+}

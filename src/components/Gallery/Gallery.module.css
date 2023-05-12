@@ -1,0 +1,14 @@
+
+.gallery{
+    margin: 2.5rem;
+    font-family:'Sora', sans-serif;
+    color: #232323,
+}
+
+.cardText {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1; /* Número de líneas ha mostrar */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

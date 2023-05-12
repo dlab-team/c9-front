@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Gallery } from '../../components'
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 
@@ -9,10 +9,7 @@ const Home = () => {
   return (
     <div>
       <main>
-        <div className="py-8 px-16">
-          <h2>Home</h2>
-          {currentUser ? 'Hay User' : 'No hay User'}
-        </div>
+        <Gallery/>
       </main>
     </div>
   );
