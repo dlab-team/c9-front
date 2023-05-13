@@ -30,11 +30,11 @@ const Header = ({ isAdmin }) => {
 
       <div className={styles.divblue}>
         {!isAdmin && (
-          <div className={styles.inputWrapper}>
+          <div className={`${styles.inputWrapper}`}>
             {' '}
             {/* Acá agregué el div inputWrapper para poder agrupar en ícono con el input, sino no me dejaba insertarlo */}
             <input
-              className={styles.input}
+              className={`${styles.input}`}
               type="text"
               placeholder="ENCUENTRA"
             />
