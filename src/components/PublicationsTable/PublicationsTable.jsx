@@ -1,5 +1,8 @@
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { faArrowUpFromBracket, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowUpFromBracket,
+  faMagnifyingGlass,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { ButtonBase } from '../UI';
@@ -13,13 +16,15 @@ const PublicationsTable = ({ publications }) => {
     if (event.target.checked) {
       return setItemsSelected([...itemsSelected, selectedItemId]);
     } else {
-      return setItemsSelected(itemsSelected.filter(itemId => itemId !== selectedItemId));
+      return setItemsSelected(
+        itemsSelected.filter((itemId) => itemId !== selectedItemId)
+      );
     }
   }
 
   return (
     <>
-      <div className="overflow-x-auto border border-solid border-gray-800 rounded-3xl h-full w-full pb-8">
+      <div className="overflow-x-auto border border-solid border-gray-800 rounded-3xl h-full w-full">
         <table className="w-full min-w-max table-auto text-left md:text-lg">
           <thead className="md:text-2xl">
             <tr className="border-b border-solid border-gray-800">
@@ -38,7 +43,10 @@ const PublicationsTable = ({ publications }) => {
                       Publicar
                     </ButtonBase>
                     <ButtonBase className={'bg-orange-500'}>
-                      <FontAwesomeIcon icon={faArrowUpFromBracket} className="rotate-180" />
+                      <FontAwesomeIcon
+                        icon={faArrowUpFromBracket}
+                        className="rotate-180"
+                      />
                       Despublicar
                     </ButtonBase>
                   </div>
@@ -54,15 +62,20 @@ const PublicationsTable = ({ publications }) => {
           <tbody>
             {publications.map((publication, index) => {
               const isSelected = itemsSelected.includes(publication.id);
-              const classes = isSelected ? 'bg-blue-300 py-3 px-4' : 'py-3 px-4';
+              const classes = isSelected
+                ? 'bg-blue-300 py-3 px-4'
+                : 'py-3 px-4';
 
               return (
-                <tr key={`publication-${publication.id}`} className="border-b border-blue-gray-50">
+                <tr
+                  key={`publication-${publication.id}`}
+                  className="border-b border-blue-gray-50"
+                >
                   <td className={` md:pl-12 md:pr-0 ${classes}`}>
                     <input
                       type="checkbox"
                       className="rounded-md h-6 w-6 flex items-center"
-                      onChange={event => {
+                      onChange={(event) => {
                         onClickSelect(event, publication.id);
                       }}
                     />
@@ -79,7 +92,9 @@ const PublicationsTable = ({ publications }) => {
                   <td className={classes}>
                     <p
                       className={`${
-                        publication.isPublished ? 'bg-blue-500 text-white' : 'bg-yellow-200'
+                        publication.isPublished
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-yellow-200'
                       } rounded-2xl py-2 text-center text-lg w-32`}
                     >
                       {publication.isPublished ? 'Publicada' : 'Sin Publicar'}
@@ -87,8 +102,14 @@ const PublicationsTable = ({ publications }) => {
                   </td>
                   <td className={`md:pr-6 ${classes}`}>
                     <div className="flex gap-4 items-center">
-                      <FontAwesomeIcon icon={faMagnifyingGlass} className="h-6 font-light text-gray-700" />
-                      <FontAwesomeIcon icon={faPenToSquare} className="h-7 text-gray-700" />
+                      <FontAwesomeIcon
+                        icon={faMagnifyingGlass}
+                        className="h-6 font-light text-gray-700"
+                      />
+                      <FontAwesomeIcon
+                        icon={faPenToSquare}
+                        className="h-7 text-gray-700"
+                      />
                     </div>
                   </td>
                 </tr>

@@ -10,10 +10,9 @@ const Publication = () => {
   const getPublicationData = async () => {
     try {
       const response = await axios.get(endpoint);
-      const data = response.data;
+      const { publication } = response.data;
 
-      setPublication(data);
-      console.log(data);
+      setPublication(publication);
     } catch (error) {
       console.error(error);
     }

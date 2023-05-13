@@ -50,9 +50,9 @@ const AdminPublications = () => {
 
   return (
     <>
-      <div className="px-2 py-10 md:py-24 md:px-16">
+      <div className="container py-5">
         <div className="flex justify-between">
-          <h1 className="text-3xl mb-10 font-bold">Listado de noticias</h1>
+          <h1 className="text-2xl mb-10 font-bold">Listado de noticias</h1>
           <button className="flex gap-4 rounded bg-blue-600 text-white items-center max-w-fit h-10 px-4">
             <div className="grid place-content-center bg-white rounded-full w-5 h-5">
               <FontAwesomeIcon icon={faCirclePlus} className="h-7 text-blue-900" />

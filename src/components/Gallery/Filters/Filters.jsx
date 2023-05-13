@@ -34,10 +34,10 @@ const Filters = () => {
   };
 
   return (
-    <div className="filtros flex flex-wrap justify-end space-x-0.2 lg:mr-40 md:mr-12 md:gap-x-5 md:my-14  md:bg-white">
-      <div className="relative inline-block  " data-te-dropdown-ref>
+    <div className="container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-14 md:bg-white">
+      <div className="relative inline-block" data-te-dropdown-ref>
         <button
-          className=" md:flex sm: border-white 
+          className="md:flex sm:border-white 
           md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-blue-950
           "
           type="button"
@@ -230,16 +230,13 @@ const Filters = () => {
         className={`${styles.filterButton} inline-block bg-primary rounded lg:px-10 pb-2 pt-2.5 text-md text-white sm:px-4 hidden sm:block`}
       >
         Filtrar
-      
       </button>
-      <button
-        type="button"
-        className="md:hidden"
-      >
-       <FontAwesomeIcon icon={faFilter} className= "pt-4 text-lg text-white sm:px-4 absolute left-16 top-24 text-blue-500"/>
-      
+      <button type="button" className="md:hidden">
+        <FontAwesomeIcon
+          icon={faFilter}
+          className="pt-4 text-lg text-white sm:px-4 absolute left-16 top-24 text-blue-500"
+        />
       </button>
-      
     </div>
   );
 };
