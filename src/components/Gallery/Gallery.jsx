@@ -15,8 +15,6 @@ const Gallery = () => {
       const response = await axios.get(endpoint);
       const { publications } = response.data;
 
-      console.log(publications);
-
       setPublications(publications);
     } catch (error) {
       console.error(error);
@@ -33,7 +31,7 @@ const Gallery = () => {
       <div
         className={`${styles.gallery} columns-2 w-screen md:columns-3 lg:columns-3 container`}
       >
-        <div class="gap-4">
+        <div className="gap-4">
           {publications.map((publication) => (
             <div
               style={{ margin: '10' }}
