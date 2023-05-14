@@ -2,6 +2,7 @@ import React from 'react';
 import { Gallery } from '../../components'
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
+import Form from '../../components/Form/Form';
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -9,7 +10,7 @@ const Home = () => {
   return (
     <div>
       <main>
-        <Gallery/>
+        <Form/>
       </main>
     </div>
   );
