@@ -1,4 +1,5 @@
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { Link } from 'react-router-dom';
 import {
   faArrowUpFromBracket,
   faMagnifyingGlass,
@@ -6,6 +7,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { ButtonBase } from '../UI';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 const TABLE_HEAD = ['', 'Fecha', 'Titulo', 'Categoria', 'Estado', ''];
 
@@ -24,6 +26,19 @@ const PublicationsTable = ({ publications }) => {
 
   return (
     <>
+      <div className="flex justify-end mb-4">
+        <Link to="/admin/publications/new">
+          <button className="flex gap-4 rounded bg-blue-600 text-white items-center max-w-fit h-10 px-4">
+            <div className="grid place-content-center bg-white rounded-full w-5 h-5">
+              <FontAwesomeIcon
+                icon={faCirclePlus}
+                className="h-7 text-blue-900"
+              />
+            </div>
+            Agregar
+          </button>
+        </Link>
+      </div>
       <div className="overflow-x-auto border border-solid border-gray-800 rounded-3xl h-full w-full">
         <table className="w-full min-w-max table-auto text-left md:text-lg">
           <thead className="md:text-2xl">

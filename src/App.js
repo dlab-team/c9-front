@@ -5,6 +5,7 @@ import Layout from './layout/Layout';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import AdminPublications from './pages/Admin/Publications';
+import AdminPublicationsNew from './pages/Admin/Publications/new';
 import Publication from './pages/Publication';
 
 import './App.css';
@@ -23,6 +24,11 @@ const App = () => {
                 exact
                 path="admin/publications"
                 element={<AdminPublications />}
+              />
+              <Route
+                exact
+                path="admin/publications/new"
+                element={<AdminPublicationsNew />}
               />
             </Routes>
           </Layout>
