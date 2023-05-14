@@ -7,7 +7,7 @@ const Footer= () => {
   return (
     <footer className="text-center lg:text-left">
       <div className="p-4 text-center">
-        <Link to="https://www.emol.com/" target="_blank" rel="noopener noreferrer">
+        <Link to="/" target="_blank" rel="noopener noreferrer">
           <img src={LogoYellow} alt="Logo InnovaXD"
           ></img>
         </Link>

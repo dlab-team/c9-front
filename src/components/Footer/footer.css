@@ -3,7 +3,6 @@ footer {
   display: flex;
   justify-content: center;
   /* añadido position bottom y width */
-  position: fixed;
   bottom: 0;
   width: 100%;
 }
