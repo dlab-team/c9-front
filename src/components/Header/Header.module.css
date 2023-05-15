@@ -24,7 +24,8 @@
   left: 295px;
   top: 0;
   height: 100%;
-  width: calc(100% - 265px);
+  width: calc(100% - 295px);
+  /* se ajusta el calculo del width para evitar barra horizontal en la pantalla */
   background: #00235c;
   border-radius: 0px 0px 0px 60px;
   display: flex;
