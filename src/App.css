@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.innova-title {
+  font-family: 'Sora', sans-serif;
+  color: #00235c;
+  font-size: 2rem;
+  line-height: 2rem;
+}
+
+.innova-text {
+  color: #232323;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 2rem;
+  padding: 1rem 0rem 0rem 0rem;
+}
+
+.bg-innova-blue {
+  background: #00235c;
+}
+
+.nav-rounded {
+  border-radius: 0 0 0 30px;
+  -webkit-border-radius: 0 0 0 30px;
+  -moz-border-radius: 0 0 0 30px;
+  -ms-border-radius: 0 0 0 30px;
+  -o-border-radius: 0 0 0 30px;
+}

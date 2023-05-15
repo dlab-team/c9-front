@@ -7,7 +7,7 @@ const Home = () => {
   const { currentUser } = useContext(AuthContext);
 
   return (
-    <div>
+    <div className="container mx-auto">
       <main>
         <Gallery />
       </main>

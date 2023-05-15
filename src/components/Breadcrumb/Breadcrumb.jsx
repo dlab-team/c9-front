@@ -1,15 +1,26 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const Breadcrumb = () => {
+const Breadcrumb = ({ param } = null) => {
+  const location = useLocation();
+
   const paths = [
     { name: 'Home', url: '/' },
     { name: 'Admin', url: '/admin' },
     { name: 'Publicaciones', url: '/admin/publications' },
-    { name: 'Nueva', url: '/admin/publications/new' },
   ];
 
-  const location = useLocation();
+  if (location.pathname.includes('new')) {
+    paths.push({ name: 'Nueva', url: '/admin/publications/new' });
+  }
+
+  if (param !== null) {
+    if (location.pathname.includes('edit')) {
+      paths.push({ name: 'Editar', url: '/admin/publications/edit/' + param });
+    } else {
+      paths.push({ name: 'Ver', url: '/admin/publications/' + param });
+    }
+  }
 
   const filteredPaths = paths.filter((path) => location.pathname !== path.url);
 
@@ -39,7 +50,7 @@ const Breadcrumb = () => {
 
   return (
     <nav aria-label="Breadcrumb">
-      <ol className="flex items-center space-x-2 mt-4">{items}</ol>
+      <ol className="flex items-center space-x-2">{items}</ol>
     </nav>
   );
 };
