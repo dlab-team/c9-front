@@ -18,15 +18,17 @@ const AdminPublications = () => {
   const [publications, setPublications] = useState([]);
 
   useEffect(() => {
-    getPublicationsServices().then(publications => setPublications(publications));
+    getPublicationsServices().then((publications) =>
+      setPublications(publications)
+    );
   }, []);
 
   const totalPublications = publications.length;
 
   return (
     <>
-      <div className="container py-5">
-        <h1 className="text-2xl mb-10 font-bold">Listado de noticias ({totalPublications})</h1>
+      <div className="container mx-auto">
+        <h1 className="">Listado de noticias ({totalPublications})</h1>
         <Breadcrumb />
         <PublicationsTable publications={publications} />
       </div>

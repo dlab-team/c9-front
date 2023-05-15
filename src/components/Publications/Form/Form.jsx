@@ -19,13 +19,12 @@ const Form = () => {
 
   return (
     <>
-      <div className="container w-screen py-5">
-        {/* se agrega w-screen para que use el ancho del main del layout */}
-        <h1 className="text-2xl mb-10 font-bold">Listado de noticias</h1>
+      <div className="container mx-auto">
+        <h1 className="">Nueva</h1>
         <Breadcrumb />
         <div>
           <form onSubmit={handleSubmit}>
-            <div className="container mx-auto p-6">
+            <div className="container mx-auto py-6">
               <h2>Traducir noticia</h2>
               <div className="grid grid-cols-2 gap-4">
                 <p>Prompt Basico:</p>
