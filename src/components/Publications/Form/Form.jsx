@@ -19,7 +19,8 @@ const Form = () => {
 
   return (
     <>
-      <div className="container py-5">
+      <div className="container w-screen py-5">
+        {/* se agrega w-screen para que use el ancho del main del layout */}
         <h1 className="text-2xl mb-10 font-bold">Listado de noticias</h1>
         <Breadcrumb />
         <div>

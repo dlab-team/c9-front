@@ -2,8 +2,6 @@ footer {
   background-color: #116cef;
   display: flex;
   justify-content: center;
-  /* añadido position bottom y width */
-  position: fixed;
-  bottom: 0;
   width: 100%;
 }
+/* se elmina position fixed para hacer esto desde el layout */
