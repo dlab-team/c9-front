@@ -31,9 +31,9 @@ const Gallery = () => {
     <>
       <Filters />
       <div
-        className={`${styles.gallery} columns-2 w-screen md:columns-3 lg:columns-3 container`}
+        className={`${styles.gallery} mb-4 sm : columns-1 w-screen md:columns-2 lg:columns-3 container`}
       >
-        <div class="gap-4">
+        <div className="gap-4">
           {publications.map((publication) => (
             <div
               style={{ margin: '10' }}
@@ -49,10 +49,10 @@ const Gallery = () => {
               <div className="px-4 py-3 leading-normal text-left">
                 <h1 className="text-md font-bold pb-3">{publication.name}</h1>
                 <p className="card-date font-thin text-xs pb-2">
-                  Creado {publication.fecha}
+                  Creado {publication.publicationDate}
                 </p>
                 <p className={`${styles.cardText} text-xs font-thin`}>
-                  {publication.noticia}
+                  {publication.finalContent.substring(0, 50)}...
                 </p>
               </div>
               <div className="px-4 py-3">
