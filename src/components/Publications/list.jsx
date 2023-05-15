@@ -29,36 +29,36 @@ const PublicationsTable = ({ publications }) => {
 
   return (
     <>
-      <div className="flex justify-end mb-4">
-        <Link to="/admin/publications/new">
-          <button className="flex gap-4 rounded bg-blue-600 text-white items-center max-w-fit h-10 px-4">
-            <div className="grid place-content-center bg-white rounded-full w-5 h-5">
-              <FontAwesomeIcon icon={faCirclePlus} className="h-7 text-blue-900" />
+      <div className="mt-2 mx-auto max-w-7xl">
+        <div className="flex justify-end mb-4">
+          <div
+            className={`${!hasSelectedPublications ? 'hidden' : ''} 
+        flex flex-col gap-2 mx-4 md:gap-4 md:flex-row w-full`}
+          >
+            <div className="flex md:flex-row gap-2 md:gap-4">
+              <ButtonBase className={'bg-blue-900 text-white'}>
+                <FontAwesomeIcon icon={faArrowUpFromBracket} />
+                Publicar
+              </ButtonBase>
+              <ButtonBase className={'bg-orange-500'}>
+                <FontAwesomeIcon icon={faArrowUpFromBracket} className="rotate-180" />
+                Despublicar
+              </ButtonBase>
             </div>
-            Agregar
-          </button>
-        </Link>
-      </div>
-
-      <div className="mx-auto max-w-7xl">
-        <div
-          className={`${!hasSelectedPublications ? 'hidden' : ''} 
-        flex flex-col gap-2 mb-4 mx-4 md:gap-4 md:flex-row w-full`}
-        >
-          <div className="flex md:flex-row gap-2 md:gap-4 ">
-            <ButtonBase className={'bg-blue-900 text-white'}>
-              <FontAwesomeIcon icon={faArrowUpFromBracket} />
-              Publicar
-            </ButtonBase>
-            <ButtonBase className={'bg-orange-500'}>
-              <FontAwesomeIcon icon={faArrowUpFromBracket} className="rotate-180" />
-              Despublicar
+            <ButtonBase className={'border border-black'}>
+              <FontAwesomeIcon icon={faTrashCan} />
+              Eliminar
             </ButtonBase>
           </div>
-          <ButtonBase className={'border border-black'}>
-            <FontAwesomeIcon icon={faTrashCan} />
-            Eliminar
-          </ButtonBase>
+
+          <Link to="/admin/publications/new">
+            <button className="flex gap-4 rounded bg-blue-600 text-white items-center max-w-fit h-10 px-4">
+              <div className="grid place-content-center bg-white rounded-full w-5 h-5">
+                <FontAwesomeIcon icon={faCirclePlus} className="h-7 text-blue-900" />
+              </div>
+              Agregar
+            </button>
+          </Link>
         </div>
 
         <div className="overflow-x-auto border border-gray-800 rounded-3xl h-full max-w-7xl">
