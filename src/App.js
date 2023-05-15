@@ -7,6 +7,8 @@ import Admin from './pages/Admin';
 import AdminPublications from './pages/Admin/Publications';
 import AdminPublicationsNew from './pages/Admin/Publications/new';
 import Publication from './pages/Publication';
+import EditOne from './pages/Admin/Publications/Edit';
+import ViewOne from './pages/Admin/Publications/View';
 
 import './App.css';
 
@@ -29,6 +31,16 @@ const App = () => {
                 exact
                 path="admin/publications/new"
                 element={<AdminPublicationsNew />}
+              />
+              <Route
+                exact
+                path="admin/publications/edit/:slug"
+                element={<EditOne />}
+              />
+              <Route
+                exact
+                path="admin/publications/:slug"
+                element={<ViewOne />}
               />
             </Routes>
           </Layout>

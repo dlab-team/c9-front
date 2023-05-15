@@ -1,15 +1,18 @@
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { Link } from 'react-router-dom';
 import {
+  faAngleLeft,
+  faAngleRight,
   faArrowUpFromBracket,
-  faMagnifyingGlass,
+  faCirclePlus,
+  faMagnifyingGlass
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { ButtonBase } from '../UI';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
-const TABLE_HEAD = ['', 'Fecha', 'Titulo', 'Categoria', 'Estado', ''];
+import { ButtonBase, ButtonConfirmationModal } from '../UI';
+
+const TABLE_HEAD = ['', 'Fecha', 'Titulo', 'Categoria', 'Estado', 'Opciones'];
 
 const PublicationsTable = ({ publications }) => {
   const [itemsSelected, setItemsSelected] = useState([]);
@@ -18,11 +21,11 @@ const PublicationsTable = ({ publications }) => {
     if (event.target.checked) {
       return setItemsSelected([...itemsSelected, selectedItemId]);
     } else {
-      return setItemsSelected(
-        itemsSelected.filter((itemId) => itemId !== selectedItemId)
-      );
+      return setItemsSelected(itemsSelected.filter(itemId => itemId !== selectedItemId));
     }
   }
+
+  const hasSelectedPublications = itemsSelected.length > 0;
 
   return (
     <>
@@ -30,108 +33,114 @@ const PublicationsTable = ({ publications }) => {
         <Link to="/admin/publications/new">
           <button className="flex gap-4 rounded bg-blue-600 text-white items-center max-w-fit h-10 px-4">
             <div className="grid place-content-center bg-white rounded-full w-5 h-5">
-              <FontAwesomeIcon
-                icon={faCirclePlus}
-                className="h-7 text-blue-900"
-              />
+              <FontAwesomeIcon icon={faCirclePlus} className="h-7 text-blue-900" />
             </div>
             Agregar
           </button>
         </Link>
       </div>
-      <div className="overflow-x-auto border border-solid border-gray-800 rounded-3xl h-full w-full">
-        <table className="w-full min-w-max table-auto text-left md:text-lg">
-          <thead className="md:text-2xl">
-            <tr className="border-b border-solid border-gray-800">
-              {TABLE_HEAD.map((head, index) => (
-                <th key={`thead-${index}`} className="py-5 px-2">
-                  <p className="font-normal leading-none opacity-70 ">{head}</p>
-                </th>
-              ))}
-            </tr>
-            <tr>
-              <th colSpan={6}>
-                <div className="flex flex-col gap-2 my-4 mx-4 md:my-8 md:gap-8 md:flex-row md:mx-20">
-                  <div className="flex md:flex-row gap-2 md:gap-8 ">
-                    <ButtonBase className={'bg-blue-900 text-white'}>
-                      <FontAwesomeIcon icon={faArrowUpFromBracket} />
-                      Publicar
-                    </ButtonBase>
-                    <ButtonBase className={'bg-orange-500'}>
-                      <FontAwesomeIcon
-                        icon={faArrowUpFromBracket}
-                        className="rotate-180"
-                      />
-                      Despublicar
-                    </ButtonBase>
-                  </div>
-                  <ButtonBase className={'border border-black'}>
-                    <FontAwesomeIcon icon={faTrashCan} />
-                    Eliminar
-                  </ButtonBase>
-                </div>
-              </th>
-            </tr>
-          </thead>
 
-          <tbody>
-            {publications.map((publication, index) => {
-              const isSelected = itemsSelected.includes(publication.id);
-              const classes = isSelected
-                ? 'bg-blue-300 py-3 px-4'
-                : 'py-3 px-4';
+      <div className="mx-auto max-w-7xl">
+        <div
+          className={`${!hasSelectedPublications ? 'hidden' : ''} 
+        flex flex-col gap-2 mb-4 mx-4 md:gap-4 md:flex-row w-full`}
+        >
+          <div className="flex md:flex-row gap-2 md:gap-4 ">
+            <ButtonBase className={'bg-blue-900 text-white'}>
+              <FontAwesomeIcon icon={faArrowUpFromBracket} />
+              Publicar
+            </ButtonBase>
+            <ButtonBase className={'bg-orange-500'}>
+              <FontAwesomeIcon icon={faArrowUpFromBracket} className="rotate-180" />
+              Despublicar
+            </ButtonBase>
+          </div>
+          <ButtonBase className={'border border-black'}>
+            <FontAwesomeIcon icon={faTrashCan} />
+            Eliminar
+          </ButtonBase>
+        </div>
 
-              return (
-                <tr
-                  key={`publication-${publication.id}`}
-                  className="border-b border-blue-gray-50"
-                >
-                  <td className={` md:pl-12 md:pr-0 ${classes}`}>
-                    <input
-                      type="checkbox"
-                      className="rounded-md h-6 w-6 flex items-center"
-                      onChange={(event) => {
-                        onClickSelect(event, publication.id);
-                      }}
-                    />
-                  </td>
-                  <td className={classes}>
-                    <p>{publication.publicationDate}</p>
-                  </td>
-                  <td className={classes}>
-                    <p>{publication.name}</p>
-                  </td>
-                  <td className={classes}>
-                    <p>{publication.category}</p>
-                  </td>
-                  <td className={classes}>
-                    <p
-                      className={`${
-                        publication.isPublished
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-yellow-200'
-                      } rounded-2xl py-2 text-center text-lg w-32`}
-                    >
-                      {publication.isPublished ? 'Publicada' : 'Sin Publicar'}
-                    </p>
-                  </td>
-                  <td className={`md:pr-6 ${classes}`}>
-                    <div className="flex gap-4 items-center">
-                      <FontAwesomeIcon
-                        icon={faMagnifyingGlass}
-                        className="h-6 font-light text-gray-700"
+        <div className="overflow-x-auto border border-gray-800 rounded-3xl h-full max-w-7xl">
+          <table className="w-full min-w-max table-auto text-left text-base">
+            <thead>
+              <tr className="border-b border-gray-800">
+                {TABLE_HEAD.map((head, index) => (
+                  <th key={`thead-${index}`} className="py-4 px-2 leading-none">
+                    {head}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+
+            <tbody>
+              {publications.map((publication, index) => {
+                const isSelected = itemsSelected.includes(publication.id);
+                const classes = isSelected ? 'bg-blue-300 py-3 px-3' : 'py-3 px-3';
+                const isLastPublication = index === publications.length - 1;
+
+                return (
+                  <tr
+                    key={`publication-${publication.id}`}
+                    className={`border-b border-gray-200 ${isLastPublication ? 'border-gray-500' : ''}`}
+                  >
+                    <td className={`${classes} pl-8 pr-1`}>
+                      <input
+                        type="checkbox"
+                        className="rounded-md h-6 w-6 flex items-center"
+                        onChange={event => {
+                          onClickSelect(event, publication.id);
+                        }}
                       />
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className="h-7 text-gray-700"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    </td>
+                    <td className={classes}>{publication.publicationDate}</td>
+                    <td className={classes}>{publication.name}</td>
+                    <td className={classes}>{publication.category}</td>
+                    <td className={classes}>
+                      <span
+                        className={`${
+                          publication.isPublished ? 'bg-blue-500 text-white' : 'bg-yellow-200'
+                        } rounded-2xl py-2 px-4 text-center `}
+                      >
+                        {publication.isPublished ? 'Publicada' : 'Sin Publicar'}
+                      </span>
+                    </td>
+                    <td className={`${classes}`}>
+                      <div className="flex gap-4 items-center">
+                        <Link to={`/admin/publications/${publication.slug}`} className="flex items-center">
+                          <FontAwesomeIcon
+                            icon={faMagnifyingGlass}
+                            className="h-5 self-center text-gray-700 cursor-pointer"
+                          />
+                        </Link>
+                        <Link to={`/admin/publications/edit/${publication.slug}`} className="flex items-center">
+                          <FontAwesomeIcon icon={faPenToSquare} className="h-5 text-gray-700 cursor-pointer " />
+                        </Link>
+                        <ButtonConfirmationModal
+                          title={'Eliminar publicación'}
+                          bodyText={'¿Está seguro que desea eliminar esta publicación?'}
+                          actionNameConfirm={'Eliminar'}
+                          actionFunctionConfirm={() => {
+                            console.log('Eliminado');
+                          }}
+                          actionButtonClassName={'bg-red-500 hover:bg-red-700'}
+                          OpenButton={<FontAwesomeIcon icon={faTrashCan} className="h-5 text-red-500 cursor-pointer" />}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <div className="flex justify-end gap-6 px-4 py-2 items-center">
+            <span className="font-normal text-base">Pagina 1 de {publications.length / 10}</span>
+            <div className="flex gap-6 text-gray-500 mr-4">
+              <FontAwesomeIcon icon={faAngleLeft} className="h-6 self-center cursor-pointer" />
+              <FontAwesomeIcon icon={faAngleRight} className="h-6 self-center cursor-pointer" />
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
