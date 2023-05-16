@@ -31,11 +31,11 @@ const Gallery = () => {
       <div
         className={`${styles.gallery} columns-2 w-screen md:columns-3 lg:columns-3 container`}
       >
-        <div className="gap-4">
+        <div className="gap-8">
           {publications.map((publication) => (
             <div
-              style={{ margin: '10' }}
-              className="cursor-pointer block max-h-100 rounded-2xl overflow-hidden border border-gray-200 mb-3 bg-white shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/20"
+              style={{ margin: '20' }}
+              className="cursor-pointer block max-h-100 rounded-2xl overflow-hidden border border-gray-200 mb-3 bg-white shadow-gray-400 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/20"
               key={publication.id}
               onClick={() => navigate(`/noticias/${publication.slug}`)}
             >
@@ -49,7 +49,7 @@ const Gallery = () => {
                 <p className="card-date font-thin text-xs pb-2">
                   Creado {publication.fecha}
                 </p>
-                <p className={`${styles.cardText} text-xs font-thin`}>
+                <p className={`${styles.cardText} sm:text-sm text-xs font-thin`}>
                   {publication.noticia}
                 </p>
               </div>

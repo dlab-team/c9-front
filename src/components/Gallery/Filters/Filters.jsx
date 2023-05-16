@@ -34,7 +34,7 @@ const Filters = () => {
   };
 
   return (
-    <div className="container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white">
+    <div className="container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
       <div className="relative inline-block" data-te-dropdown-ref>
         <button
           className="md:flex sm:border-white 
@@ -63,9 +63,8 @@ const Filters = () => {
           </span>
         </button>
         <ul
-          className={`absolute z-[1000] float-left m-0 ${
-            isRegionActive ? '' : 'hidden'
-          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
+          className={`absolute z-[1000] float-left m-0 ${isRegionActive ? '' : 'hidden'
+            } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
           aria-labelledby="dropdownMenuButton3"
           data-te-dropdown-menu-ref
         >
@@ -125,9 +124,8 @@ const Filters = () => {
           </span>
         </button>
         <ul
-          className={`absolute z-[1000] float-left m-0 ${
-            isComunaActive ? '' : 'hidden'
-          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
+          className={`absolute z-[1000] float-left m-0 ${isComunaActive ? '' : 'hidden'
+            } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
           aria-labelledby="dropdownMenuButton3"
           data-te-dropdown-menu-ref
         >
@@ -189,9 +187,8 @@ const Filters = () => {
           </span>
         </button>
         <ul
-          className={`absolute z-[1000] float-left m-0 ${
-            isCategoriaActive ? '' : 'hidden'
-          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
+          className={`absolute z-[1000] float-left m-0 ${isCategoriaActive ? '' : 'hidden'
+            } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
           aria-labelledby="dropdownMenuButton3"
           data-te-dropdown-menu-ref
         >
@@ -227,14 +224,14 @@ const Filters = () => {
 
       <button
         type="button"
-        className={`${styles.filterButton} inline-block bg-primary rounded lg:px-10 pb-2 pt-2.5 text-md text-white sm:px-4 hidden sm:block`}
+        className={`${styles.filterButton} inline-block bg-primary rounded lg:px-10 pb-2 pt-2.5 text-md text-white sm:px-4 sm:block`}
       >
         Filtrar
       </button>
       <button type="button" className="md:hidden">
         <FontAwesomeIcon
           icon={faFilter}
-          className="pt-4 text-lg text-white sm:px-4 absolute left-16 top-24 text-blue-500"
+          className="pt-4 text-lg text-white sm:px-4 absolute left-16 top-24"
         />
       </button>
     </div>
