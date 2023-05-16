@@ -37,16 +37,16 @@ const Form = () => {
                 />
                 <div className="grid grid-cols-2 gap-0 col-span-2">
                   <div
-                    className={`${styles.element2} p-4 col-span-2 col-start-1 rounded flex justify-evenly`}
+                    className={`${styles.element2} p-4 col-span-2 col-start-1 rounded flex justify-evenly items-center`}
                   >
-                    <h1>Texto Original</h1>
+                    <h3>Texto Original</h3>
                     <button className={styles.btn} type="submit">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         style={{ color: 'yellow' }}
                       />
                     </button>
-                    <h1 className="mr-10">Texto GPT</h1>
+                    <h3 className="mr-10">Texto GPT</h3>
                   </div>
                   <textarea
                     className="p-4 resize-none border rounded"
