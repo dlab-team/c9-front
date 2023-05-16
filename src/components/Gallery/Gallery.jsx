@@ -47,9 +47,10 @@ const Gallery = () => {
               <div className="px-4 py-3 leading-normal text-left">
                 <h1 className="text-md font-bold pb-3">{publication.name}</h1>
                 <p className="card-date font-thin text-xs pb-2">
-                  Creado {publication.fecha}
+                  Creado 17 de Mayo de 2023 {publication.fecha}
                 </p>
                 <p className={`${styles.cardText} text-xs font-thin`}>
+                  Increible experiencia al estar tan cerca...
                   {publication.noticia}
                 </p>
               </div>
