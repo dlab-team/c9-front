@@ -122,8 +122,9 @@ const PublicationsTable = ({ publications }) => {
                     <td className={`${classes}`}>
                       <div className="flex gap-4 items-center">
                         <Link
-                          to={`/admin/publications/${publication.slug}`}
+                          to={`/noticias/${publication.slug}`}
                           className="flex items-center"
+                          target="_blank"
                         >
                           <FontAwesomeIcon
                             icon={faMagnifyingGlass}

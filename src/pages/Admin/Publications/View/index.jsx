@@ -26,7 +26,7 @@ const ViewOne = () => {
   return (
     <>
       <div className="container mx-auto">
-        <h1 className="">
+        <h1 className="my-3">
           Ver <b>{publication?.name}</b>
         </h1>
         <Breadcrumb param={slug} />

@@ -55,18 +55,20 @@ const Gallery = () => {
                 src={publication.images[0].url}
                 alt={publication.name}
               />
-              <div className="px-4 py-3 leading-normal text-left">
-                <h1 className="text-md font-bold pb-3">{publication.name}</h1>
-                <p className="card-date font-thin text-xs pb-2">
-                  Creado {formatoFecha(publication.publicationDate)}
+              <div className="px-3 py-2 text-left">
+                <h1 className="text-2xl leading-[1.1] text-md">
+                  {publication.name}
+                </h1>
+                <p className="card-date font-thin text-xs py-4">
+                  Creado el {formatoFecha(publication.publicationDate)}
                 </p>
-                <p className={`${styles.cardText} text-xs font-thin`}>
-                  {publication.finalContent}
-                  {publication.noticia}
+                <p className={`text-[0.85rem] font-thin`}>
+                  {publication.finalContent.split(' ').slice(0, 20).join(' ') +
+                    '...'}
                 </p>
               </div>
-              <div className="px-4 py-3">
-                <p className="text-sm leading-normal">@{publication.author}</p>
+              <div className="px-3 py-3">
+                <p className="text-xs">@{publication.author}</p>
               </div>
             </div>
           ))}

@@ -23,9 +23,9 @@
 }
 
 h1 {
-  font-family: "Sora", sans-serif !important;
+  font-family: 'Sora', sans-serif !important;
   width: 80%;
-  font-size: 1.50rem !important;
+  /* font-size: 1.5rem !important; */
 }
 
 .btn_back_searching {
@@ -39,7 +39,7 @@ h1 {
     width: 25em;
   }
   h1 {
-    font-size: 2rem !important;
+    /* font-size: 2rem !important; */
   }
 }
 

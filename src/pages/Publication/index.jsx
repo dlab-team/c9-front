@@ -44,17 +44,17 @@ const Publication = () => {
 
   return (
     <>
-      <div className="container mx-auto py-4">
+      <div className="container mx-auto py-7">
         <Link to="/">
           <button
             type="button"
-            className="btn_back text-blue-800 text-sm px-5 py-2.5 text-center inline-flex items-center"
+            className="btn_back text-blue-800 text-sm py-2.5 text-center inline-flex items-center"
           >
             <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
             Volver
           </button>
         </Link>
-        <h1 className="innova-title font-bold py-4">{publication?.name}</h1>
+        <h1 className="innova-title pt-5">{publication?.name}</h1>
       </div>
       <Carousel
         ref={carouselRef}
@@ -63,7 +63,7 @@ const Publication = () => {
         centerMode
         centerSlidePercentage={60}
         infiniteLoop
-        className="pb-4"
+        className="pb-4 mt-4"
       >
         {publication?.images.map((img, index) => (
           <div key={`img_${index}`}>
@@ -79,8 +79,12 @@ const Publication = () => {
         className="bg-no-repeat bg-right-top"
         style={{ backgroundImage: `url(${bgDer})`, backgroundSize: '200px' }}
       >
+        <div className="container mx-auto">
+          <div className="innova-text w-4/5 mx-auto py-4 whitespace-wrap">
+            {publication?.finalContent}
+          </div>
+        </div>
         <div className="innova-text container w-5/5 mx-auto py-4">
-          {publication?.finalContent}
           <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
           <div className="innova-text">
             {publication?.questions.map((item, index) => (
