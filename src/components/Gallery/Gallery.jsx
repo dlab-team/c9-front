@@ -5,6 +5,17 @@ import styles from './Gallery.module.css';
 import { Filters } from '../../components';
 import axios from 'axios';
 
+function formatoFecha(fecha) {
+  const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
+  const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', opciones);
+
+  const partesFecha = fechaFormateada.split(' de ');
+  const dia = partesFecha[0];
+  const mesYAnio = partesFecha[1] + ' ' + partesFecha[2];
+
+  return dia + ' ' + mesYAnio;
+}
+
 const Gallery = () => {
   const [publications, setPublications] = useState([]);
   const navigate = useNavigate();
@@ -47,9 +58,10 @@ const Gallery = () => {
               <div className="px-4 py-3 leading-normal text-left">
                 <h1 className="text-md font-bold pb-3">{publication.name}</h1>
                 <p className="card-date font-thin text-xs pb-2">
-                  Creado {publication.fecha}
+                  Creado {formatoFecha(publication.publicationDate)}
                 </p>
                 <p className={`${styles.cardText} text-xs font-thin`}>
+                  {publication.finalContent}
                   {publication.noticia}
                 </p>
               </div>
