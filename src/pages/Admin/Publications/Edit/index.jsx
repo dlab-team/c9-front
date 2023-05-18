@@ -29,8 +29,8 @@ const EditOne = () => {
       <main>
         <div className="container mx-auto">
           <h1 className="my-3">Editar</h1>
-          <Breadcrumb param={publication.slug} />
-          <Form publication={publication} />
+          <Breadcrumb param={slug} />
+          {publication ? <Form publication={publication} /> : <span>Cargando...</span>}
         </div>
       </main>
     </div>

@@ -22,7 +22,7 @@ const Breadcrumb = ({ param } = null) => {
 
   const items = [];
   const currentIndex = paths.findIndex(
-    (path) => path.url === location.pathname
+    (path) => path.url === decodeURI(location.pathname)
   );
 
   filteredPaths.forEach((path, index) => {
