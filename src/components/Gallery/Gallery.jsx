@@ -52,7 +52,12 @@ const Gallery = () => {
             >
               <img
                 className="max-h-96 w-full h-full object-cover object-center rounded-t-lg  transition duration-300 ease-in-out hover:opacity-70"
-                src={publication.images[0].url}
+                src={
+                  publication?.images[0]?.url ||
+                  `https://picsum.photos/1200/800?random=${
+                    Math.floor(Math.random() * 1000) + 1
+                  }`
+                }
                 alt={publication.name}
               />
               <div className="px-3 py-2 text-left">
