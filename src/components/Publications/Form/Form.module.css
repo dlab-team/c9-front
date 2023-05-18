@@ -2,19 +2,19 @@ input {
   border-color: #00425a;
 }
 
-/* h1 {
-  font-family: 'Caveat Brush', cursive;
-  font-size: 20px !important;
-  margin: 0;
-  letter-spacing: 2px;
-} */
-
 h2 {
   font-family: 'Caveat Brush', cursive;
   font-size: 28px !important;
   padding-bottom: 20px;
   letter-spacing: 2px;
   color: #00235c;
+}
+
+h3 {
+  font-family: 'Caveat Brush', cursive;
+  font-size: 20px !important;
+  margin: 0;
+  letter-spacing: 2px;
 }
 
 p {

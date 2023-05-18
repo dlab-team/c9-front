@@ -15,18 +15,14 @@ const Breadcrumb = ({ param } = null) => {
   }
 
   if (param !== null) {
-    if (location.pathname.includes('edit')) {
-      paths.push({ name: 'Editar', url: '/admin/publications/edit/' + param });
-    } else {
-      paths.push({ name: 'Ver', url: '/admin/publications/' + param });
-    }
+    paths.push({ name: 'Editar', url: '/admin/publications/edit/' + param });
   }
 
   const filteredPaths = paths.filter((path) => location.pathname !== path.url);
 
   const items = [];
   const currentIndex = paths.findIndex(
-    (path) => path.url === location.pathname
+    (path) => path.url === decodeURI(location.pathname)
   );
 
   filteredPaths.forEach((path, index) => {

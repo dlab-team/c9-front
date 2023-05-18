@@ -7,15 +7,21 @@ import {
   faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 import { ButtonBase, ButtonConfirmationModal } from '../UI';
 
 const TABLE_HEAD = ['', 'Fecha', 'Titulo', 'Categoria', 'Estado', 'Opciones'];
 
 const PublicationsTable = ({ publications }) => {
+  const [allPublications, setAllPublications] = useState([]);
   const [itemsSelected, setItemsSelected] = useState([]);
+  const navigate = useNavigate();
 
   function onClickSelect(event, selectedItemId) {
     if (event.target.checked) {
@@ -29,8 +35,39 @@ const PublicationsTable = ({ publications }) => {
 
   const hasSelectedPublications = itemsSelected.length > 0;
 
+  const handleDeletePublication = (publicationSlug) => {
+    axios
+      .delete(
+        `${process.env.REACT_APP_BACKEND_URL}/publications/${publicationSlug}`
+      )
+      .then((response) => {
+        toast('Publicación eliminada correctamente', {
+          type: 'success',
+          autoClose: 3000,
+          onClose: () => {
+            setAllPublications(
+              allPublications.filter(
+                (publication) => publication.slug !== publicationSlug
+              )
+            );
+          },
+        });
+      })
+      .catch((error) => {
+        toast('Error al eliminar la publicación', {
+          type: 'error',
+          autoClose: 3000,
+        });
+      });
+  };
+
+  useEffect(() => {
+    setAllPublications(publications);
+  }, [publications]);
+
   return (
     <>
+      <ToastContainer />
       <div className="mt-2 w-full">
         <div className="flex justify-end mb-4">
           <div
@@ -82,12 +119,12 @@ const PublicationsTable = ({ publications }) => {
             </thead>
 
             <tbody>
-              {publications.map((publication, index) => {
+              {allPublications.map((publication, index) => {
                 const isSelected = itemsSelected.includes(publication.id);
                 const classes = isSelected
                   ? 'bg-blue-300 py-3 px-3'
                   : 'py-3 px-3';
-                const isLastPublication = index === publications.length - 1;
+                const isLastPublication = index === allPublications.length - 1;
 
                 return (
                   <tr
@@ -122,8 +159,9 @@ const PublicationsTable = ({ publications }) => {
                     <td className={`${classes}`}>
                       <div className="flex gap-4 items-center">
                         <Link
-                          to={`/admin/publications/${publication.slug}`}
+                          to={`/noticias/${publication.slug}`}
                           className="flex items-center"
+                          target="_blank"
                         >
                           <FontAwesomeIcon
                             icon={faMagnifyingGlass}
@@ -146,7 +184,7 @@ const PublicationsTable = ({ publications }) => {
                           }
                           actionNameConfirm={'Eliminar'}
                           actionFunctionConfirm={() => {
-                            console.log('Eliminado');
+                            handleDeletePublication(publication.slug);
                           }}
                           actionButtonClassName={'bg-red-500 hover:bg-red-700'}
                           OpenButton={
@@ -165,7 +203,7 @@ const PublicationsTable = ({ publications }) => {
           </table>
           <div className="flex justify-end gap-6 px-4 py-2 items-center">
             <span className="font-normal text-base">
-              Pagina 1 de {publications.length / 10}
+              Pagina 1 de {allPublications.length / 10}
             </span>
             <div className="flex gap-6 text-gray-500 mr-4">
               <FontAwesomeIcon

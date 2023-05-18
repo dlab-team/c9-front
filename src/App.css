@@ -19,7 +19,8 @@
 
 h1 {
   font-size: 2rem;
-  padding: 1rem 0rem 0rem 0rem;
+  padding: 0.5rem 0rem 0rem 0rem;
+  line-height: 1.8rem;
 }
 
 .bg-innova-blue {

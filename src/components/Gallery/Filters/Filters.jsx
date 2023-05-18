@@ -34,7 +34,11 @@ const Filters = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
+=======
+    <div className="container flex flex-wrap justify-center md:justify-end my-6 md:mr-0 md:gap-x-5 md:bg-white">
+>>>>>>> c8db8d387232a9a2e937e90ab8e43d0e07d05b74
       <div className="relative inline-block" data-te-dropdown-ref>
         <button
           className="md:flex sm:border-white 

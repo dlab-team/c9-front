@@ -22,7 +22,7 @@ const Header = ({ isAdmin }) => {
       <div className="container mx-auto flex">
         <Link to="/">
           <img
-            className="me-3"
+            className="me-3 py-3"
             src={logoBlue}
             alt="Una imagen del Logo de Innova"
           />
@@ -32,6 +32,7 @@ const Header = ({ isAdmin }) => {
           <div className="flex items-center justify-center">
             <h1 className="text-2xl font-bold text-white text-center">Editor de Noticias</h1>
           </div>
+<<<<<<< HEAD
         ) : (
           <div className="flex items-center pr-3">
             <div className="relative flex items-center">
@@ -47,8 +48,12 @@ const Header = ({ isAdmin }) => {
           </div>
         )}
         <Link to="/admin" className="flex items-center justify-center mx-3">
+=======
+        </div>
+        <Link to="/admin" className="flex items-center justify-center mx-3 ms-5">
+>>>>>>> c8db8d387232a9a2e937e90ab8e43d0e07d05b74
           <FontAwesomeIcon
-            className="text-3xl text-yellow-500 hover:text-yellow-800"
+            className="text-5xl text-yellow-500 hover:text-yellow-800"
             icon={faCircleUser}
           />
         </Link>

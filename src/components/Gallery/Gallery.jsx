@@ -5,6 +5,17 @@ import styles from './Gallery.module.css';
 import { Filters } from '../../components';
 import axios from 'axios';
 
+function formatoFecha(fecha) {
+  const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
+  const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', opciones);
+
+  const partesFecha = fechaFormateada.split(' de ');
+  const dia = partesFecha[0];
+  const mesYAnio = partesFecha[1] + ' ' + partesFecha[2];
+
+  return dia + ' ' + mesYAnio;
+}
+
 const Gallery = () => {
   const [publications, setPublications] = useState([]);
   const navigate = useNavigate();
@@ -41,20 +52,33 @@ const Gallery = () => {
             >
               <img
                 className="max-h-96 w-full h-full object-cover object-center rounded-t-lg  transition duration-300 ease-in-out hover:opacity-70"
-                src={publication.images[0].url}
+                src={
+                  publication?.images[0]?.url ||
+                  `https://picsum.photos/1200/800?random=${
+                    Math.floor(Math.random() * 1000) + 1
+                  }`
+                }
                 alt={publication.name}
               />
-              <div className="px-4 py-3 leading-normal text-left">
-                <h1 className="text-md font-bold pb-3">{publication.name}</h1>
-                <p className="card-date font-thin text-xs pb-2">
-                  Creado {publication.fecha}
+              <div className="px-3 py-2 text-left">
+                <h1 className="text-2xl leading-[1.1] text-md">
+                  {publication.name}
+                </h1>
+                <p className="card-date font-thin text-xs py-4">
+                  Creado el {formatoFecha(publication.publicationDate)}
                 </p>
+<<<<<<< HEAD
                 <p className={`${styles.cardText} sm:text-sm text-xs font-thin`}>
                   {publication.noticia}
+=======
+                <p className={`text-[0.85rem] font-thin`}>
+                  {publication.finalContent.split(' ').slice(0, 20).join(' ') +
+                    '...'}
+>>>>>>> c8db8d387232a9a2e937e90ab8e43d0e07d05b74
                 </p>
               </div>
-              <div className="px-4 py-3">
-                <p className="text-sm leading-normal">@{publication.author}</p>
+              <div className="px-3 py-3">
+                <p className="text-xs">@{publication.author}</p>
               </div>
             </div>
           ))}
