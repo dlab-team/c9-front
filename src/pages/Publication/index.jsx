@@ -29,6 +29,18 @@ const Publication = () => {
       const { publication } = response.data;
 
       setPublication(publication);
+
+      // TODO: quitar cuando el form permita imagenes
+      if (publication?.images.length === 0) {
+        for (let i = 0; i < 3; i++) {
+          const randomId = Math.floor(Math.random() * 1000) + 1;
+          const imageUrl = `https://picsum.photos/1200/800?random=${randomId}`;
+          publication.images.push({
+            url: imageUrl,
+          });
+        }
+      }
+
       if (carouselRef.current) {
         const dots = document.querySelectorAll('.control-dots .dot');
         dots[0].click();

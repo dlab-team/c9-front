@@ -6,7 +6,7 @@ const ButtonConfirmationModal = ({
   actionButtonClassName,
   title,
   bodyText,
-  actionFunctionConfirm
+  actionFunctionConfirm,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const onClick = () => setIsOpen(!isOpen);
@@ -24,7 +24,9 @@ const ButtonConfirmationModal = ({
 
       {/*<!--Verically centered modal-->*/}
       <div
-        className={`${!isOpen ? 'hidden' : ''} fixed left-0 top-0 z-[1055] h-full w-full overflow-y-auto
+        className={`${
+          !isOpen ? 'hidden' : ''
+        } fixed left-0 top-0 z-[1055] h-full w-full overflow-y-auto
          overflow-x-hidden outline-none bg-gray-700 bg-opacity-70 cursor-pointer`}
         aria-modal="true"
         role="dialog"
@@ -60,11 +62,15 @@ const ButtonConfirmationModal = ({
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="h-6 w-6"
                 >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
