@@ -1,0 +1,7 @@
+footer {
+  background-color: #116cef;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+/* se elmina position fixed para hacer esto desde el layout */
