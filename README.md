@@ -43,8 +43,14 @@ dentro del archivo .env se debe configurar la url del backend
 ```bash
 PORT=3001
 
-REACT_APP_BACKEND_URL=http://localhost:3000/api/
+REACT_APP_BACKEND_URL=http://localhost:3000
 ```
+
+la variable de entorno tiene que estar asi, de otro modo no traera las publicaciones
+
+## cabe recalcar que EL BACK DEBE ESTAR CORRIENDO!!!
+
+## se deben correr el seed, levantar docker-compose y correr el servicio 'npm run dev'!!!
 
 ## Recursos adicionales
 

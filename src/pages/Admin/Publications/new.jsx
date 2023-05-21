@@ -1,3 +1,5 @@
+import React from 'react';
+import Header from './../../../components/Header/Header';
 import Form from './../../../components/Publications/Form/Form';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 
@@ -16,3 +18,4 @@ const AdminPublicationsNew = () => {
 };
 
 export default AdminPublicationsNew;
+

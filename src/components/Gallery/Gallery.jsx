@@ -42,7 +42,7 @@ const Gallery = () => {
       <div
         className={`${styles.gallery} columns-2 w-screen md:columns-3 lg:columns-3 container`}
       >
-        <div className="gap-4">
+        <div className="gap-8">
           {publications.map((publication) => (
             <div
               style={{ margin: '10' }}
@@ -66,7 +66,7 @@ const Gallery = () => {
                 <p className="card-date font-thin text-xs py-4">
                   Creado el {formatoFecha(publication.publicationDate)}
                 </p>
-                <p className={`text-[0.85rem] font-thin`}>
+                <p className={`${styles.cardText} sm:text-sm text-xs font-thin`}>
                   {publication.finalContent.split(' ').slice(0, 12).join(' ') +
                     '...'}
                 </p>

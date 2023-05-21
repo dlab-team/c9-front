@@ -1,5 +1,11 @@
 import React, { useState, useRef } from 'react';
 import styles from './Form.module.css';
+<<<<<<< HEAD
+import { faArrowRight, faSave } from '@fortawesome/free-solid-svg-icons';
+import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+=======
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import spinner from '../../../assets/images/spinner.gif';
@@ -9,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+>>>>>>> c8db8d387232a9a2e937e90ab8e43d0e07d05b74
 
 const Form = ({ publication } = null) => {
   const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
@@ -164,6 +171,35 @@ const Form = ({ publication } = null) => {
 
   return (
     <>
+<<<<<<< HEAD
+      <div className="container mx-auto">
+        <h1 className="">Nueva</h1>
+        <Breadcrumb />
+        <div>
+          <form onSubmit={handleSubmit}>
+            <div className="container mx-auto py-6">
+              <div className="flex items-center">
+                <div className="w-6 h-6 bg-blue-500 rounded-full flex-shrink-0 flex items-center justify-center">
+                  <span className="text-white text-xs">1</span>
+                </div>
+                <h2 className="ml-2">Traducir noticia</h2>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <p>Prompt Basico:</p>
+                <input
+                  className="p-4 col-span-2 col-start-1 border rounded"
+                  type="text"
+                  placeholder=""
+                  value="Convertir la noticia en una publicación para un niño de 6 años"
+                  readOnly
+                />
+                <div className="grid grid-cols-2 gap-0 col-span-2">
+                  <div
+                    className={`${styles.element2} p-4 col-span-2 col-start-1 rounded flex justify-evenly`}
+                  >
+                    <h1>Texto Original</h1>
+                    <button className={styles.btn} type="submit">
+=======
       <ToastContainer></ToastContainer>
       <div>
         <form onSubmit={handleSubmit}>
@@ -210,6 +246,7 @@ const Form = ({ publication } = null) => {
                       type="button"
                       onClick={transformContent}
                     >
+>>>>>>> c8db8d387232a9a2e937e90ab8e43d0e07d05b74
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         style={{ color: 'yellow' }}
@@ -251,8 +288,37 @@ const Form = ({ publication } = null) => {
                 </button>
               </div>
             </div>
+<<<<<<< HEAD
+          </form>
+        </div>
+        <div className="flex justify-start p-4 space-x-2">
+          <button className="flex gap-5 rounded bg-blue-800 text-gray-800 items-center max-w-fit h-8 px-4">
+            Publicar
+          </button>
+          <button className="flex gap-5 rounded bg-orange-500 text-gray-800 items-center max-w-fit h-8 px-4">
+            <div className="grid">
+                                        <FontAwesomeIcon
+                              icon={faSave}
+                              className="h-5 text-black cursor-pointer"
+                            /> 
+            </div>
+            Guardar
+          </button>
+          <button className="flex gap-5 rounded bg-white text-gray-800 items-center max-w-fit h-8 px-4 border border-black">
+            <div className="grid place-content-center bg-white rounded-full w-5 h-5">
+                                          <FontAwesomeIcon
+                              icon={faTrashCan}
+                              className="h-5 text-black cursor-pointer"
+                            />
+            </div>
+            Eliminar
+          </button>
+        </div>
+
+=======
           </div>
         </form>
+>>>>>>> c8db8d387232a9a2e937e90ab8e43d0e07d05b74
       </div>
     </>
   );
