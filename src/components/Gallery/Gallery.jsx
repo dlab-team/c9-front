@@ -67,14 +67,9 @@ const Gallery = () => {
                 <p className="card-date font-thin text-xs py-4">
                   Creado el {formatoFecha(publication.publicationDate)}
                 </p>
-<<<<<<< HEAD
-                <p className={`${styles.cardText} sm:text-sm text-xs font-thin`}>
-                  {publication.noticia}
-=======
                 <p className={`text-[0.85rem] font-thin`}>
                   {publication.finalContent.split(' ').slice(0, 20).join(' ') +
                     '...'}
->>>>>>> c8db8d387232a9a2e937e90ab8e43d0e07d05b74
                 </p>
               </div>
               <div className="px-3 py-3">
