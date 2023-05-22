@@ -39,10 +39,7 @@ const Gallery = () => {
   return (
     <>
       <Filters />
-      <div
-        className={`${styles.gallery} columns-2 w-screen md:columns-3 lg:columns-3 container`}
-      >
-        <div className="gap-8">
+     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 container mx-auto">
           {publications.map((publication) => (
             <div
               style={{ margin: '20' }}
@@ -77,7 +74,6 @@ const Gallery = () => {
               </div>
             </div>
           ))}
-        </div>
       </div>
     </>
   );
