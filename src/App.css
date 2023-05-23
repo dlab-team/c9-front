@@ -2,27 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.innova-title {
-  font-family: 'Sora', sans-serif;
-  color: #00235c;
-  font-size: 2rem;
-  line-height: 2rem;
-}
-
-.innova-text {
-  color: #232323;
-  font-family: 'Sora', sans-serif;
-  font-size: 1.3rem;
-  font-style: normal;
-  font-weight: 400;
-}
-
-h1 {
-  font-size: 2rem;
-  padding: 0.5rem 0rem 0rem 0rem;
-  line-height: 1.8rem;
-}
-
 .bg-innova-blue {
   background: #00235c;
 }
@@ -34,3 +13,79 @@ h1 {
   -ms-border-radius: 0 0 0 30px;
   -o-border-radius: 0 0 0 30px;
 }
+
+
+/* Typography */
+
+input,
+textarea,
+td,
+th,
+button,
+p,
+.innova-text,
+.breadcrumb-title,
+.page-subtitle {
+  font-family: 'Sora', sans-serif;
+}
+
+.page-title,
+.gtp-title ,
+.input-search,
+.textarea-title {
+  font-family: 'Caveat Brush', cursive;
+}
+
+
+td,
+th {
+  font-size: 0.8rem;
+}
+
+button {
+  font-size: 0.875rem;
+}
+
+.innova-title {
+  color: #00235c;
+  font-size: 2rem;
+  line-height: 2.5rem;
+}
+
+.innova-text {
+  color: #232323;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.input-search {
+  font-size: 1.5rem;
+}
+
+
+.breadcrumb-title {
+  font-size: 1.80rem;
+  padding: 0.5rem 0rem 0rem 0rem;
+  line-height: 1.8rem;
+  letter-spacing: 2px;
+  color: #00235c;
+}
+
+
+.page-title {
+  font-size: 28px;
+  padding-bottom: 20px;
+  letter-spacing: 2px;
+  color: #00235c;
+}
+
+.page-subtitle {
+  margin: 0;
+}
+
+.textarea-title {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+

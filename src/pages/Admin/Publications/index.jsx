@@ -28,7 +28,7 @@ const AdminPublications = () => {
   return (
     <>
       <div className="container mx-auto">
-        <h1 className="my-3">Listado de noticias ({totalPublications})</h1>
+        <h1 className="my-3 breadcrumb-title">Listado de noticias ({totalPublications})</h1>
         <Breadcrumb />
         <PublicationsTable publications={publications} />
       </div>
