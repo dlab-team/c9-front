@@ -1,40 +1,28 @@
-import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import {
-  faAngleLeft,
-  faAngleRight,
   faArrowUpFromBracket,
-  faCirclePlus,
-  faMagnifyingGlass,
+  faCirclePlus
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ButtonBase } from '../UI';
+import ListDesktop from './ListDesktop';
 
-import { ButtonBase, ButtonConfirmationModal } from '../UI';
 
-const TABLE_HEAD = ['', 'Fecha', 'Titulo', 'Categoria', 'Estado', 'Opciones'];
-
-const PublicationsTable = ({ publications }) => {
-  const [allPublications, setAllPublications] = useState([]);
+const PublicationsTable = ({ publications, updatePublications }) => {
   const [itemsSelected, setItemsSelected] = useState([]);
   const navigate = useNavigate();
 
-  function onClickSelect(event, selectedItemId) {
-    if (event.target.checked) {
-      return setItemsSelected([...itemsSelected, selectedItemId]);
-    } else {
-      return setItemsSelected(
-        itemsSelected.filter((itemId) => itemId !== selectedItemId)
-      );
-    }
-  }
-
   const hasSelectedPublications = itemsSelected.length > 0;
 
+  const handleSelectedItems = itemsSelected => {
+    setItemsSelected(itemsSelected);
+  };
+  
   const handleDeletePublication = (publicationSlug) => {
     axios
       .delete(
@@ -45,12 +33,11 @@ const PublicationsTable = ({ publications }) => {
           type: 'success',
           autoClose: 3000,
           onClose: () => {
-            setAllPublications(
-              allPublications.filter(
-                (publication) => publication.slug !== publicationSlug
-              )
+            const newPublicationsState = publications.filter(
+              publication => publication.slug !== publicationSlug
             );
-          },
+            updatePublications(newPublicationsState);
+          }
         });
       })
       .catch((error) => {
@@ -60,10 +47,6 @@ const PublicationsTable = ({ publications }) => {
         });
       });
   };
-
-  useEffect(() => {
-    setAllPublications(publications);
-  }, [publications]);
 
   return (
     <>
@@ -106,117 +89,11 @@ const PublicationsTable = ({ publications }) => {
           </Link>
         </div>
 
-        <div className="overflow-x-auto border border-gray-800 rounded h-full">
-          <table className="w-full min-w-max table-auto text-left text-base">
-            <thead>
-              <tr className="border-b border-gray-800">
-                {TABLE_HEAD.map((head, index) => (
-                  <th key={`thead-${index}`} className="py-4 px-2 leading-none">
-                    {head}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {allPublications.map((publication, index) => {
-                const isSelected = itemsSelected.includes(publication.id);
-                const classes = isSelected
-                  ? 'bg-blue-300 py-3 px-3'
-                  : 'py-3 px-3';
-                const isLastPublication = index === allPublications.length - 1;
-
-                return (
-                  <tr
-                    key={`publication-${publication.id}`}
-                    className={`border-b border-gray-200 ${
-                      isLastPublication ? 'border-gray-500' : ''
-                    }`}
-                  >
-                    <td className={`${classes} pl-8 pr-1`}>
-                      <input
-                        type="checkbox"
-                        className="rounded-md h-6 w-6 flex items-center"
-                        onChange={(event) => {
-                          onClickSelect(event, publication.id);
-                        }}
-                      />
-                    </td>
-                    <td className={classes}>{publication.publicationDate}</td>
-                    <td className={classes}>{publication.name}</td>
-                    <td className={classes}>{publication.category}</td>
-                    <td className={classes}>
-                      <span
-                        className={`${
-                          publication.isPublished
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-yellow-200'
-                        } rounded py-2 px-4 text-center `}
-                      >
-                        {publication.isPublished ? 'Publicada' : 'Sin Publicar'}
-                      </span>
-                    </td>
-                    <td className={`${classes}`}>
-                      <div className="flex gap-4 items-center">
-                        <Link
-                          to={`/noticias/${publication.slug}`}
-                          className="flex items-center"
-                          target="_blank"
-                        >
-                          <FontAwesomeIcon
-                            icon={faMagnifyingGlass}
-                            className="h-5 self-center text-gray-700 cursor-pointer"
-                          />
-                        </Link>
-                        <Link
-                          to={`/admin/publications/edit/${publication.slug}`}
-                          className="flex items-center"
-                        >
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="h-5 text-gray-700 cursor-pointer "
-                          />
-                        </Link>
-                        <ButtonConfirmationModal
-                          title={'Eliminar publicación'}
-                          bodyText={
-                            '¿Está seguro que desea eliminar esta publicación?'
-                          }
-                          actionNameConfirm={'Eliminar'}
-                          actionFunctionConfirm={() => {
-                            handleDeletePublication(publication.slug);
-                          }}
-                          actionButtonClassName={'bg-red-500 hover:bg-red-700'}
-                          OpenButton={
-                            <FontAwesomeIcon
-                              icon={faTrashCan}
-                              className="h-5 text-red-500 cursor-pointer"
-                            />
-                          }
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div className="flex justify-end gap-6 px-4 py-2 items-center">
-            <span className="font-normal text-base">
-              Pagina 1 de {allPublications.length / 10}
-            </span>
-            <div className="flex gap-6 text-gray-500 mr-4">
-              <FontAwesomeIcon
-                icon={faAngleLeft}
-                className="h-6 self-center cursor-pointer"
-              />
-              <FontAwesomeIcon
-                icon={faAngleRight}
-                className="h-6 self-center cursor-pointer"
-              />
-            </div>
-          </div>
-        </div>
+        <ListDesktop
+          publications={publications}
+          onSelectedRowsChange={handleSelectedItems}
+          handleDeletePublication={handleDeletePublication}
+        />
       </div>
     </>
   );
