@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
-import PublicationsTable from '../../../components/Publications/list';
+import PublicationsList from '../../../components/Publications/list';
 
 const getPublicationsServices = async () => {
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications`;
@@ -23,6 +23,9 @@ const AdminPublications = () => {
     );
   }, []);
 
+  const updatePublications = newPublications =>
+    setPublications(newPublications);
+
   const totalPublications = publications.length;
 
   return (
@@ -30,7 +33,10 @@ const AdminPublications = () => {
       <div className="container mx-auto">
         <h1 className="my-3">Listado de noticias ({totalPublications})</h1>
         <Breadcrumb />
-        <PublicationsTable publications={publications} />
+        <PublicationsList
+          publications={publications}
+          updatePublications={updatePublications}
+        />
       </div>
     </>
   );
