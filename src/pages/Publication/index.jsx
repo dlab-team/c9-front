@@ -122,7 +122,7 @@ const Publication = () => {
                   </svg>
                 </div>
                 {activeIndex === index && (
-                  <div className="py-2 pl-2 pb-8">{item.answer}</div>
+                  <div className="innova-text py-2 pl-2 pb-8">{item.answer}</div>
                 )}
               </div>
             ))}

@@ -168,9 +168,9 @@ const Form = ({ publication } = null) => {
       <div>
         <form onSubmit={handleSubmit}>
           <div className="container mx-auto py-6">
-            <h2>Traducir noticia</h2>
+            <h2 className='page-title'>Traducir noticia</h2>
             <div className="grid grid-cols-2 gap-4">
-              <p>Título:</p>
+              <p className='page-subtitle'>Título:</p>
               <input
                 className="p-4 col-span-2 col-start-1 border rounded w-full"
                 type="text"
@@ -180,14 +180,14 @@ const Form = ({ publication } = null) => {
                   createSlug(e.target.value);
                 }}
               />
-              <p>Url Amigable:</p>
+              <p className='page-subtitle'>Url Amigable:</p>
               <input
                 className="p-4 col-span-2 col-start-1 border rounded w-full"
                 type="text"
                 placeholder=""
                 ref={slugInput}
               />
-              <p>Prompt Basico:</p>
+              <p className='page-subtitle'>Prompt Basico:</p>
               <input
                 className="p-4 col-span-2 col-start-1 border rounded w-full"
                 type="text"
@@ -199,7 +199,7 @@ const Form = ({ publication } = null) => {
                 <div
                   className={`${styles.element2} p-4 col-span-2 col-start-1 rounded flex justify-evenly items-center`}
                 >
-                  <h3>Texto Original</h3>
+                  <h3 className='textarea-title'>Texto Original</h3>
                   {isLoading ? (
                     <button className={styles.btn} type="button">
                       <img src={spinner} />
@@ -216,7 +216,7 @@ const Form = ({ publication } = null) => {
                       />
                     </button>
                   )}
-                  <h3 className="mr-10">Texto GPT</h3>
+                  <h3 className="mr-10 textarea-title">Texto GPT</h3>
                 </div>
                 <textarea
                   className="p-4 resize-none border rounded"

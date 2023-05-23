@@ -8,7 +8,7 @@ const AdminPublicationsNew = () => {
     <div>
       <main>
         <div className="container mx-auto">
-          <h1 className="my-3">Nueva</h1>
+          <h1 className="my-3 breadcrumb-title">Nueva</h1>
           <Breadcrumb />
           <Form />
         </div>
