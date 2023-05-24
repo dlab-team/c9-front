@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import './index.css';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Importa los estilos del carrusel
-import { Carousel } from 'react-responsive-carousel'; // Importa el componente de carrusel
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import "./index.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa los estilos del carrusel
+import { Carousel } from "react-responsive-carousel"; // Importa el componente de carrusel
 
-import bgIzq from '../../assets/images/bg-izq.png';
-import bgDer from '../../assets/images/bg-der.png';
+import bgIzq from "../../assets/images/bg-izq.png";
+import bgDer from "../../assets/images/bg-der.png";
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -42,7 +42,7 @@ const Publication = () => {
       }
 
       if (carouselRef.current) {
-        const dots = document.querySelectorAll('.control-dots .dot');
+        const dots = document.querySelectorAll(".control-dots .dot");
         dots[0].click();
       }
     } catch (error) {
@@ -56,7 +56,7 @@ const Publication = () => {
 
   return (
     <>
-      <div className="container mx-auto py-7">
+      <div className="container container-flex mx-auto py-7">
         <Link to="/">
           <button
             type="button"
@@ -74,8 +74,10 @@ const Publication = () => {
         showThumbs={false}
         centerMode
         centerSlidePercentage={60}
+        autoPlay={true} // Se le agrega autoplay al carrusel
+        interval={5000} // se le define un intervalo
         infiniteLoop
-        className="pb-4 mt-4"
+        className="pb-4 mt-4 w-full"
       >
         {publication?.images.map((img, index) => (
           <div key={`img_${index}`}>
@@ -89,10 +91,10 @@ const Publication = () => {
       </Carousel>
       <div
         className="bg-no-repeat bg-right-top"
-        style={{ backgroundImage: `url(${bgDer})`, backgroundSize: '200px' }}
+        style={{ backgroundImage: `url(${bgDer})`, backgroundSize: "200px" }}
       >
         <div className="container mx-auto">
-          <div className="innova-text w-4/5 mx-auto py-4 whitespace-wrap">
+          <div className="innova-text w-4/5 mx-auto py-4 whitespace-wrap container-flex">
             {publication?.finalContent}
           </div>
         </div>
@@ -108,7 +110,7 @@ const Publication = () => {
                   <div className="">{item.question}</div>
                   <svg
                     className={`w-5 h-5 transition-transform ${
-                      activeIndex === index ? 'transform rotate-180' : ''
+                      activeIndex === index ? "transform rotate-180" : ""
                     }`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -122,7 +124,7 @@ const Publication = () => {
                   </svg>
                 </div>
                 {activeIndex === index && (
-                  <div className="innova-text py-2 pl-2 pb-8">{item.answer}</div>
+                  <div className="py-2 pl-2 pb-8">{item.answer}</div>
                 )}
               </div>
             ))}
