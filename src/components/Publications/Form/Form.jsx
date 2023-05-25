@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import ImagesUploader from './ImagesUploader';
 
 const Form = ({ publication } = null) => {
   const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
@@ -168,26 +169,26 @@ const Form = ({ publication } = null) => {
       <div>
         <form onSubmit={handleSubmit}>
           <div className="container mx-auto py-6">
-            <h2 className='page-title'>Traducir noticia</h2>
+            <h2 className="page-title">Traducir noticia</h2>
             <div className="grid grid-cols-2 gap-4">
-              <p className='page-subtitle'>Título:</p>
+              <p className="page-subtitle">Título:</p>
               <input
                 className="p-4 col-span-2 col-start-1 border rounded w-full"
                 type="text"
                 placeholder=""
                 ref={titleInput}
-                onKeyUp={(e) => {
+                onKeyUp={e => {
                   createSlug(e.target.value);
                 }}
               />
-              <p className='page-subtitle'>Url Amigable:</p>
+              <p className="page-subtitle">Url Amigable:</p>
               <input
                 className="p-4 col-span-2 col-start-1 border rounded w-full"
                 type="text"
                 placeholder=""
                 ref={slugInput}
               />
-              <p className='page-subtitle'>Prompt Basico:</p>
+              <p className="page-subtitle">Prompt Basico:</p>
               <input
                 className="p-4 col-span-2 col-start-1 border rounded w-full"
                 type="text"
@@ -199,7 +200,7 @@ const Form = ({ publication } = null) => {
                 <div
                   className={`${styles.element2} p-4 col-span-2 col-start-1 rounded flex justify-evenly items-center`}
                 >
-                  <h3 className='textarea-title'>Texto Original</h3>
+                  <h3 className="textarea-title">Texto Original</h3>
                   {isLoading ? (
                     <button className={styles.btn} type="button">
                       <img src={spinner} />
@@ -242,15 +243,81 @@ const Form = ({ publication } = null) => {
                   />
                 </div>
               </div>
-              <div className="col-span-2 flex justify-end">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  type="submit"
-                >
-                  Guardar
-                </button>
-              </div>
             </div>
+          </div>
+          <h2 className="my-4 text-[28px] text-primary font-principal">
+            Agregar etiquetas
+          </h2>
+          <div className="flex flex-col gap-4 md:w-[80%] md:pl-20 md:grid 
+            md:grid-cols-2 md:gap-y-8 md:gap-x-24"
+          >
+            <div className="w-full text-base font-sora">
+              <label className="flex h-5 w-5 mb-4">Region</label>
+              <select
+                className="w-full h-12 rounded-[8px] border-[2px] 
+              border-[#00425A] bg-transparent px-3"
+                name="region"
+              >
+                <option value={null}>Seleccione Region</option>
+                {[1, 2, 3].map(item => (
+                  <option key={`${item}-region`} value={item}>
+                    Opcion {item}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="w-full text-base font-sora">
+              <label className="flex h-5 w-5 mb-4">Comuna</label>
+              <select
+                className="w-full h-12 rounded-[8px] border-[2px] 
+              border-[#00425A] bg-transparent px-3"
+                name="comuna"
+              >
+                <option value={null}>Seleccione comuna</option>
+                {[1, 2, 3].map(item => (
+                  <option key={`${item}-comuna`} value={item}>
+                    Opcion {item}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="w-full text-base font-sora">
+              <label className="flex h-5 w-5 mb-4">Categoria</label>
+              <select
+                className="w-full h-12 rounded-[8px] border-[2px] 
+              border-[#00425A] bg-transparent px-3"
+                name="category"
+              >
+                <option value={null}>Seleccione categoria</option>
+                {[1, 2, 3].map(item => (
+                  <option key={`${item}-category`} value={item}>
+                    Opcion {item}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="w-full text-base font-sora">
+              <label className="flex h-5 w-5 mb-4">Autor</label>
+              <input
+                className="w-full h-12 rounded-[8px] border-[2px] border-[#00425A] bg-transparent px-3"
+                name="author"
+                placeholder="Ingrese autor"
+              />
+            </div>
+          </div>
+          <h2 className="mt-6 text-[28px] text-primary font-principal">
+            Agregar Fotos
+          </h2>
+          <ImagesUploader
+            onImagesChange={images => console.log('selected images:', images)}
+          />
+          <div className="mt-8 col-span-2 flex justify-end">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              type="submit"
+            >
+              Guardar
+            </button>
           </div>
         </form>
       </div>
