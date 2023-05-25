@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: 'Sora', sans-serif;
+}
+
 .bg-innova-blue {
   background: #00235c;
 }
@@ -15,29 +19,11 @@
 }
 
 /* Typography */
-
-input,
-textarea,
-td,
-th,
-button,
-p,
-.innova-text,
-.breadcrumb-title,
-.page-subtitle {
-  font-family: "Sora", sans-serif;
-}
-
 .page-title,
 .gtp-title,
 .input-search,
 .textarea-title {
   font-family: "Caveat Brush", cursive;
-}
-
-td,
-th {
-  font-size: 0.8rem;
 }
 
 button {
