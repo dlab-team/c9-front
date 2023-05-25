@@ -21,7 +21,7 @@ export const customStyles = {
   },
   rows: {
     style: {
-      fontSize: '1rem'
+      fontSize: '0.89rem'
     }
   }
 };
