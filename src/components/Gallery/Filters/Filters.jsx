@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import styles from './Filters.module.css';
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
-
 
 const Filters = () => {
   const [isRegionActive, setIsRegionActive] = useState(
@@ -227,7 +225,7 @@ const Filters = () => {
 
       <button
         type="button"
-        className={`${styles.filterButton} inline-block bg-primary rounded lg:px-10 pb-2 pt-2.5 text-md text-white sm:px-4 sm:block`}
+        className={`inline-block bg-primary rounded lg:px-10 pb-2 pt-2.5 text-md text-white sm:px-4 sm:block`}
       >
         Filtrar
       </button>

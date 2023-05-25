@@ -29,7 +29,7 @@ const Breadcrumb = ({ param } = null) => {
     if (index < currentIndex) {
       items.push(
         <React.Fragment key={index}>
-          <li className="hover:text-blue-700">
+          <li className='hover:text-secondary'>
             <Link to={path.url}>{path.name}</Link>
           </li>
           <li>/</li>
@@ -40,13 +40,13 @@ const Breadcrumb = ({ param } = null) => {
 
   items.push(
     <li key={currentIndex}>
-      <span className="font-bold">{paths[currentIndex].name}</span>
+      <span className='font-bold'>{paths[currentIndex].name}</span>
     </li>
   );
 
   return (
-    <nav aria-label="Breadcrumb">
-      <ol className="flex items-center space-x-2">{items}</ol>
+    <nav aria-label='Breadcrumb'>
+      <ol className='flex items-center space-x-2'>{items}</ol>
     </nav>
   );
 };

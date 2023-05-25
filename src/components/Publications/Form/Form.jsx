@@ -173,24 +173,24 @@ const Form = ({ publication } = null) => {
             <div className="grid grid-cols-2 gap-4">
               <p className="page-subtitle">Título:</p>
               <input
-                className="p-4 col-span-2 col-start-1 border rounded w-full"
+                className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
                 type="text"
                 placeholder=""
                 ref={titleInput}
-                onKeyUp={e => {
+                onKeyUp={(e) => {
                   createSlug(e.target.value);
                 }}
               />
               <p className="page-subtitle">Url Amigable:</p>
               <input
-                className="p-4 col-span-2 col-start-1 border rounded w-full"
+                className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
                 type="text"
                 placeholder=""
                 ref={slugInput}
               />
               <p className="page-subtitle">Prompt Basico:</p>
               <input
-                className="p-4 col-span-2 col-start-1 border rounded w-full"
+                className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
                 type="text"
                 placeholder=""
                 defaultValue="Convertir la noticia en una publicación para un niño de 6 años"
@@ -213,7 +213,7 @@ const Form = ({ publication } = null) => {
                     >
                       <FontAwesomeIcon
                         icon={faArrowRight}
-                        style={{ color: 'yellow' }}
+                        className="text-yellow"
                       />
                     </button>
                   )}
@@ -226,12 +226,6 @@ const Form = ({ publication } = null) => {
                   value={originalText}
                   onChange={handleOriginalTextChange}
                 ></textarea>
-                {/* <textarea
-                  className="p-4 resize-none border rounded"
-                  rows="3"
-                  placeholder=""
-                  defaultValue={translatedText}
-                ></textarea> */}
                 <div
                   style={{ border: '1px solid #00425a', borderWidth: '1px' }}
                   className="rounded"
@@ -243,12 +237,21 @@ const Form = ({ publication } = null) => {
                   />
                 </div>
               </div>
+              <div className="col-span-2 flex justify-end">
+                <button
+                  className="bg-secondary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  type="submit"
+                >
+                  Guardar
+                </button>
+              </div>
             </div>
           </div>
           <h2 className="my-4 text-[28px] text-primary font-principal">
             Agregar etiquetas
           </h2>
-          <div className="flex flex-col gap-4 md:w-[80%] md:pl-20 md:grid 
+          <div
+            className="flex flex-col gap-4 md:w-[80%] md:pl-20 md:grid 
             md:grid-cols-2 md:gap-y-8 md:gap-x-24"
           >
             <div className="w-full text-base font-sora">
@@ -259,7 +262,7 @@ const Form = ({ publication } = null) => {
                 name="region"
               >
                 <option value={null}>Seleccione Region</option>
-                {[1, 2, 3].map(item => (
+                {[1, 2, 3].map((item) => (
                   <option key={`${item}-region`} value={item}>
                     Opcion {item}
                   </option>
@@ -274,7 +277,7 @@ const Form = ({ publication } = null) => {
                 name="comuna"
               >
                 <option value={null}>Seleccione comuna</option>
-                {[1, 2, 3].map(item => (
+                {[1, 2, 3].map((item) => (
                   <option key={`${item}-comuna`} value={item}>
                     Opcion {item}
                   </option>
@@ -289,7 +292,7 @@ const Form = ({ publication } = null) => {
                 name="category"
               >
                 <option value={null}>Seleccione categoria</option>
-                {[1, 2, 3].map(item => (
+                {[1, 2, 3].map((item) => (
                   <option key={`${item}-category`} value={item}>
                     Opcion {item}
                   </option>
@@ -309,7 +312,7 @@ const Form = ({ publication } = null) => {
             Agregar Fotos
           </h2>
           <ImagesUploader
-            onImagesChange={images => console.log('selected images:', images)}
+            onImagesChange={(images) => console.log('selected images:', images)}
           />
           <div className="mt-8 col-span-2 flex justify-end">
             <button

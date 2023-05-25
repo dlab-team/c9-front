@@ -1,7 +1,7 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import {
   faArrowUpFromBracket,
-  faCirclePlus
+  faCirclePlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
@@ -12,17 +12,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ButtonBase } from '../UI';
 import ListDesktop from './ListDesktop';
 
-
 const PublicationsTable = ({ publications, updatePublications }) => {
   const [itemsSelected, setItemsSelected] = useState([]);
   const navigate = useNavigate();
 
   const hasSelectedPublications = itemsSelected.length > 0;
 
-  const handleSelectedItems = itemsSelected => {
+  const handleSelectedItems = (itemsSelected) => {
     setItemsSelected(itemsSelected);
   };
-  
+
   const handleDeletePublication = (publicationSlug) => {
     axios
       .delete(
@@ -34,10 +33,10 @@ const PublicationsTable = ({ publications, updatePublications }) => {
           autoClose: 3000,
           onClose: () => {
             const newPublicationsState = publications.filter(
-              publication => publication.slug !== publicationSlug
+              (publication) => publication.slug !== publicationSlug
             );
             updatePublications(newPublicationsState);
-          }
+          },
         });
       })
       .catch((error) => {
@@ -51,21 +50,21 @@ const PublicationsTable = ({ publications, updatePublications }) => {
   return (
     <>
       <ToastContainer />
-      <div className="mt-2 w-full">
-        <div className="flex justify-end mb-4">
+      <div className='mt-2 w-full'>
+        <div className='flex justify-end mb-4'>
           <div
             className={`${!hasSelectedPublications ? 'hidden' : ''} 
         flex flex-col gap-2 mx-4 md:gap-4 md:flex-row w-full`}
           >
-            <div className="flex md:flex-row gap-2 md:gap-4">
-              <ButtonBase className={'bg-blue-900 text-white'}>
+            <div className='flex md:flex-row gap-2 md:gap-4'>
+              <ButtonBase className={'bg-primary text-white'}>
                 <FontAwesomeIcon icon={faArrowUpFromBracket} />
                 Publicar
               </ButtonBase>
-              <ButtonBase className={'bg-orange-500'}>
+              <ButtonBase className={'bg-orange-button'}>
                 <FontAwesomeIcon
                   icon={faArrowUpFromBracket}
-                  className="rotate-180"
+                  className='rotate-180'
                 />
                 Despublicar
               </ButtonBase>
@@ -76,12 +75,12 @@ const PublicationsTable = ({ publications, updatePublications }) => {
             </ButtonBase>
           </div>
 
-          <Link to="/admin/publications/new">
-            <button className="flex gap-4 rounded bg-blue-600 text-white items-center max-w-fit h-10 px-4">
-              <div className="grid place-content-center bg-white rounded-full w-5 h-5">
+          <Link to='/admin/publications/new'>
+            <button className='flex gap-4 rounded bg-secondary text-white items-center max-w-fit h-10 px-4'>
+              <div className='grid place-content-center bg-white rounded-full w-5 h-5'>
                 <FontAwesomeIcon
                   icon={faCirclePlus}
-                  className="h-7 text-blue-900"
+                  className='h-7 text-primary'
                 />
               </div>
               Agregar
