@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
+
 const Filters = () => {
   const [isRegionActive, setIsRegionActive] = useState(
     localStorage.getItem('isRegionActive') === 'true' || false
@@ -34,10 +35,10 @@ const Filters = () => {
   };
 
   return (
-    <div className="container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
+    <div className="filter-container container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
       <div className="relative inline-block" data-te-dropdown-ref>
         <button
-          className="md:flex sm:border-white md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-blue-950
+          className="filter-name md:flex sm:border-white md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-blue-950
           "
           type="button"
           onClick={toggleRegionDropdown}
@@ -99,7 +100,7 @@ const Filters = () => {
       </div>
       <div className="relative inline-block" data-te-dropdown-ref>
         <button
-          className="md:flex sm: border-white 
+          className="filter-name md:flex sm: border-white 
           md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-blue-950"
           type="button"
           onClick={toggleComunaDropdown}
@@ -162,7 +163,7 @@ const Filters = () => {
 
       <div className="relative inline-block" data-te-dropdown-ref>
         <button
-          className="md:flex whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 border-blue-950
+          className="filter-name md:flex whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 border-blue-950
           sm:border-0
           "
           type="button"
