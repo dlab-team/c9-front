@@ -1,25 +1,23 @@
-import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext/AuthContext";
-import logoBlue from "../../assets/images/logo_innova_blue.png";
-import logoYellowS from "../../assets/images/logo_innova_yellow_s.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import "./Header.css";
+import React, { useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
+import logoBlue from '../../assets/images/logo_innova_blue.png';
+import logoYellowS from '../../assets/images/logo_innova_yellow_s.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Header = ({ isAdmin }) => {
   const { currentUser } = useContext(AuthContext);
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
+  const isHomePage = location.pathname === '/';
   const isMobile = window.innerWidth < 640;
 
   // Renderizar estructura de header para la página de inicio
   const renderHomeHeader = () => (
     <nav
       style={{
-        background: "linear-gradient(to right, white 50%, #00235c 50%)",
+        background: 'linear-gradient(to right, white 50%, #00235c 50%)',
       }}
     >
       <div className="header-container container mx-auto flex">
@@ -57,7 +55,7 @@ const Header = ({ isAdmin }) => {
 
   // Renderizar estructura de header para otras páginas en vistas móviles
   const renderOtherHeaderMobile = () => (
-    <nav style={{ background: "#00235c" }}>
+    <nav style={{ background: '#00235c' }}>
       <div className="header-container-two mx-auto flex justify-between">
         <Link to="/">
           <img
@@ -68,7 +66,10 @@ const Header = ({ isAdmin }) => {
         </Link>
         <div className="container-flex-two relative flex items-center mr-5">
           <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-            <FontAwesomeIcon icon={faSearch} className="fa-search text-blue-800" />
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="fa-search text-blue-800"
+            />
           </div>
           <input
             type="text"

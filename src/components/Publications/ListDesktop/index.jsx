@@ -10,25 +10,25 @@ import { useMemo } from 'react';
 const ListDesktop = ({
   publications,
   handleDeletePublication,
-  onSelectedRowsChange
+  onSelectedRowsChange,
 }) => {
   const columns = useMemo(
     () => [
       {
         name: 'Fecha',
-        selector: row => row.publicationDate,
+        selector: (row) => row.publicationDate,
         minWidth: 'fit-content',
-        maxWidth: '115px'
+        maxWidth: '115px',
       },
       {
         name: 'Titulo',
-        selector: row => row.name,
-        wrap: true
+        selector: (row) => row.name,
+        wrap: true,
       },
       {
         name: 'Categoria',
-        selector: row => row.category,
-        width: '140px'
+        selector: (row) => row.category,
+        width: '140px',
       },
       {
         name: 'Estado',
@@ -37,37 +37,37 @@ const ListDesktop = ({
           return (
             <span
               className={`${
-                row.isPublished ? 'bg-blue-500 text-white' : 'bg-yellow-200'
+                row.isPublished ? 'bg-secondary text-white' : 'bg-yellow-200'
               } rounded py-2 px-4 text-center `}
             >
               {row.isPublished ? 'Publicada' : 'Sin Publicar'}
             </span>
           );
-        }
+        },
       },
       {
         name: 'Opciones',
         width: '140px',
         cell: (row, index, column, id) => {
           return (
-            <div className="flex gap-4 items-center">
+            <div className='flex gap-4 items-center'>
               <Link
                 to={`/noticias/${row.slug}`}
-                className="flex items-center"
-                target="_blank"
+                className='flex items-center'
+                target='_blank'
               >
                 <FontAwesomeIcon
                   icon={faMagnifyingGlass}
-                  className="h-5 self-center text-gray-700 cursor-pointer"
+                  className='h-5 self-center text-gray-700 cursor-pointer'
                 />
               </Link>
               <Link
                 to={`/admin/publications/edit/${row.slug}`}
-                className="flex items-center"
+                className='flex items-center'
               >
                 <FontAwesomeIcon
                   icon={faPenToSquare}
-                  className="h-5 text-gray-700 cursor-pointer "
+                  className='h-5 text-gray-700 cursor-pointer '
                 />
               </Link>
               <ButtonConfirmationModal
@@ -81,31 +81,31 @@ const ListDesktop = ({
                 OpenButton={
                   <FontAwesomeIcon
                     icon={faTrashCan}
-                    className="h-5 text-red-500 cursor-pointer"
+                    className='h-5 text-delete-button cursor-pointer'
                   />
                 }
               />
             </div>
           );
-        }
-      }
+        },
+      },
     ],
     [publications]
   );
 
-  const handleSelectedRowsChange = state => {
+  const handleSelectedRowsChange = (state) => {
     onSelectedRowsChange(state.selectedRows);
   };
 
   return (
     <DataTable
-      className=""
+      className=''
       columns={columns}
       data={publications}
       pagination
       paginationComponentOptions={{
         rowsPerPageText: 'Filas por página',
-        rangeSeparatorText: 'de'
+        rangeSeparatorText: 'de',
       }}
       paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
       selectableRows
