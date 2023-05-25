@@ -237,14 +237,6 @@ const Form = ({ publication } = null) => {
                   />
                 </div>
               </div>
-              <div className="col-span-2 flex justify-end">
-                <button
-                  className="bg-secondary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  type="submit"
-                >
-                  Guardar
-                </button>
-              </div>
             </div>
           </div>
           <h2 className="my-4 text-[28px] text-primary font-principal">
