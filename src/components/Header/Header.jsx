@@ -41,8 +41,8 @@ const Header = ({ isAdmin }) => {
           </div>
         </div>
         <Link
-          to="/admin"
-          className="flex items-center justify-center mx-3 ms-5"
+          to='/acceso'
+          className='flex items-center justify-center mx-3 ms-5'
         >
           <FontAwesomeIcon
             className="text-5xl text-yellow-500 hover:text-yellow-800"

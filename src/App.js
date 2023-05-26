@@ -17,33 +17,31 @@ const App = () => {
     <div>
       <AuthContextProvider>
         <BrowserRouter>
-          <Layout>
             <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/noticias/:slug" element={<Publication />} />
-              <Route exact path="/admin" element={<Admin />} />
+              <Route exact path="/" element={<Layout><Home /></Layout>} />
+              <Route exact path="/noticias/:slug" element={<Layout><Publication /></Layout>} />
+              <Route exact path="/acceso" element={<Admin/>} />
               <Route
                 exact
                 path="admin/publications"
-                element={<AdminPublications />}
+                element={<Layout><AdminPublications /></Layout>}
               />
               <Route
                 exact
                 path="admin/publications/new"
-                element={<AdminPublicationsNew />}
+                element={<Layout><AdminPublicationsNew /></Layout>}
               />
               <Route
                 exact
                 path="admin/publications/edit/:slug"
-                element={<EditOne />}
+                element={<Layout><EditOne /></Layout>}
               />
               <Route
                 exact
                 path="admin/publications/:slug"
-                element={<ViewOne />}
+                element={<Layout><ViewOne /></Layout>}
               />
             </Routes>
-          </Layout>
         </BrowserRouter>
       </AuthContextProvider>
     </div>
