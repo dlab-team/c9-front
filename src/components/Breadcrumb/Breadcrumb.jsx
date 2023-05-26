@@ -6,7 +6,7 @@ const Breadcrumb = ({ param } = null) => {
 
   const paths = [
     { name: 'Home', url: '/' },
-    { name: 'Admin', url: '/admin' },
+    { name: 'Admin', url: '/admin/acceder' },
     { name: 'Publicaciones', url: '/admin/publications' },
   ];
 
