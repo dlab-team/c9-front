@@ -10,6 +10,10 @@ import logoMicrosoft from '../../assets/images/microsoft_logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Spinner from '../../components/UI/Spinner';
 
 
 // Initialization for ES Users
@@ -20,24 +24,46 @@ import {
 
 initTE({ Input });
 
+const loginService = async (email,password) => {
+  const endPoint = `${process.env.REACT_APP_BACKEND_URL}/users/auth`
+  try {
+    const { data } = await axios.post(endPoint, { email, password });
+    const isError = data.startsWith('Error:');
+    if (isError) {
+      throw new Error('Usuario no registrado');
+    }
+    return data;
+  } catch (error) {
+    throw new Error('Error al iniciar sesión');
+  }
+}
 
 const Admin = () => {
-  const { setCurrentUser } = useContext(AuthContext);
-
+  const { setUserLogin } = useContext(AuthContext);
   const [email, setEmail] = useState('');
-  const [contrasena, setContrasena] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // código preliminar
-  const handleRegistrarme = (e) => {
+  const handleRegistrarme = async(e) => {
     e.preventDefault()
-
-    console.log('Email:', email);
-    console.log('Contraseña:', contrasena);
-
-    //Aqui va lógica para registrar al administrador
+    try {
+      setIsLoading(true);
+      const token = await loginService(email , password)
+      setUserLogin(token)
+      navigate('/admin/publications')
+    } catch (error) {
+      setIsLoading(false);
+      toast(error.message, {
+        type: 'error',
+        autoClose: 3000
+      })
+    }
   };
 
   return (
+    <>
+    <ToastContainer></ToastContainer>
     <div className="flex h-screen">
       <div className="hidden lg:flex lg:w-1/2 items-stretch justify-center">
         <img
@@ -57,7 +83,16 @@ const Admin = () => {
       <div className="mx-auto lg:w-1/2 lg:p-12">
         <div className="flex flex-col justify-center h-full md:shrink-0"> 
           <div>
-            <h2 className="text-4xl md:text-5xl lg:text-4xl mt-8 font-bold text-center text-[#00235C] font-['Caveat_Brush'] leading-3 tracking-widest font-normal uppercase">Bienvenido!</h2>
+            <h2 className="text-4xl md:text-5xl lg:text-4xl mt-8 font-bold text-center 
+            text-[#00235C] font-['Caveat_Brush'] leading-3 tracking-widest font-normal uppercase">
+              Bienvenido!
+            </h2>
+            { 
+              isLoading && 
+              <div className='mt-14 flex items-center justify-center'>
+                <Spinner />
+              </div>
+            }
             <form className="mt-24 mx-12 md:mx-auto lg:mx-28 lg:mt-20">
               
               <div className="relative mb-6" data-te-input-wrapper-init>
@@ -82,8 +117,8 @@ const Admin = () => {
                   className="peer block min-h-[auto] w-full rounded border-0 bg-gray-200 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                   id="passwordInput"
                   placeholder="Contraseña"
-                  value={contrasena}
-                  onChange={(e) => setContrasena(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <label
                   htmlFor="passwordInput"
@@ -94,7 +129,8 @@ const Admin = () => {
               <button
                 onClick={handleRegistrarme}
                 type="submit"
-                className="inline-block w-full rounded-md bg-[#116CEF] hover:bg-[#FFE600] hover:text-[#00235C] px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out"
+                disabled={isLoading}
+                className={`${isLoading ? 'cursor-not-allowed bg-gray-400 hover:bg-gray-400' : ''} inline-block w-full rounded-md bg-[#116CEF] hover:bg-[#FFE600] hover:text-[#00235C] px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out`}
               >
                 Ingresa
               </button>
@@ -139,7 +175,7 @@ const Admin = () => {
         </div>
       </div>
     </div>
-    
+    </>
   );
 };
 
