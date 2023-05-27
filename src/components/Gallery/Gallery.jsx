@@ -36,7 +36,7 @@ const isSmallScreen = useMediaQuery({ maxWidth: 640 });
     getPublicationsData();
   }, []);
 
-    return (
+  return (
     <>
       <Filters />
       <div className={`columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto`}>
@@ -47,7 +47,7 @@ const isSmallScreen = useMediaQuery({ maxWidth: 640 });
             onClick={() => navigate(`/noticias/${publication.slug}`)}
           >
             <img
-              className={`max-h-96 w-full object-cover object-center rounded-t-lg transition duration-300 ease-in-out hover:opacity-60`}
+              className={`w-full ${isSmallScreen ? 'h-48' : 'max-h-96'} object-cover object-center rounded-t-lg transition duration-300 ease-in-out hover:opacity-60`}
               src={
                 publication?.images[0]?.url ||
                 `https://picsum.photos/1200/800?random=${Math.floor(Math.random() * 1000) + 1}`
@@ -55,7 +55,9 @@ const isSmallScreen = useMediaQuery({ maxWidth: 640 });
               alt={publication.name}
             />
             <div className={`px-4 py-2 text-left`}>
-              <h1 className={`text-xl leading-[1.2] text-md`}>{publication.name}</h1>
+              <h1 className={`text-xl leading-[1.2] text-md ${isSmallScreen ? 'text-sm' : ''}`}>
+                {publication.name}
+              </h1>
               {!isSmallScreen && ( // Condición para mostrar la fecha solo en pantallas grandes
                 <p className={`card-date font-thin text-xs py-4`}>
                   Creado el {formatoFecha(publication.publicationDate)}
