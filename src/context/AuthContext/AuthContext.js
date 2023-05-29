@@ -6,6 +6,14 @@ export const AuthContext = createContext();
 function AuthContextProvider(props) {
   const [currentUser, setCurrentUser] = useState();
 
+  const setUserLogin = (token) => {
+    localStorage.setItem('jwt', token)
+    setCurrentUser({
+      ...jwtDecode(token),
+      token
+    });
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('jwt');
     if (token) {
@@ -13,13 +21,13 @@ function AuthContextProvider(props) {
       if (decodedToken.exp * 1000 < Date.now()) {
         localStorage.removeItem('jwt');
       } else {
-        setCurrentUser(decodedToken);
+        setCurrentUser({ ...decodedToken, token });
       }
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthContext.Provider value={{ currentUser, setUserLogin }}>
       {props.children}
     </AuthContext.Provider>
   );
