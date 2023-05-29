@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { Filters } from '../../components';
 import axios from 'axios';
 
@@ -16,16 +15,17 @@ function formatoFecha(fecha) {
 }
 
 const Gallery = () => {
+  const [page, setPage] = useState(1);
   const [publications, setPublications] = useState([]);
   const navigate = useNavigate();
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications`;
 
   const getPublicationsData = async () => {
     try {
-      const response = await axios.get(endpoint);
+      const response = await axios.get(`${endpoint}?page=${page}`);
       const { publications } = response.data;
 
-      setPublications(publications);
+      setPublications(prevPublications => [...prevPublications, ...publications]);
     } catch (error) {
       console.error(error);
     }
@@ -33,14 +33,29 @@ const Gallery = () => {
 
   useEffect(() => {
     getPublicationsData();
+  }, [page]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+      if (isBottom) {
+        setPage(prevPage => prevPage + 1);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
     <>
       <Filters />
-      <div
-        className={`columns-1 sm:columns-2 lg:columns-3 gap-6 container mx-auto`}
-      >
+      <div className={`columns-1 sm:columns-2 lg:columns-3 gap-6 container mx-auto`}>
         {publications.map((publication) => (
           <div
             className='cursor-pointer block max-h-100 rounded-2xl overflow-hidden border border-gray-200 mb-5 shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/40'
@@ -50,23 +65,19 @@ const Gallery = () => {
             <img
               className='max-h-96 w-full object-cover object-center rounded-t-lg  transition duration-300 ease-in-out hover:opacity-60'
               src={
-                publication?.images[0]?.url ||
-                `https://picsum.photos/1200/800?random=${
-                  Math.floor(Math.random() * 1000) + 1
-                }`
+                publication.images.length > 0
+                  ? publication.images[0].url
+                  : `https://picsum.photos/1200/800?random=${Math.floor(Math.random() * 1000) + 1}`
               }
               alt={publication.name}
             />
             <div className='px-4 py-2 text-left'>
-              <h1 className='text-xl leading-[1.2] text-md'>
-                {publication.name}
-              </h1>
+              <h1 className='text-xl leading-[1.2] text-md'>{publication.name}</h1>
               <p className='card-date font-thin text-xs py-4'>
                 Creado el {formatoFecha(publication.publicationDate)}
               </p>
               <p className={`text-[0.85rem] font-thin`}>
-                {publication.finalContent.split(' ').slice(0, 15).join(' ') +
-                  '...'}
+                {publication.finalContent.split(' ').slice(0, 15).join(' ') + '...'}
               </p>
             </div>
             <div className='px-4 py-4'>
