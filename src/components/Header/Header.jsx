@@ -42,10 +42,10 @@ const Header = ({ isAdmin }) => {
         </div>
         <Link
           to='/acceso'
-          className='flex items-center justify-center mx-3 ms-5 text-yellow'
+          className='flex items-center justify-center mx-3 ms-5'
         >
           <FontAwesomeIcon
-            className='text-5xl text-yellow-500 hover:text-yellow-800'
+            className='text-5xl text-yellow'
             icon={faCircleUser}
           />
         </Link>
