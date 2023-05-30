@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './Form.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -7,15 +7,26 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
+import quillEmoji from 'react-quill-emoji';
+import "react-quill-emoji/dist/quill-emoji.css";
 import 'react-quill/dist/quill.snow.css';
 import ImagesUploader from './ImagesUploader';
+
+Quill.register(
+  {
+    "formats/emoji": quillEmoji.EmojiBlot,
+    "modules/emoji-toolbar": quillEmoji.ToolbarEmoji,
+    "modules/emoji-textarea": quillEmoji.TextAreaEmoji,
+    "modules/emoji-shortname": quillEmoji.ShortNameEmoji,
+  },
+  true,
+);
 
 const Form = ({ publication } = null) => {
   const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-
   const [originalText, setOriginalText] = useState(
     publication?.initialContent || ''
   );
@@ -177,6 +188,7 @@ const Form = ({ publication } = null) => {
                 type="text"
                 placeholder=""
                 ref={titleInput}
+                defaultValue={publication?.name}
                 onKeyUp={(e) => {
                   createSlug(e.target.value);
                 }}
@@ -186,6 +198,7 @@ const Form = ({ publication } = null) => {
                 className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
                 type="text"
                 placeholder=""
+                defaultValue={publication?.slug}
                 ref={slugInput}
               />
               <p className="page-subtitle">Prompt Basico:</p>
@@ -230,10 +243,27 @@ const Form = ({ publication } = null) => {
                   style={{ border: '1px solid #00425a', borderWidth: '1px' }}
                   className="rounded"
                 >
-                  <ReactQuill
+                <ReactQuill
                     className="rounded"
                     value={translatedText}
+                    onChange={setTranslatedText}
                     style={{ height: '275px' }}
+                    modules={{
+                      toolbar: {
+                        container: [
+                          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                          ['bold', 'italic', 'underline', 'strike'],
+                          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                          ['emoji', 'image'],
+                          [{ 'color': [] }, { 'background': [] }],
+                          [{ 'indent': '-1' }, { 'indent': '+1' }],
+                          [{ 'align': [] }],
+                        ],
+                      },
+                      "emoji-toolbar": true,
+                      "emoji-textarea": false,
+                      "emoji-shortname": true,
+                    }}
                   />
                 </div>
               </div>
