@@ -23,7 +23,7 @@ body {
 .gtp-title,
 .input-search,
 .textarea-title {
-  font-family: "Caveat Brush", cursive;
+  font-family: 'Caveat Brush', cursive;
 }
 
 button {
@@ -99,7 +99,7 @@ button {
     width: 50%;
     display: none;
   }
-  .container-flex-two{
+  .container-flex-two {
     width: 12%;
   }
   .fa-search {
@@ -136,6 +136,7 @@ button {
   }
 
   .container {
-    max-width: 360px;
+    max-width: 460px;
+    padding: 0 10px;
   }
 }
