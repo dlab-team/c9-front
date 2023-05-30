@@ -7,18 +7,22 @@ import LogoAdl from '../../assets/images/adl-logo.png';
 
 const Footer = () => {
   return (
-    <Link to='./'>
-      <footer className='flex items-center justify-between p-4 lg:text-left mt-8 bg-secondary'>
+    <footer className='flex items-center justify-between p-4 lg:text-left mt-8 bg-secondary'>
+      <Link to='./'>
         <div className='flex items-center'>
           <img src={LogoMercurio} alt='Logo Innovacion' className='h-8' />
           <img src={LogoMicrosoft} alt='Logo Microsoft' className='h-16' />
         </div>
+      </Link>
+      <Link to='./'>
         <img src={LogoYellow} alt='LogoYellow' className='h-16 mr-16' />
+      </Link>
+      <Link to='./'>
         <div>
           <img src={LogoAdl} alt='Logo ADL' className='h-16 mr-20' />
         </div>
-      </footer>
-    </Link>
+      </Link>
+    </footer>
   );
 };
 
