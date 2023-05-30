@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import "./index.css";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa los estilos del carrusel
-import { Carousel } from "react-responsive-carousel"; // Importa el componente de carrusel
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import './index.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Importa los estilos del carrusel
+import { Carousel } from 'react-responsive-carousel'; // Importa el componente de carrusel
 
-import bgIzq from "../../assets/images/bg-izq.png";
-import bgDer from "../../assets/images/bg-der.png";
+import bgIzq from '../../assets/images/bg-izq.png';
+import bgDer from '../../assets/images/bg-der.png';
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -42,7 +42,7 @@ const Publication = () => {
       }
 
       if (carouselRef.current) {
-        const dots = document.querySelectorAll(".control-dots .dot");
+        const dots = document.querySelectorAll('.control-dots .dot');
         dots[0].click();
       }
     } catch (error) {
@@ -53,6 +53,11 @@ const Publication = () => {
   useEffect(() => {
     getPublicationData();
   }, []);
+
+  useEffect(() => {
+    const divContent = document.getElementById("content-text");
+    divContent.innerHTML = publication?.finalContent;
+  }, [publication])
 
   return (
     <>
@@ -91,12 +96,10 @@ const Publication = () => {
       </Carousel>
       <div
         className="bg-no-repeat bg-right-top"
-        style={{ backgroundImage: `url(${bgDer})`, backgroundSize: "200px" }}
+        style={{ backgroundImage: `url(${bgDer})`, backgroundSize: '200px' }}
       >
         <div className="container mx-auto">
-          <div className="innova-text w-4/5 mx-auto py-4 whitespace-wrap container-flex">
-            {publication?.finalContent}
-          </div>
+          <div id="content-text" className="innova-text w-5/5 lg:w-4/5 mx-auto py-4 whitespace-wrap container-flex"></div>
         </div>
         <div className="innova-text container w-5/5 mx-auto py-4">
           <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
@@ -110,7 +113,7 @@ const Publication = () => {
                   <div className="">{item.question}</div>
                   <svg
                     className={`w-5 h-5 transition-transform ${
-                      activeIndex === index ? "transform rotate-180" : ""
+                      activeIndex === index ? 'transform rotate-180' : ''
                     }`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
