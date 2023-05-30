@@ -54,6 +54,11 @@ const Publication = () => {
     getPublicationData();
   }, []);
 
+  useEffect(() => {
+    const divContent = document.getElementById("content-text");
+    divContent.innerHTML = publication?.finalContent;
+  }, [publication])
+
   return (
     <>
       <div className="container container-flex mx-auto py-7">
@@ -94,9 +99,7 @@ const Publication = () => {
         style={{ backgroundImage: `url(${bgDer})`, backgroundSize: '200px' }}
       >
         <div className="container mx-auto">
-          <div className="innova-text w-5/5 lg:w-4/5 mx-auto py-4 whitespace-wrap container-flex">
-            {publication?.finalContent}
-          </div>
+          <div id="content-text" className="innova-text w-5/5 lg:w-4/5 mx-auto py-4 whitespace-wrap container-flex"></div>
         </div>
         <div className="innova-text container w-5/5 mx-auto py-4">
           <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
