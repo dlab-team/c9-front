@@ -123,4 +123,19 @@ button {
   .Filters_filterButton__BgS0t {
     display: none;
   }
+
+  /* titulos y parrafos */
+
+  .innova-title {
+    font-size: 1.25rem;
+  }
+
+  .innova-text {
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  .container {
+    max-width: 360px;
+  }
 }

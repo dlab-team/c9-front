@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { Filters } from '../../components';
@@ -16,6 +16,7 @@ function formatoFecha(fecha) {
 }
 
 const Gallery = () => {
+  const [page, setPage] = useState(1);
   const [publications, setPublications] = useState([]);
   const navigate = useNavigate();
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications`;
@@ -23,10 +24,10 @@ const Gallery = () => {
 const isSmallScreen = useMediaQuery({ maxWidth: 640 }); 
   const getPublicationsData = async () => {
     try {
-      const response = await axios.get(endpoint);
+      const response = await axios.get(`${endpoint}?page=${page}`);
       const { publications } = response.data;
 
-      setPublications(publications);
+      setPublications(prevPublications => [...prevPublications, ...publications]);
     } catch (error) {
       console.error(error);
     }
@@ -34,6 +35,23 @@ const isSmallScreen = useMediaQuery({ maxWidth: 640 });
 
   useEffect(() => {
     getPublicationsData();
+  }, [page]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+      if (isBottom) {
+        setPage(prevPage => prevPage + 1);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
