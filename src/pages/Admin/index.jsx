@@ -6,6 +6,7 @@ import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 
+
 const Admin = () => {
   return (
     <div className="container mx-auto">

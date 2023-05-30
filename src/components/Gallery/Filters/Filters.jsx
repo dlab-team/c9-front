@@ -225,7 +225,7 @@ const Filters = () => {
 
       <button
         type="button"
-        className={`inline-block bg-primary rounded lg:px-10 pb-2 pt-2.5 text-md text-white sm:px-4 sm:block`}
+        className={`inline-block bg-secondary rounded lg:px-10 pb-2 pt-2.5 text-md text-white hover:bg-yellow hover:text-primary transition duration-150 ease-in-out sm:px-4 sm:block`}
       >
         Filtrar
       </button>
