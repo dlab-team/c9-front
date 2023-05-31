@@ -4,12 +4,15 @@ import { AuthContextProvider } from './context';
 import Layout from './layout/Layout';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
+import Acceso from './pages/Acceso';
+import AdminUsers from './pages/Admin/Users';
 import AdminPublications from './pages/Admin/Publications';
 import AdminPublicationsNew from './pages/Admin/Publications/new';
 import Publication from './pages/Publication';
 import EditOne from './pages/Admin/Publications/Edit';
 import ViewOne from './pages/Admin/Publications/View';
 import NotFound from './pages/NotFound';
+import AcercaDe from './pages/AcercaDe';
 
 import './App.css';
 
@@ -37,7 +40,25 @@ const App = () => {
                 </Layout>
               }
             />
-            <Route exact path="/acceso" element={<Admin />} />
+            <Route exact path="/acceso" element={<Acceso />} />
+            <Route
+              exact
+              path="acerca-de"
+              element={
+                <Layout>
+                  <AcercaDe />
+                </Layout>
+              }
+            />
+            <Route
+              exact
+              path="admin"
+              element={
+                <Layout>
+                  <Admin />
+                </Layout>
+              }
+            />
             <Route
               exact
               path="admin/publications"
@@ -71,6 +92,15 @@ const App = () => {
               element={
                 <Layout>
                   <ViewOne />
+                </Layout>
+              }
+            />
+            <Route
+              exact
+              path="admin/users"
+              element={
+                <Layout>
+                  <AdminUsers />
                 </Layout>
               }
             />

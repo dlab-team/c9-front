@@ -6,6 +6,8 @@ import logoYellowS from '../../assets/images/logo_innova_yellow_s.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Tooltip } from 'react-tippy';
+import 'react-tippy/dist/tippy.css';
 
 const Header = ({ isAdmin }) => {
   const { currentUser } = useContext(AuthContext);
@@ -40,10 +42,12 @@ const Header = ({ isAdmin }) => {
             />
           </div>
         </div>
-        <Link
-          to='/acceso'
-          className='flex items-center justify-center mx-3 ms-5'
-        >
+        <Link to="/acerca-de" className="flex items-center justify-center ms-5">
+          <Tooltip title="Acerca de InnovaXD" position="top" arrow={true}>
+            <img src={logoYellowS} alt="Una imagen del Logo de Innova" />
+          </Tooltip>
+        </Link>
+        <Link to="/acceso" className="flex items-center justify-center mx-3">
           <FontAwesomeIcon
             className='text-5xl text-yellow'
             icon={faCircleUser}
