@@ -32,8 +32,7 @@ const ImagesUploader = ({ onImagesChange }) => {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center mt-10 h-72 w-[90%] 
-      mx-auto border-2 border-dashed border-secondary text-lg font-bold`}
+      className={`flex flex-col justify-center items-center mt-10 h-72 mx-auto border-2 border-dashed border-secondary text-lg font-bold`}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDrop={handleDrop}

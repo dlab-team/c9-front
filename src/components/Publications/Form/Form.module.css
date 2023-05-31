@@ -7,10 +7,3 @@ textarea {
   height: 318px;
   border-color: #00425a;
 }
-
-.btn {
-  width: 30px;
-  height: 30px;
-  background-color: #00235c !important;
-  border-radius: 50%;
-}

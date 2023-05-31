@@ -9,18 +9,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import ReactQuill, { Quill } from 'react-quill';
 import quillEmoji from 'react-quill-emoji';
-import "react-quill-emoji/dist/quill-emoji.css";
+import 'react-quill-emoji/dist/quill-emoji.css';
 import 'react-quill/dist/quill.snow.css';
 import ImagesUploader from './ImagesUploader';
 
 Quill.register(
   {
-    "formats/emoji": quillEmoji.EmojiBlot,
-    "modules/emoji-toolbar": quillEmoji.ToolbarEmoji,
-    "modules/emoji-textarea": quillEmoji.TextAreaEmoji,
-    "modules/emoji-shortname": quillEmoji.ShortNameEmoji,
+    'formats/emoji': quillEmoji.EmojiBlot,
+    'modules/emoji-toolbar': quillEmoji.ToolbarEmoji,
+    'modules/emoji-textarea': quillEmoji.TextAreaEmoji,
+    'modules/emoji-shortname': quillEmoji.ShortNameEmoji,
   },
-  true,
+  true
 );
 
 const Form = ({ publication } = null) => {
@@ -181,26 +181,34 @@ const Form = ({ publication } = null) => {
         <form onSubmit={handleSubmit}>
           <div className="container mx-auto py-6">
             <h2 className="page-title">Traducir noticia</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <p className="page-subtitle">Título:</p>
-              <input
-                className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
-                type="text"
-                placeholder=""
-                ref={titleInput}
-                defaultValue={publication?.name}
-                onKeyUp={(e) => {
-                  createSlug(e.target.value);
-                }}
-              />
-              <p className="page-subtitle">Url Amigable:</p>
-              <input
-                className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
-                type="text"
-                placeholder=""
-                defaultValue={publication?.slug}
-                ref={slugInput}
-              />
+
+            <div className="grid gap-4 grid-cols-2">
+              <div>
+                <p className="page-subtitle">Título:</p>
+                <input
+                  className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
+                  type="text"
+                  placeholder=""
+                  ref={titleInput}
+                  defaultValue={publication?.name}
+                  onKeyUp={(e) => {
+                    createSlug(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <p className="page-subtitle">Url Amigable:</p>
+                <input
+                  className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
+                  type="text"
+                  placeholder=""
+                  defaultValue={publication?.slug}
+                  ref={slugInput}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 mt-4">
               <p className="page-subtitle">Prompt Basico:</p>
               <input
                 className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
@@ -209,24 +217,35 @@ const Form = ({ publication } = null) => {
                 defaultValue="Convertir la noticia en una publicación para un niño de 6 años"
                 ref={promptInput}
               />
-              <div className="grid grid-cols-2 gap-0 col-span-2">
+              <div className="grid grid-cols-2 gap-0 col-span-2 mt-2">
                 <div
                   className={`${styles.element2} p-4 col-span-2 col-start-1 rounded flex justify-evenly items-center`}
                 >
                   <h3 className="textarea-title">Texto Original</h3>
                   {isLoading ? (
-                    <button className={styles.btn} type="button">
-                      <img src={spinner} />
+                    <button
+                      className="py-2 px-4 rounded-2xl bg-blue-900 text-white items-center flex"
+                      type="button"
+                    >
+                      {' '}
+                      Transformando
+                      <img
+                        src={spinner}
+                        style={{ width: '20px' }}
+                        className="ml-2"
+                      />
                     </button>
                   ) : (
                     <button
-                      className={styles.btn}
+                      className="py-2 px-4 rounded-2xl bg-blue-900 text-white items-center flex"
                       type="button"
                       onClick={transformContent}
                     >
+                      {' '}
+                      Transformar
                       <FontAwesomeIcon
                         icon={faArrowRight}
-                        className="text-yellow"
+                        className="ml-2 text-yellow"
                       />
                     </button>
                   )}
@@ -243,7 +262,7 @@ const Form = ({ publication } = null) => {
                   style={{ border: '1px solid #00425a', borderWidth: '1px' }}
                   className="rounded"
                 >
-                <ReactQuill
+                  <ReactQuill
                     className="rounded"
                     value={translatedText}
                     onChange={setTranslatedText}
@@ -251,18 +270,18 @@ const Form = ({ publication } = null) => {
                     modules={{
                       toolbar: {
                         container: [
-                          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                          [{ header: [1, 2, 3, 4, 5, 6, false] }],
                           ['bold', 'italic', 'underline', 'strike'],
-                          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                          [{ list: 'ordered' }, { list: 'bullet' }],
                           ['emoji', 'image'],
-                          [{ 'color': [] }, { 'background': [] }],
-                          [{ 'indent': '-1' }, { 'indent': '+1' }],
-                          [{ 'align': [] }],
+                          [{ color: [] }, { background: [] }],
+                          [{ indent: '-1' }, { indent: '+1' }],
+                          [{ align: [] }],
                         ],
                       },
-                      "emoji-toolbar": true,
-                      "emoji-textarea": false,
-                      "emoji-shortname": true,
+                      'emoji-toolbar': true,
+                      'emoji-textarea': false,
+                      'emoji-shortname': true,
                     }}
                   />
                 </div>
@@ -272,10 +291,7 @@ const Form = ({ publication } = null) => {
           <h2 className="my-4 text-[28px] text-primary font-principal">
             Agregar etiquetas
           </h2>
-          <div
-            className="flex flex-col gap-4 md:w-[80%] md:pl-20 md:grid 
-            md:grid-cols-2 md:gap-y-8 md:gap-x-24"
-          >
+          <div className="grid grid-cols-4 gap-4">
             <div className="w-full text-base font-sora">
               <label className="flex h-5 w-5 mb-4">Region</label>
               <select
@@ -330,6 +346,7 @@ const Form = ({ publication } = null) => {
               />
             </div>
           </div>
+
           <h2 className="mt-6 text-[28px] text-primary font-principal">
             Agregar Fotos
           </h2>
