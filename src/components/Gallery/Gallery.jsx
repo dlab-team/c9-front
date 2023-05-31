@@ -27,10 +27,18 @@ const isSmallScreen = useMediaQuery({ maxWidth: 640 });
       const response = await axios.get(`${endpoint}?page=${page}`);
       const { publications } = response.data;
 
-      setPublications(prevPublications => [...prevPublications, ...publications]);
+      setPublications(prevPublications => {
+        const existingIds = prevPublications.map(pub => pub.id);
+        const filteredPublications = publications.filter(pub => !existingIds.includes(pub.id));
+        return [...prevPublications, ...filteredPublications];
+      });
     } catch (error) {
       console.error(error);
     }
+    //   setPublications(prevPublications => [...prevPublications, ...publications]);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   useEffect(() => {
