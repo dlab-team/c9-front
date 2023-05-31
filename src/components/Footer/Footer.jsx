@@ -7,7 +7,6 @@ import LogoAdl from '../../assets/images/logo-adl.png';
 
 const Footer = () => {
   return (
-    <Link to="./">
       <footer className="p-4 lg:text-left mt-8 bg-secondary">
         <div className="flex justify-center items-center">
           <img src={LogoYellow} alt="LogoYellow" className="h-24" />
@@ -36,8 +35,7 @@ const Footer = () => {
           </Link>
         </div>
       </footer>
-    </Link>
-  );
+    );
 };
 
 export default Footer;
