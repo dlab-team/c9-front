@@ -1,6 +1,7 @@
 import React from 'react';
 import { Header } from '../components';
 import { Footer } from '../components';
+import { Sharedbar } from '../components';
 
 const Layout = ({ children }) => {
   return (
@@ -9,6 +10,7 @@ const Layout = ({ children }) => {
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <Sharedbar />
       </div>
     </>
   );
