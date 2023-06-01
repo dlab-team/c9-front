@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Form.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faSave, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import spinner from '../../../assets/images/spinner.gif';
 import spinnerQA from '../../../assets/images/spinner.gif';
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,6 +15,7 @@ import quillEmoji from 'react-quill-emoji';
 import 'react-quill-emoji/dist/quill-emoji.css';
 import 'react-quill/dist/quill.snow.css';
 import ImagesUploader from './ImagesUploader';
+import ButtonBase from '../../UI/ButtonBase';
 
 Quill.register(
   {
@@ -37,6 +38,7 @@ const Form = ({ publication } = null) => {
   const [translatedText, setTranslatedText] = useState(
     publication?.finalContent || ''
   );
+  const [imageFiles, setImageFiles] = useState(null);
   const promptInput = useRef(null);
   const titleInput = useRef(null);
   const slugInput = useRef(null);
@@ -44,11 +46,10 @@ const Form = ({ publication } = null) => {
   const [QA, setQA] = useState('');
   const [preguntas, setPreguntas] = useState([]);
   const [count, setCount] = useState(5);
-
-  const handleSubmit = async (event) => {
+  
+  const handleSave = async (event, isPublished = false) => {
     event.preventDefault();
 
-    // validar campos vacios
     const title = titleInput.current.value;
     const slug = slugInput.current.value;
     const initialContent = originalText;
@@ -60,24 +61,48 @@ const Form = ({ publication } = null) => {
       initialContent === '' ||
       finalContent === ''
     ) {
-      toast('Todos los campos son obligatorios', {
-        type: 'error',
-        autoClose: 3000,
-      });
-      return;
+        toast('Todos los campos son obligatorios', {
+          type: 'error',
+          autoClose: 3000,
+        });
+        return;
+      }
+    
+    const formData = new FormData();
+    formData.append('name', title);
+    formData.append('slug', slug);
+    formData.append('initialContent', initialContent);    
+    formData.append('finalContent', finalContent);
+    formData.append('category', 'Tecnología');
+    formData.append('published', isPublished)
+
+    if(imageFiles) {
+      formData.append('images', imageFiles)
+    }
+    
+    if(publication) {
+      return axios.put(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData).then(
+        (response) => {
+          toast('Publicación Actualizada correctamente', {
+            type: 'success',
+            autoClose: 3000,
+            onClose: () => {
+              setTimeout(() => {
+                navigate('/admin/publications');
+              }, 3000);
+            },
+          });
+        },
+        (error) => {
+          toast('Error al Actualizar la publicación', {
+            type: 'error',
+            autoClose: 3000,
+          });
+        }
+      );
     }
 
-    const body = {
-      name: title,
-      slug,
-      initialContent,
-      finalContent,
-      user_id: 1,
-      images: '',
-      category: 'Tecnología',
-    };
-
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/publications`, body).then(
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData).then(
       (response) => {
         toast('Publicación guardada correctamente', {
           type: 'success',
@@ -96,6 +121,30 @@ const Form = ({ publication } = null) => {
         });
       }
     );
+  };
+
+  const handleDeletePublication = (publicationSlug) => {
+    axios
+      .delete(
+        `${process.env.REACT_APP_BACKEND_URL}/publications/${publicationSlug}`
+      )
+      .then((response) => {
+        toast('Publicación eliminada correctamente', {
+          type: 'success',
+          autoClose: 3000,
+          onClose: () => {
+            setTimeout(() => {
+              navigate('/admin/publications');
+            }, 3000);
+          },
+        });
+      })
+      .catch((error) => {
+        toast('Error al eliminar la publicación', {
+          type: 'error',
+          autoClose: 3000,
+        });
+      });
   };
 
   const handleGetPreguntas = async () => {
@@ -211,7 +260,7 @@ const Form = ({ publication } = null) => {
     <>
       <ToastContainer></ToastContainer>
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(event) => event.preventDefault() }>
           <div className="container mx-auto py-6">
             <h2 className="page-title">Traducir noticia</h2>
 
@@ -384,7 +433,7 @@ const Form = ({ publication } = null) => {
             Agregar Fotos
           </h2>
           <ImagesUploader
-            onImagesChange={(images) => console.log('selected images:', images)}
+            onImagesChange={(images) => setImageFiles(images)}
           />
 
           <h2 className="mt-6 mb-3 text-[28px] text-primary font-principal">
@@ -440,14 +489,40 @@ const Form = ({ publication } = null) => {
                 : null}
             </ul>
           </div>
-
-          <div className="mt-8 col-span-2 flex justify-end">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              type="submit"
+          <div className="mt-10 sm:flex gap-4 h-10">
+            <ButtonBase className={'bg-primary text-white px-6'}
+             onClick={(event) => handleSave(event, true)}
+             type='button'
             >
+              <FontAwesomeIcon icon={faArrowUpFromBracket} 
+                className='h-5'
+              />
+              Publicar
+            </ButtonBase>
+            <ButtonBase
+              className="bg-orange-button px-6"
+              type='button'
+              onClick={(event) => handleSave(event, publication ? publication.published : false )}
+            >
+              <FontAwesomeIcon
+                icon={faSave}
+                className="text-black h-6"
+              />
               Guardar
-            </button>
+            </ButtonBase>
+            <ButtonBase className="bg-secondary text-white px-6"
+             type='button'
+             onClick={(event) => handleSave(event, true)}
+            >
+              Guardar y Publicar
+            </ButtonBase>
+            {publication && (
+              <ButtonBase onClick={() => handleDeletePublication(publication.slug)}
+                type={'button'} className="border border-black px-6 hover:bg-delete-button">
+                <FontAwesomeIcon icon={faTrashCan}  className='h-5'/>
+                Eliminar
+              </ButtonBase>)
+            }
           </div>
         </form>
       </div>
