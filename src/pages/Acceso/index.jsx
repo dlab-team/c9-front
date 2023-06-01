@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthContext/AuthContext';
 import logoBlue from '../../assets/images/logo_innova_blue.png';
 import waves from '../../assets/images/wave-blue.png';
 import googleIcon from '../../assets/images/google-icon.png';
-import fondo from '../../assets/images/innovafondoazul.jpg';
+import fondo from '../../assets/images/innovafondoazul.jpeg';
 import logoInnovacion from '../../assets/images/innovacion-logo.png';
 import nombreMercurio from '../../assets/images/nombre-mercurio.png';
 import logoMicrosoft from '../../assets/images/microsoft_logo.png';
@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/UI/Spinner';
+import { Link } from 'react-router-dom';
 
 // Initialization for ES Users
 import { Input, initTE } from 'tw-elements';
@@ -64,16 +65,23 @@ const Admin = () => {
         <div className="hidden lg:flex lg:w-1/2 items-stretch justify-center">
           <img
             className="waves h-full w-full relative"
-            style={{ backgroundImage: `url(${fondo})` }}
+            style={{
+              backgroundImage: `url(${fondo})`,
+              backgroundSize: 'cover',
+              objectFit: 'contain',
+              objectPosition: 'right',
+            }}
             src={waves}
             alt="background-waves"
           />
           <div className="h-full flex items-center pl-0 absolute">
-            <img
-              className="w-64 h-auto"
-              src={logoBlue}
-              alt="Una imagen del Logo de Innova"
-            />
+            <Link to="/">
+              <img
+                className="w-64 h-auto"
+                src={logoBlue}
+                alt="Una imagen del Logo de Innova"
+              />
+            </Link>
           </div>
         </div>
         <div className="mx-auto lg:w-1/2 lg:p-12">
