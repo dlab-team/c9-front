@@ -2,7 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './Form.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import spinner from '../../../assets/images/spinner.gif';
+import spinnerQA from '../../../assets/images/spinner.gif';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,6 +30,7 @@ const Form = ({ publication } = null) => {
   const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingQA, setIsLoadingQA] = useState(false);
   const [originalText, setOriginalText] = useState(
     publication?.initialContent || ''
   );
@@ -36,6 +40,10 @@ const Form = ({ publication } = null) => {
   const promptInput = useRef(null);
   const titleInput = useRef(null);
   const slugInput = useRef(null);
+
+  const [QA, setQA] = useState('');
+  const [preguntas, setPreguntas] = useState([]);
+  const [count, setCount] = useState(5);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -90,6 +98,45 @@ const Form = ({ publication } = null) => {
     );
   };
 
+  const handleGetPreguntas = async () => {
+    setIsLoadingQA(true);
+
+    const optionsQA = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'text-davinci-003',
+        temperature: 0,
+        max_tokens: 2048,
+        n: 15,
+        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+        1) Determina  preguntas acerca del contenido y su respuesta por separado
+  
+          '''${translatedText}'''`,
+      }),
+    };
+
+    console.log('1111');
+
+    try {
+      console.log('222');
+      const response = await fetch(
+        'https://api.openai.com/v1/completions',
+        optionsQA
+      );
+      const data = await response.json();
+      setQA(data.choices);
+      setPreguntas(data.choices.filter((e) => e.index < 5));
+      setIsLoadingQA(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoadingQA(false);
+    }
+  };
+
   const transformContent = async (event) => {
     setIsLoading(true);
     event.preventDefault();
@@ -109,7 +156,6 @@ const Form = ({ publication } = null) => {
         n: 1,
         prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) ${customPrompt}
-        2) Retorna 5 preguntas separas por ; y sus respuestas y que se separen del resto del contenido con ------ al comienzo de la primera pregunta
           '''${originalText}'''`,
       }),
     };
@@ -126,31 +172,6 @@ const Form = ({ publication } = null) => {
       const aText = text.split('------');
       const content = aText[0].trim();
 
-      // TODO: implementar preguntas
-      // const allQuestions = aText[1].split('\n');
-      // const aQuestions = [
-      //   {
-      //     question: allQuestions[2].split(';')[0],
-      //     answer: allQuestions[2].split(';')[1],
-      //   },
-      //   {
-      //     question: allQuestions[3].split(';')[0],
-      //     answer: allQuestions[3].split(';')[1],
-      //   },
-      //   {
-      //     question: allQuestions[4].split(';')[0],
-      //     answer: allQuestions[4].split(';')[1],
-      //   },
-      //   {
-      //     question: allQuestions[5].split(';')[0],
-      //     answer: allQuestions[5].split(';')[1],
-      //   },
-      //   {
-      //     question: allQuestions[6].split(';')[0],
-      //     answer: allQuestions[6].split(';')[1],
-      //   },
-      // ];
-
       setTranslatedText(content);
       setIsLoading(false);
     } catch (error) {
@@ -161,6 +182,18 @@ const Form = ({ publication } = null) => {
       });
     }
   };
+
+  function handleRemove(index) {
+    const newList = preguntas.filter((item) => item.index !== index);
+
+    if (count < 14) {
+      newList.push(QA[count]);
+      setCount(count + 1);
+      setPreguntas(newList);
+    } else {
+      setPreguntas(newList);
+    }
+  }
 
   const handleOriginalTextChange = (event) => {
     setOriginalText(event.target.value);
@@ -353,6 +386,61 @@ const Form = ({ publication } = null) => {
           <ImagesUploader
             onImagesChange={(images) => console.log('selected images:', images)}
           />
+
+          <h2 className="mt-6 mb-3 text-[28px] text-primary font-principal">
+            Agregar Preguntas
+          </h2>
+
+          {isLoadingQA ? (
+            <button
+              className="py-2 px-4 rounded-2xl bg-blue-900 text-white items-center flex"
+              type="button"
+            >
+              {' '}
+              Cargando Preguntas
+              <img src={spinnerQA} style={{ width: '20px' }} className="ml-2" />
+            </button>
+          ) : (
+            <button
+              className="py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex"
+              type="button"
+              onClick={() => handleGetPreguntas()}
+            >
+              {' '}
+              Traer Preguntas
+              <FontAwesomeIcon
+                icon={faQuestionCircle}
+                className="ml-2 text-yellow"
+              />
+            </button>
+          )}
+
+          <div>
+            <ul className="my-3">
+              {preguntas
+                ? preguntas.map((item) => (
+                    <li key={item.index} className="mt-2 mb-4">
+                      <div className="flex justify-between">
+                        <div className="rounded w-full border border-primary p-4">
+                          {item.text}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleRemove(item.index)}
+                          className="rounded border border-primary ml-2 p-4"
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrashCan}
+                            className="h-6 text-delete-button cursor-pointer"
+                          />
+                        </button>
+                      </div>
+                    </li>
+                  ))
+                : null}
+            </ul>
+          </div>
+
           <div className="mt-8 col-span-2 flex justify-end">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
