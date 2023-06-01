@@ -4,7 +4,6 @@ import logoBlue from '../../assets/images/logo_innova_blue.png';
 import waves from '../../assets/images/wave-blue.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import fondo from '../../assets/images/innovafondoazul.jpeg';
-import logoInnovacion from '../../assets/images/innovacion-logo.png';
 import logoMercurio from '../../assets/images/0_mercurio-logo.png';
 import logoMicrosoft from '../../assets/images/0_microsoft_logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -144,7 +143,6 @@ const Admin = () => {
             style={{
               backgroundImage: `url(${fondo})`,
               backgroundSize: 'cover',
-              objectFit: 'contain',
               objectPosition: 'right',
             }}
             src={waves}
