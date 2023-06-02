@@ -2,7 +2,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 
-const ImagesUploader = ({ onImagesChange }) => {
+const ImagesUploader = ({ onImagesChange, imagesUrls }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
 
   useEffect(() => {
@@ -32,15 +32,14 @@ const ImagesUploader = ({ onImagesChange }) => {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center mt-10 h-72 mx-auto border-2 border-dashed border-secondary text-lg font-bold`}
+      className={`flex flex-col justify-center items-center mt-10 h-72 mx-auto border-2 
+      border-dashed border-secondary text-lg font-bold`}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
       <div className="flex flex-col items-center">
-        <p className="hidden md:block">
-          Arrastre y suelte la imagen aqui, o haga click en
-        </p>
+        <p className="hidden md:block">Arrastre y suelte la imagen aqui, o haga click en</p>
         <label
           htmlFor="images"
           className="mt-2 cursor-pointer border border-solid border-blue-
@@ -60,24 +59,34 @@ const ImagesUploader = ({ onImagesChange }) => {
         />
       </div>
       <div className="hidden md:flex flex-wrap gap-4 mt-8">
-        {selectedFiles.map((image, index) => (
-          <div key={`${index}-images-files`} className="relative h-26">
-            <button
-              type="button"
-              onClick={() => handleDeleteImage(index)}
-              className="absolute top-[-5px] right-[-5px] bg-black
-                text-white rounded-full h-7 w-7 shadow-white shadow-te-primary
-                flex items-center justify-center"
-            >
-              <FontAwesomeIcon className="h-5" icon={faXmark} />
-            </button>
-            <img
-              src={URL.createObjectURL(image)}
-              alt={`Image ${index}`}
-              className="h-full object-cover w-32 rounded-md "
-            />
-          </div>
-        ))}
+        {selectedFiles.length !== 0
+          ? selectedFiles.map((image, index) => (
+              <div key={`${index}-images-files`} className="relative h-26">
+                <button
+                  type="button"
+                  onClick={() => handleDeleteImage(index)}
+                  className="absolute top-[-5px] right-[-5px] bg-black
+                  text-white rounded-full h-7 w-7 shadow-white shadow-te-primary
+                  flex items-center justify-center"
+                >
+                  <FontAwesomeIcon className="h-5" icon={faXmark} />
+                </button>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={`Image ${index}`}
+                  className="h-full object-cover w-32 rounded-md "
+                />
+              </div>
+            ))
+          : imagesUrls?.map((url, index) => (
+              <div key={`${index}-images-ulrs`} className="relative h-26">
+                <img
+                  src={url.url}
+                  alt={`Image ${index}`}
+                  className="h-full object-cover w-32 rounded-md "
+                />
+              </div>
+            ))}
       </div>
     </div>
   );

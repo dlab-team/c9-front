@@ -76,30 +76,34 @@ const Form = ({ publication } = null) => {
     formData.append('category', 'Tecnología');
     formData.append('published', isPublished)
 
-    if(imageFiles) {
-      formData.append('images', imageFiles)
+    if (imageFiles) {
+      imageFiles.forEach(image => {
+        formData.append('images', image);
+      });
     }
     
     if(publication) {
-      return axios.put(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData).then(
-        (response) => {
-          toast('Publicación Actualizada correctamente', {
-            type: 'success',
-            autoClose: 3000,
-            onClose: () => {
-              setTimeout(() => {
-                navigate('/admin/publications');
-              }, 3000);
-            },
-          });
-        },
-        (error) => {
-          toast('Error al Actualizar la publicación', {
-            type: 'error',
-            autoClose: 3000,
-          });
-        }
-      );
+      return axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/publications/${publication.slug}`, formData)
+        .then(
+          response => {
+            toast('Publicación Actualizada correctamente', {
+              type: 'success',
+              autoClose: 3000,
+              onClose: () => {
+                setTimeout(() => {
+                  navigate('/admin/publications');
+                }, 3000);
+              }
+            });
+          },
+          error => {
+            toast('Error al Actualizar la publicación', {
+              type: 'error',
+              autoClose: 3000
+            });
+          }
+        );
     }
 
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData).then(
@@ -434,6 +438,7 @@ const Form = ({ publication } = null) => {
           </h2>
           <ImagesUploader
             onImagesChange={(images) => setImageFiles(images)}
+            imagesUrls={publication ? publication.images : null}
           />
 
           <h2 className="mt-6 mb-3 text-[28px] text-primary font-principal">
