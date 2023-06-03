@@ -37,7 +37,7 @@ const ListDesktop = ({
           return (
             <span
               className={`${
-                row.published ? 'bg-secondary text-white' : 'bg-yellow-200'
+                row.published ? 'bg-secondary text-white' : 'bg-yellow'
               } rounded py-2 px-4 text-center `}
             >
               {row.published ? 'Publicada' : 'Sin Publicar'}
