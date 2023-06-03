@@ -32,11 +32,40 @@ const Filters = () => {
     setIsCategoriaActive(!isCategoriaActive);
   };
 
+  const handleRegionMouseEnter = () => {
+    setIsRegionActive(true);
+  };
+
+  const handleRegionMouseLeave = () => {
+    setIsRegionActive(false);
+  };
+
+  const handleComunaMouseEnter = () => {
+    setIsComunaActive(true);
+  };
+
+  const handleComunaMouseLeave = () => {
+    setIsComunaActive(false);
+  };
+
+  const handleCategoriaMouseEnter = () => {
+    setIsCategoriaActive(true);
+  };
+
+  const handleCategoriaMouseLeave = () => {
+    setIsCategoriaActive(false);
+  };
+
+
   return (
     <div className="filter-container container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
-      <div className="relative inline-block" data-te-dropdown-ref>
+      <div className={`relative inline-block ${isRegionActive ? 'open' : ''}`}
+        data-te-dropdown-ref
+        onMouseEnter={handleRegionMouseEnter}
+        onMouseLeave={handleRegionMouseLeave}
+      >
         <button
-          className="filter-name md:flex sm:border-white md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-blue-950
+          className="filter-name md:flex sm:border-white md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-primary
           "
           type="button"
           onClick={toggleRegionDropdown}
@@ -45,7 +74,7 @@ const Filters = () => {
           aria-expanded={isRegionActive}
         >
           Región
-          <span className="lg:ml-16 w-2 sm:ml-6 hidden sm:block">
+          <span className="lg:ml-20 w-2 sm:ml-6 hidden sm:block">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -61,9 +90,9 @@ const Filters = () => {
           </span>
         </button>
         <ul
-          className={`absolute z-[1000] float-left m-0 ${
-            isRegionActive ? '' : 'hidden'
-          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
+          className={`absolute z-[1000] float-left m-0 transition-max-height duration-300 ease-in-out overflow-hidden ${
+            isRegionActive ? 'max-h-[200px]' : 'max-h-0'
+          } rounded-lg bg-white text-left shadow-lg min-w-max lg:w-40 border border-grey-50 sm:w-14 list-none bg-clip-padding text-base`}
           aria-labelledby="dropdownMenuButton3"
           data-te-dropdown-menu-ref
         >
@@ -96,10 +125,14 @@ const Filters = () => {
           </li>
         </ul>
       </div>
-      <div className="relative inline-block" data-te-dropdown-ref>
+      <div className={`relative inline-block ${isComunaActive ? 'open' : ''}`}
+        data-te-dropdown-ref
+        onMouseEnter={handleComunaMouseEnter}
+        onMouseLeave={handleComunaMouseLeave}
+      >
         <button
           className="filter-name md:flex sm: border-white 
-          md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-blue-950"
+          md:bg-white whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 md:border-primary"
           type="button"
           onClick={toggleComunaDropdown}
           id="dropdownMenuButton3"
@@ -123,9 +156,9 @@ const Filters = () => {
           </span>
         </button>
         <ul
-          className={`absolute z-[1000] float-left m-0 ${
-            isComunaActive ? '' : 'hidden'
-          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
+          className={`absolute z-[1000] float-left m-0 transition-max-height duration-300 ease-in-out overflow-hidden ${
+            isComunaActive ? 'max-h-[200px]' : 'max-h-0'
+          } rounded-lg bg-white text-left shadow-lg min-w-max lg:w-40 border border-grey-50 sm:w-14 list-none bg-clip-padding text-base`}
           aria-labelledby="dropdownMenuButton3"
           data-te-dropdown-menu-ref
         >
@@ -159,9 +192,13 @@ const Filters = () => {
         </ul>
       </div>
 
-      <div className="relative inline-block" data-te-dropdown-ref>
+      <div className={`relative inline-block ${isCategoriaActive ? 'open' : ''}`}
+        data-te-dropdown-ref
+        onMouseEnter={handleCategoriaMouseEnter}
+        onMouseLeave={handleCategoriaMouseLeave}
+      >
         <button
-          className="filter-name md:flex whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 border-blue-950
+          className="filter-name md:flex whitespace-nowrap rounded-lg px-3 pb-2 pt-2.5 text-md font-normal leading-normal text-left bg-transparent md:border-2 border-primary
           sm:border-0
           "
           type="button"
@@ -187,9 +224,9 @@ const Filters = () => {
           </span>
         </button>
         <ul
-          className={`absolute z-[1000] float-left m-0 ${
-            isCategoriaActive ? '' : 'hidden'
-          } min-w-max lg:w-40 sm:w-14 list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block`}
+          className={`absolute z-[1000] float-left m-0 transition-max-height duration-300 ease-in-out overflow-hidden ${
+            isCategoriaActive ? 'max-h-[200px]' : 'max-h-0'
+          } rounded-lg bg-white text-left shadow-lg min-w-max lg:w-40 border border-grey-50 sm:w-14 list-none bg-clip-padding text-base`}
           aria-labelledby="dropdownMenuButton3"
           data-te-dropdown-menu-ref
         >
