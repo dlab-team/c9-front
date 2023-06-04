@@ -11,6 +11,8 @@ import { Carousel } from 'react-responsive-carousel'; // Importa el componente d
 import bgIzq from '../../assets/images/bg-izq.png';
 import bgDer from '../../assets/images/bg-der.png';
 
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+
 const Publication = () => {
   const [publication, setPublication] = useState();
   const carouselRef = useRef(null);
@@ -22,6 +24,19 @@ const Publication = () => {
   };
 
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications/${slug}`;
+
+  function formatFecha(publicationDate) {
+    const fecha = new Date(publicationDate);
+    const numeroDia = fecha.getDate();
+    const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
+
+    return (
+      <div className="bg-gray-200 text-center p-5 rounded">
+        <p className="text-4xl font-bold">{numeroDia}</p>
+        <p className="">{nombreMes}</p>
+      </div>
+    );
+  }
 
   const getPublicationData = async () => {
     try {
@@ -55,9 +70,9 @@ const Publication = () => {
   }, []);
 
   useEffect(() => {
-    const divContent = document.getElementById("content-text");
+    const divContent = document.getElementById('content-text');
     divContent.innerHTML = publication?.finalContent;
-  }, [publication])
+  }, [publication]);
 
   return (
     <>
@@ -72,6 +87,10 @@ const Publication = () => {
           </button>
         </Link>
         <h1 className="innova-title pt-5">{publication?.name}</h1>
+        <div className="mt-2">
+          <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-gray-500" />
+          {publication?.author}
+        </div>
       </div>
       <Carousel
         ref={carouselRef}
@@ -82,7 +101,7 @@ const Publication = () => {
         autoPlay={true} // Se le agrega autoplay al carrusel
         interval={5000} // se le define un intervalo
         infiniteLoop
-        className="pb-4 mt-4 w-full"
+        className="pb-4 mt-0 w-full"
       >
         {publication?.images.map((img, index) => (
           <div key={`img_${index}`}>
@@ -98,19 +117,26 @@ const Publication = () => {
         className="bg-no-repeat bg-right-top"
         style={{ backgroundImage: `url(${bgDer})`, backgroundSize: '200px' }}
       >
-        <div className="container mx-auto">
-          <div id="content-text" className="innova-text w-5/5 lg:w-4/5 mx-auto py-4 whitespace-wrap container-flex"></div>
+        <div className="container mx-auto w-5/5 lg:w-4/5 py-4 whitespace-wrap">
+          <div className="grid grid-cols-8 gap-4">
+            <div className="col-span-1">
+              {formatFecha(publication?.publicationDate)}
+            </div>
+            <div className="col-span-7">
+              <div id="content-text" className="innova-text"></div>
+            </div>
+          </div>
         </div>
-        <div className="innova-text container w-5/5 mx-auto py-4">
+        <div className="innova-text container w-5/5 lg:w-4/5 mx-auto py-4">
           <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
           <div className="innova-text">
             {publication?.questions.map((item, index) => (
-              <div key={index} className="">
+              <div key={index} className="p-2">
                 <div
-                  className="bg-gray-100 mb-2 flex justify-between items-center cursor-pointer py-2 border rounded-lg p-3"
+                  className="bg-blue-100 flex justify-between items-center cursor-pointer p-3 rounded-lg"
                   onClick={() => toggleQuestion(index)}
                 >
-                  <div className="">{item.question}</div>
+                  <div className="p-2">{item.question}</div>
                   <svg
                     className={`w-5 h-5 transition-transform ${
                       activeIndex === index ? 'transform rotate-180' : ''
@@ -127,7 +153,9 @@ const Publication = () => {
                   </svg>
                 </div>
                 {activeIndex === index && (
-                  <div className="py-2 pl-2 pb-8">{item.answer}</div>
+                  <div className="p-4 bg-gray-100 rounded mt-2">
+                    {item.answer}
+                  </div>
                 )}
               </div>
             ))}

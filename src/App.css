@@ -73,6 +73,12 @@ button {
 
 /* Responsive css */
 
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
 @media (max-width: 640px) {
   /* Header Home */
   .header-container {
