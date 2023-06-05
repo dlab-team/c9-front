@@ -38,7 +38,7 @@ const Home = () => {
       </main>
       {showButton && (
         <button
-          className="fixed bottom-2 right-2 w-12 h-12 bg-gray-800 rounded text-white flex items-center justify-center hover:opacity-90"
+          className="fixed bottom-2 right-2 w-12 h-12 bg-gray-800 rounded-full text-white flex items-center justify-center hover:opacity-90"
           onClick={handleScrollToTop}
         >
           <FontAwesomeIcon icon={faArrowUp} className="text-2xl" />

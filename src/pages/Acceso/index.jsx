@@ -84,7 +84,7 @@ const Admin = () => {
           passwordRef.current.value
         );
         setUserLogin(token);
-        navigate('/admin/publications');
+        navigate('/admin');
       } catch (error) {
         setIsLoading(false);
         toast(error.message, {
