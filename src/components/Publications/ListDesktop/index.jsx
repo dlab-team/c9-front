@@ -11,6 +11,7 @@ const ListDesktop = ({
   publications,
   handleDeletePublication,
   onSelectedRowsChange,
+  clearSelectedRows
 }) => {
   const columns = useMemo(
     () => [
@@ -112,6 +113,7 @@ const ListDesktop = ({
       selectableRowsNoSelectAll
       selectableRowsHighlight
       highlightOnHover
+      clearSelectedRows={clearSelectedRows}
       onSelectedRowsChange={handleSelectedRowsChange}
       responsive
       customStyles={customStyles}
