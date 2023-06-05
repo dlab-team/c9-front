@@ -1,14 +1,25 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 
 const Breadcrumb = ({ param } = null) => {
   const location = useLocation();
 
   const paths = [
-    { name: 'Home', url: '/' },
-    { name: 'Acerca de', url: '/acerca-de' },
-    { name: 'Admin', url: '/admin' },
+    {
+      name: <FontAwesomeIcon icon={faHome} />,
+      url: '/',
+    },
   ];
+
+  if (location.pathname.includes('admin')) {
+    paths.push({ name: 'Administración', url: '/admin' });
+  }
+
+  if (location.pathname.includes('acerca-de')) {
+    paths.push({ name: 'Acerca de', url: '/acerca-de' });
+  }
 
   if (location.pathname.includes('users')) {
     paths.push({ name: 'Usuarios', url: '/admin/users' });
@@ -56,7 +67,9 @@ const Breadcrumb = ({ param } = null) => {
 
   items.push(
     <li key={currentIndex}>
-      <span className="font-bold">{paths[currentIndex].name}</span>
+      <span className="font-bold text-warning-500">
+        {paths[currentIndex].name}
+      </span>
     </li>
   );
 

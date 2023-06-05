@@ -48,10 +48,12 @@ const Header = ({ isAdmin }) => {
           </Tooltip>
         </Link>
         <Link to="/acceso" className="flex items-center justify-center mx-3">
-          <FontAwesomeIcon
-            className="text-4xl text-yellow"
-            icon={faCircleUser}
-          />
+          <Tooltip title="Acceder" position="top" arrow={true}>
+            <FontAwesomeIcon
+              className="text-4xl text-yellow"
+              icon={faCircleUser}
+            />
+          </Tooltip>
         </Link>
       </div>
     </nav>

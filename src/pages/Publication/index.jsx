@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import './index.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Importa los estilos del carrusel
 import { Carousel } from 'react-responsive-carousel'; // Importa el componente de carrusel
@@ -15,6 +16,8 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 const Publication = () => {
   const [publication, setPublication] = useState();
+  const [showButton, setShowButton] = useState(false);
+
   const carouselRef = useRef(null);
   const { slug } = useParams();
 
@@ -24,6 +27,13 @@ const Publication = () => {
   };
 
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications/${slug}`;
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   function formatFecha(publicationDate) {
     const fecha = new Date(publicationDate);
@@ -67,6 +77,21 @@ const Publication = () => {
 
   useEffect(() => {
     getPublicationData();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const isVisible = scrollTop > 100;
+      setShowButton(isVisible);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -162,6 +187,14 @@ const Publication = () => {
           </div>
         </div>
       </div>
+      {showButton && (
+        <button
+          className="fixed bottom-2 right-2 w-12 h-12 bg-gray-800 rounded-full text-white flex items-center justify-center hover:opacity-90"
+          onClick={handleScrollToTop}
+        >
+          <FontAwesomeIcon icon={faArrowUp} className="text-2xl" />
+        </button>
+      )}
     </>
   );
 };

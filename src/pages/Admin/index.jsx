@@ -9,7 +9,7 @@ import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 const Admin = () => {
   return (
     <div className="container mx-auto">
-      <h1 className="my-3">Panel de administración</h1>
+      <h1 className="my-3 breadcrumb-title">Panel de administración</h1>
       <Breadcrumb />
       <ul className="mt-6">
         <li>
