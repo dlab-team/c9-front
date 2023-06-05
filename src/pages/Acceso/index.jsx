@@ -35,7 +35,9 @@ const Admin = () => {
   const passwordRef = useRef(null);
   const [errors, setErrors] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
+  const [loginMessage, setLoginMessage] = useState('');
   const navigate = useNavigate();
+
 
   const isValidEmail = (email) => {
     // Expresión regular para validar el formato de correo electrónico
@@ -84,7 +86,9 @@ const Admin = () => {
           passwordRef.current.value
         );
         setUserLogin(token);
-        navigate('/admin');
+        navigate('/admin/publications');
+        setLoginMessage('Te has logueado con éxito');
+        toast.success('Te has logueado con éxito'); 
       } catch (error) {
         setIsLoading(false);
         toast(error.message, {

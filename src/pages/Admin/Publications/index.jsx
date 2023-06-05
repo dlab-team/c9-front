@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PublicationsList from '../../../components/Publications/list';
 
@@ -30,6 +31,7 @@ const AdminPublications = () => {
 
   return (
     <>
+      <ToastContainer /> 
       <div className="container mx-auto">
         <h1 className="my-3 breadcrumb-title">Listado de noticias ({totalPublications})</h1>
         <Breadcrumb />
