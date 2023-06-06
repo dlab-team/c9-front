@@ -8,12 +8,21 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
+import Dropdown from '../Dropdown/Dropdown';
 
 const Header = ({ isAdmin }) => {
   const { currentUser } = useContext(AuthContext);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const isMobile = window.innerWidth < 640;
+  
+
+  if(currentUser){
+    console.log("conectado")
+  }else{
+    console.log("desconectadoooo")
+  }
+
 
   // Renderizar estructura de header para la página de inicio
   const renderHomeHeader = () => (
@@ -22,7 +31,7 @@ const Header = ({ isAdmin }) => {
         background: 'linear-gradient(to right, white 50%, #00235c 50%)',
       }}
     >
-      <div className="header-container container mx-auto flex">
+      <div className="relative z-10 header-container container mx-auto flex">
         <Link to="/">
           <img
             className="me-3 py-3"
@@ -47,14 +56,18 @@ const Header = ({ isAdmin }) => {
             <img src={logoYellowS} alt="Una imagen del Logo de Innova" />
           </Tooltip>
         </Link>
+        {currentUser ? (  
+            <Dropdown isAdmin={currentUser.isAdmin}/>
+        ):(
         <Link to="/acceso" className="flex items-center justify-center mx-3">
           <Tooltip title="Acceder" position="top" arrow={true}>
             <FontAwesomeIcon
-              className="text-4xl text-yellow"
+              className="text-4xl text-blue-200"
               icon={faCircleUser}
             />
           </Tooltip>
         </Link>
+        )}
       </div>
     </nav>
   );

@@ -17,15 +17,20 @@ function AuthContextProvider(props) {
     });
   };
 
+  const setUserLogout = () => {
+    localStorage.removeItem('jwt');
+    setCurrentUser(null);
+  };
+
   useEffect(() => {
     if (currentUser && currentUser.exp * 1000 < Date.now()) {
-      localStorage.removeItem('jwt');
-      setCurrentUser(null);
+      setUserLogout();
     }
-  }, []);
+  }, [currentUser]);
+
 
   return (
-    <AuthContext.Provider value={{ currentUser, setUserLogin }}>
+    <AuthContext.Provider value={{ currentUser, setUserLogin, setUserLogout }}>
       {props.children}
     </AuthContext.Provider>
   );

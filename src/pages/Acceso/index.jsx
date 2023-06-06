@@ -35,7 +35,9 @@ const Admin = () => {
   const passwordRef = useRef(null);
   const [errors, setErrors] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
+  const [loginMessage, setLoginMessage] = useState('');
   const navigate = useNavigate();
+
 
   const isValidEmail = (email) => {
     // Expresión regular para validar el formato de correo electrónico
@@ -84,7 +86,9 @@ const Admin = () => {
           passwordRef.current.value
         );
         setUserLogin(token);
-        navigate('/admin');
+        navigate('/admin/publications');
+        setLoginMessage('Te has logueado con éxito');
+        toast.success('Te has logueado con éxito'); 
       } catch (error) {
         setIsLoading(false);
         toast(error.message, {
@@ -192,6 +196,7 @@ const Admin = () => {
                         : ''
                     } focus:border-blue-500 focus:outline-none bg-gray-200 px-3 py-[0.20rem] leading-[1.6]`}
                     id="inputEmail"
+                    name="inputEmail"
                     aria-describedby="email"
                     placeholder="usuario@innova.cl"
                     ref={emailRef}
@@ -212,11 +217,12 @@ const Admin = () => {
                   <input
                     type="password"
                     className={`block min-h-[auto] w-full rounded-md border-2 ${
-                      errors.email
+                      errors.password
                         ? 'border-b-red-600 focus:border-red-600'
                         : ''
                     } border-gray-200 focus:border-blue-500 focus:outline-none bg-gray-200 px-3 py-[0.20rem] leading-[1.6] focus:placeholder:opacity-100`}
                     id="passwordInput"
+                    name="passwordInput"
                     placeholder="Contraseña"
                     ref={passwordRef}
                     onChange={handleInputChange}
@@ -227,7 +233,21 @@ const Admin = () => {
                     {errors.password}
                   </span>
                 )}
+
+                {isLoading ? (
                 <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`${
+                    isLoading
+                      ? 'cursor-not-allowed bg-gray-400 hover:bg-gray-400'
+                      : ''
+                  } inline-block w-full rounded-md bg-secondary hover:bg-yellow hover:text-primary px-6 pb-2 pt-2.5 text-xs mt-6 font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out`}
+                >
+                  Ingresando...
+                </button>
+                ): (
+                  <button
                   type="submit"
                   disabled={isLoading}
                   className={`${
@@ -238,7 +258,7 @@ const Admin = () => {
                 >
                   Ingresa
                 </button>
-
+                )}
                 <section className="iniciaSesionCon text-center mb-16 md:m-20 lg:m-16 nowrap">
                   <p className="text-2xl md:text-3xl lg:text-2xl mt-10 font-normal text-[#00235C] font-['Caveat'] italic leading-4 tracking-wide">
                     Inicia sesión con

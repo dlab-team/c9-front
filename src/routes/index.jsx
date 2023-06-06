@@ -37,7 +37,7 @@ const AppRoutes = () => {
       <Route exact path="/acceso" element={<Acceso />} />
       <Route
         exact
-        path="acerca-de"
+        path="/acerca-de"
         element={
           <Layout>
             <AcercaDe />
