@@ -1,10 +1,10 @@
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMemo } from 'react';
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 import { customStyles } from '../Publications/ListDesktop/customStyles';
+import NewUserModal from './Create/NewUserModal';
 
 const UserList = ({ users }) => {
   const columns = useMemo(
@@ -66,14 +66,7 @@ const UserList = ({ users }) => {
   return (
     <div className="mt-4">
       <div className="flex justify-end mb-4">
-        <Link to="/admin/users/new">
-          <button className="flex gap-4 rounded bg-secondary text-white items-center max-w-fit h-10 px-4">
-            <div className="grid place-content-center bg-white rounded-full w-5 h-5">
-              <FontAwesomeIcon icon={faCirclePlus} className="h-7 text-primary" />
-            </div>
-            Agregar
-          </button>
-        </Link>
+        <NewUserModal />
       </div>
 
       <DataTable
