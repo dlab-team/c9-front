@@ -13,7 +13,7 @@ const AcercaDe = () => {
         Las tecnologías al servicio de la información
       </h1>
       <Breadcrumb />
-      <div class="my-4">
+      <div className="my-4">
         <p>
           <b>InnovaXD</b> es un proyecto innovador que utiliza una integración
           de OpenAI para transformar noticias tradicionales en contenido
@@ -24,7 +24,7 @@ const AcercaDe = () => {
         </p>
       </div>
 
-      <div class="mb-4">
+      <div className="mb-4">
         <img
           src={logoOpenai}
           alt="Logo openAI"
@@ -40,7 +40,7 @@ const AcercaDe = () => {
         </p>
       </div>
 
-      <div class="mb-4">
+      <div className="mb-4">
         <img
           src={imgEstudiantes}
           alt="Logo openAI"
