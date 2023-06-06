@@ -1,15 +1,12 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import {
-  faArrowUpFromBracket,
-  faCirclePlus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpFromBracket, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ButtonBase, ButtonConfirmationModal } from '../UI';
+import { ButtonBase, ButtonConfirmationModal, Spinner } from '../UI';
 import ListDesktop from './ListDesktop';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 
@@ -17,6 +14,7 @@ const PublicationsTable = ({ publications, updatePublications }) => {
   const { currentUser } = useContext(AuthContext);
   const [itemsSelected, setItemsSelected] = useState([]);
   const [clearSelectionInDesktopList, setClearSelectionInDesktopList] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const hasSelectedPublications = itemsSelected.length > 0;
 
@@ -25,11 +23,13 @@ const PublicationsTable = ({ publications, updatePublications }) => {
   };
 
   const handleDeletePublication = publicationSlug => {
+    setIsLoading(true);
     axios
       .delete(`${process.env.REACT_APP_BACKEND_URL}/publications/${publicationSlug}`, {
         headers: { Authorization: `Bearer ${currentUser.token}` }
       })
       .then(response => {
+        setIsLoading(false);
         toast('Publicación eliminada correctamente', {
           type: 'success',
           autoClose: 3000,
@@ -41,10 +41,11 @@ const PublicationsTable = ({ publications, updatePublications }) => {
           },
         });
       })
-      .catch((error) => {
+      .catch(error => {
+        setIsLoading(false);
         toast('Error al eliminar la publicación', {
           type: 'error',
-          autoClose: 3000,
+          autoClose: 3000
         });
       });
   };
@@ -55,6 +56,7 @@ const PublicationsTable = ({ publications, updatePublications }) => {
   };
 
   const handlePublishOrUnpublish = isPublished => {
+    setIsLoading(true);
     const publicationsIdsToUpdate = itemsSelected.map(publication => {
       return publication.id;
     });
@@ -68,6 +70,7 @@ const PublicationsTable = ({ publications, updatePublications }) => {
         { headers: { Authorization: `Bearer ${currentUser.token}` } }
       )
       .then(response => {
+        setIsLoading(false);
         const newPublicationsState = publications.map(publication => {
           if (publicationsIdsToUpdate.includes(publication.id)) {
             return { ...publication, published: isPublished };
@@ -78,10 +81,11 @@ const PublicationsTable = ({ publications, updatePublications }) => {
         clearSelectedItems();
         toast('Publicaciones actualizadas correctamente', {
           type: 'success',
-          autoClose: 3000,
+          autoClose: 3000
         });
       })
       .catch(error => {
+        setIsLoading(false);
         toast('Error al actualizar las publicaciones', {
           type: 'error',
           autoClose: 3000
@@ -90,6 +94,7 @@ const PublicationsTable = ({ publications, updatePublications }) => {
   };
 
   const handleBulkDelete = async () => {
+    setIsLoading(true);
     const undeletedPublicationsIds = [];
     const deletedPublicationsIds = [];
 
@@ -112,6 +117,7 @@ const PublicationsTable = ({ publications, updatePublications }) => {
     );
     updatePublications(newPublicationsState);
     clearSelectedItems();
+    setIsLoading(false);
 
     if (undeletedPublicationsIds.length > 0) {
       return toast('Algunas publicaciones no se lograron eliminar', {
@@ -127,15 +133,21 @@ const PublicationsTable = ({ publications, updatePublications }) => {
   };
 
   return (
-    <>
+    <div className="relative">
       <ToastContainer />
-      <div className='mt-2 w-full'>
-        <div className='flex justify-end mb-4'>
+
+      {isLoading && (
+        <div className="flex w-full h-full justify-center opacity-100 top-11 absolute  z-10">
+          <Spinner />
+        </div>
+      )}
+      <div className={`mt-2 w-full ${isLoading ? 'opacity-50' : ''} `}>
+        <div className="flex justify-end mb-4">
           <div
             className={`${!hasSelectedPublications ? 'hidden' : ''} 
         flex flex-col gap-2 mx-4 md:gap-4 md:flex-row w-full`}
           >
-            <div className='flex md:flex-row gap-2 md:gap-4'>
+            <div className="flex md:flex-row gap-2 md:gap-4">
               <ButtonBase
                 className={'bg-primary text-white'}
                 onClick={() => handlePublishOrUnpublish(true)}
@@ -185,7 +197,7 @@ const PublicationsTable = ({ publications, updatePublications }) => {
           clearSelectedRows={clearSelectionInDesktopList}
         />
       </div>
-    </>
+    </div>
   );
 };
 
