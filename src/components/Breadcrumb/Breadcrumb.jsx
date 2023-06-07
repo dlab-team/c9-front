@@ -13,6 +13,10 @@ const Breadcrumb = ({ param } = null) => {
     },
   ];
 
+  if (location.pathname.includes('mi-perfil')) {
+    paths.push({ name: 'Mi Perfil', url: '/mi-perfil' });
+  }
+
   if (location.pathname.includes('admin')) {
     paths.push({ name: 'Administración', url: '/admin' });
   }

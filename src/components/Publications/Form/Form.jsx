@@ -46,7 +46,7 @@ const Form = ({ publication } = null) => {
   const titleInput = useRef(null);
   const slugInput = useRef(null);
 
-  const [QA, setQA] = useState('');
+  const [QA, setQA] = useState([]);
   const [preguntas, setPreguntas] = useState([]);
   const [count, setCount] = useState(5);
 
@@ -79,6 +79,8 @@ const Form = ({ publication } = null) => {
     formData.append('category', 'Tecnología');
     formData.append('published', isPublished);
 
+    formData.append('questions', JSON.stringify(preguntas));
+
     if (imageFiles) {
       imageFiles.forEach((image) => {
         formData.append('images', image);
@@ -89,7 +91,12 @@ const Form = ({ publication } = null) => {
       return axios
         .put(
           `${process.env.REACT_APP_BACKEND_URL}/publications/${publication.slug}`,
-          formData
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
+          }
         )
         .then(
           (response) => {
@@ -113,17 +120,21 @@ const Form = ({ publication } = null) => {
     }
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        },
+      })
       .then(
         (response) => {
           toast('Publicación guardada correctamente', {
             type: 'success',
             autoClose: 3000,
-            onClose: () => {
-              setTimeout(() => {
-                navigate('/admin/publications');
-              }, 3000);
-            },
+            // onClose: () => {
+            //   setTimeout(() => {
+            //     navigate('/admin/publications');
+            //   }, 3000);
+            // },
           });
         },
         (error) => {
@@ -170,33 +181,59 @@ const Form = ({ publication } = null) => {
       },
       body: JSON.stringify({
         model: 'text-davinci-003',
-        temperature: 0,
+        temperature: 1,
         max_tokens: 2048,
         n: 15,
         prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
-        1) Determina  preguntas acerca del contenido y su respuesta por separado
+        1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
   
           '''${translatedText}'''`,
       }),
     };
 
-    console.log('1111');
-
     try {
-      console.log('222');
       const response = await fetch(
         'https://api.openai.com/v1/completions',
         optionsQA
       );
       const data = await response.json();
-      setQA(data.choices);
-      setPreguntas(data.choices.filter((e) => e.index < 5));
+
+      const dataChoices = data.choices.map((item) => {
+        const aText = item.text.split(';');
+        // remove palabra Pregunta: y palabra Respuesta:
+        const question = aText[0].replace('Pregunta:', '').trim();
+        const answer = aText[1].replace('Respuesta:', '').trim();
+        return {
+          index: item.index,
+          question,
+          answer,
+        };
+      });
+
+      setQA(dataChoices);
       setIsLoadingQA(false);
     } catch (error) {
       console.error(error);
       setIsLoadingQA(false);
     }
   };
+
+  useEffect(() => {
+    setPreguntas(QA.slice(0, 5));
+  }, [QA]);
+
+  useEffect(() => {
+    if (publication) {
+      const dataChoices = publication.questions.map((item, index) => {
+        return {
+          index,
+          question: item.question,
+          answer: item.answer,
+        };
+      });
+      setQA(dataChoices);
+    }
+  }, []);
 
   const transformContent = async (event) => {
     setIsLoading(true);
@@ -246,14 +283,15 @@ const Form = ({ publication } = null) => {
 
   function handleRemove(index) {
     const newList = preguntas.filter((item) => item.index !== index);
-
-    if (count < 14) {
-      newList.push(QA[count]);
-      setCount(count + 1);
-      setPreguntas(newList);
-    } else {
-      setPreguntas(newList);
-    }
+    setPreguntas(newList);
+    // TODO: para que es esto?
+    // if (count < 14) {
+    //   newList.push(QA[count]);
+    //   setCount(count + 1);
+    //   setPreguntas(newList);
+    // } else {
+    //   setPreguntas(newList);
+    // }
   }
 
   const handleOriginalTextChange = (event) => {
@@ -483,7 +521,16 @@ const Form = ({ publication } = null) => {
                     <li key={item.index} className="mt-2 mb-4">
                       <div className="flex justify-between">
                         <div className="rounded w-full border border-primary p-4">
-                          {item.text}
+                          <input
+                            type="text"
+                            className="w-full"
+                            value={item.question}
+                          />
+                          <input
+                            type="text"
+                            className="w-full"
+                            value={item.answer}
+                          />
                         </div>
                         <button
                           type="button"

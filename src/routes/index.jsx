@@ -12,6 +12,7 @@ import NotFound from '../pages/NotFound';
 import Publication from '../pages/Publication';
 import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
+import MiPerfil from '../pages/MiPerfil';
 
 const AppRoutes = () => {
   return (
@@ -41,6 +42,15 @@ const AppRoutes = () => {
         element={
           <Layout>
             <AcercaDe />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/mi-perfil"
+        element={
+          <Layout>
+            <MiPerfil />
           </Layout>
         }
       />
