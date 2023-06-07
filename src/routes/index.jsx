@@ -8,6 +8,7 @@ import ViewOne from '../pages/Admin/Publications/View';
 import AdminPublicationsNew from '../pages/Admin/Publications/new';
 import AdminUsers from '../pages/Admin/Users';
 import Home from '../pages/Home';
+import Busqueda from '../pages/Busqueda';
 import NotFound from '../pages/NotFound';
 import Publication from '../pages/Publication';
 import ProtectedRoute from './ProtectedRoute';
@@ -36,6 +37,15 @@ const AppRoutes = () => {
         }
       />
       <Route exact path="/acceso" element={<Acceso />} />
+      <Route
+        exact
+        path="/busqueda/:searchValue"
+        element={
+          <Layout>
+            <Busqueda />
+          </Layout>
+        }
+      />
       <Route
         exact
         path="/acerca-de"
