@@ -9,7 +9,7 @@ import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 const Admin = () => {
   return (
     <div className="container mx-auto">
-      <h1 className="my-3">Panel de administración</h1>
+      <h1 className="my-3 breadcrumb-title">Panel de administración</h1>
       <Breadcrumb />
       <ul className="mt-6">
         <li>
@@ -24,7 +24,7 @@ const Admin = () => {
           </Link>
         </li>
         <li>
-          <Link to="/admin" className="hover:text-blue-700">
+          <Link to="/admin/users" className="hover:text-blue-700">
             <button className="flex gap-4 my-3">
               <FontAwesomeIcon icon={faUserAlt} className="h-5 text-blue-900" />
               Usuarios

@@ -20,3 +20,27 @@
   border-top: 25px solid transparent !important;
   border-bottom: 25px solid transparent !important;
 }
+
+
+/* esconde las flechas de desplazamiento */
+
+.carousel .control-arrow {
+  display: none; /* Esconder las flechas de cambio de fotos */
+}
+
+
+/* propuesta para vista mobile */
+
+@media (max-width: 640px) {
+  .carousel .slider-wrapper {
+    height: 200px; 
+  }
+  .carousel .slide .imgSlide {
+    max-height: 150px; 
+  }
+  .container-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+  }
+}

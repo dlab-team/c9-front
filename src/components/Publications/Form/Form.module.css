@@ -1,44 +1,9 @@
-input {
-  border-color: #00425a;
-}
-
-h2 {
-  font-family: 'Caveat Brush', cursive;
-  font-size: 28px !important;
-  padding-bottom: 20px;
-  letter-spacing: 2px;
-  color: #00235c;
-}
-
-h3 {
-  font-family: 'Caveat Brush', cursive;
-  font-size: 20px !important;
-  margin: 0;
-  letter-spacing: 2px;
-}
-
-p {
-  font-family: 'Sora', sans-serif;
-  margin: 0;
-}
-
 .element2 {
   background-color: rgba(17, 108, 239, 0.3);
   max-height: 100px;
 }
 
-.test {
-  background-color: red;
-}
-
 textarea {
-  height: 318px;
+  height: 480px;
   border-color: #00425a;
-}
-
-.btn {
-  width: 30px;
-  height: 30px;
-  background-color: #00235c !important;
-  border-radius: 50%;
 }

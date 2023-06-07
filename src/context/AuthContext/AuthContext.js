@@ -3,23 +3,34 @@ import jwtDecode from 'jwt-decode';
 
 export const AuthContext = createContext();
 
+const token = localStorage.getItem('jwt');
+const initialState = token ? { ...jwtDecode(token), token } : null;
+
 function AuthContextProvider(props) {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(initialState);
+
+  const setUserLogin = token => {
+    localStorage.setItem('jwt', token);
+    setCurrentUser({
+      ...jwtDecode(token),
+      token
+    });
+  };
+
+  const setUserLogout = () => {
+    localStorage.removeItem('jwt');
+    setCurrentUser(null);
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      if (decodedToken.exp * 1000 < Date.now()) {
-        localStorage.removeItem('jwt');
-      } else {
-        setCurrentUser(decodedToken);
-      }
+    if (currentUser && currentUser.exp * 1000 < Date.now()) {
+      setUserLogout();
     }
-  }, []);
+  }, [currentUser]);
+
 
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthContext.Provider value={{ currentUser, setUserLogin, setUserLogout }}>
       {props.children}
     </AuthContext.Provider>
   );
