@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
+import { SearchContext } from '../../context/SearchContext/SearchContext';
 import logoBlue from '../../assets/images/logo_innova_blue.png';
 import logoYellowS from '../../assets/images/logo_innova_yellow_s.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,17 +13,11 @@ import Dropdown from '../Dropdown/Dropdown';
 
 const Header = ({ isAdmin }) => {
   const { currentUser } = useContext(AuthContext);
+  const { handleSearch } = useContext(SearchContext);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const isMobile = window.innerWidth < 640;
-  
-
-  if(currentUser){
-    console.log("conectado")
-  }else{
-    console.log("desconectadoooo")
-  }
-
+  const [inputSearchValue, setInputSearchValue] = useState('');
 
   // Renderizar estructura de header para la página de inicio
   const renderHomeHeader = () => (
@@ -48,6 +43,9 @@ const Header = ({ isAdmin }) => {
               type="text"
               className="input-search pl-10 pr-3 py-1 rounded-full min-h-10 border border-yellow-500 text-blue-800 placeholder-blue-900"
               placeholder="Encontrar"
+              value={inputSearchValue}
+              onChange={(event) => setInputSearchValue(event.target.value)}
+              onKeyUp={handleSearch}
             />
           </div>
         </div>
@@ -56,17 +54,17 @@ const Header = ({ isAdmin }) => {
             <img src={logoYellowS} alt="Una imagen del Logo de Innova" />
           </Tooltip>
         </Link>
-        {currentUser ? (  
-            <Dropdown isAdmin={currentUser.isAdmin}/>
-        ):(
-        <Link to="/acceso" className="flex items-center justify-center mx-3">
-          <Tooltip title="Acceder" position="top" arrow={true}>
-            <FontAwesomeIcon
-              className="text-4xl text-blue-200"
-              icon={faCircleUser}
-            />
-          </Tooltip>
-        </Link>
+        {currentUser ? (
+          <Dropdown isAdmin={currentUser.isAdmin} />
+        ) : (
+          <Link to="/acceso" className="flex items-center justify-center mx-3">
+            <Tooltip title="Acceder" position="top" arrow={true}>
+              <FontAwesomeIcon
+                className="text-4xl text-blue-200"
+                icon={faCircleUser}
+              />
+            </Tooltip>
+          </Link>
         )}
       </div>
     </nav>
