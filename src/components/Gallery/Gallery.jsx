@@ -24,7 +24,7 @@ function normalizeName(name) {
 
 const filterPublicationsBySearh = (publications, searchValue) => {
   const searchValueNormalized = normalizeName(searchValue);
-  const filteredPublications = publications.filter(pub => {
+  const filteredPublications = publications.filter((pub) => {
     const publicationNameNormalized = normalizeName(pub.name);
     return publicationNameNormalized.includes(searchValueNormalized);
   });
@@ -83,7 +83,9 @@ const Gallery = ({ searchValue = '' }) => {
   }, []);
 
   const filteredPublicationsBySearch =
-    searchValue.length > 0 ? filterPublicationsBySearh(publications, searchValue) : publications;
+    searchValue.length > 0
+      ? filterPublicationsBySearh(publications, searchValue)
+      : publications;
 
   return (
     <>
@@ -112,10 +114,11 @@ const Gallery = ({ searchValue = '' }) => {
                 : 'columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto'
             }`}
           >
-            {filteredPublicationsBySearch.map(publication => (
+            {filteredPublicationsBySearch.map((publication) => (
               <>
                 {searchValue !== '' ? (
                   <div
+                    key={publication.id}
                     className="bg-gray-100 border p-3 my-3 rounded-lg shadow-lg flex cursor-pointer hover:shadow-xl hover:shadow-black/20 duration-300"
                     onClick={() => navigate(`/noticias/${publication.slug}`)}
                   >
@@ -135,7 +138,11 @@ const Gallery = ({ searchValue = '' }) => {
                       <div
                         className="text-sm"
                         dangerouslySetInnerHTML={{
-                          __html: publication.finalContent.split(' ').slice(0, 15).join(' ') + '...'
+                          __html:
+                            publication.finalContent
+                              .split(' ')
+                              .slice(0, 15)
+                              .join(' ') + '...',
                         }}
                       ></div>
                     </div>
@@ -172,9 +179,16 @@ const Gallery = ({ searchValue = '' }) => {
                         </p>
                       )}
                       {!isSmallScreen && ( // Condición para mostrar el contenido solo en pantallas grandes
-                        <p className={`text-[0.85rem] font-thin`}>
-                          {publication.finalContent.split(' ').slice(0, 15).join(' ') + '...'}
-                        </p>
+                        <p
+                          className={`text-[0.85rem] font-thin`}
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              publication.finalContent
+                                .split(' ')
+                                .slice(0, 15)
+                                .join(' ') + '...',
+                          }}
+                        ></p>
                       )}
                     </div>
                     <div className={`px-4 py-4`}>
