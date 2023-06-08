@@ -118,6 +118,7 @@ const Gallery = ({ searchValue = '' }) => {
               <>
                 {searchValue !== '' ? (
                   <div
+                    key={publication.id}
                     className="bg-gray-100 border p-3 my-3 rounded-lg shadow-lg flex cursor-pointer hover:shadow-xl hover:shadow-black/20 duration-300"
                     onClick={() => navigate(`/noticias/${publication.slug}`)}
                   >

@@ -68,6 +68,8 @@ const Publication = () => {
         }
       }
 
+      setPublication(publication);
+
       if (carouselRef.current) {
         const dots = document.querySelectorAll('.control-dots .dot');
         dots[0].click();
