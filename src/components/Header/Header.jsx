@@ -49,7 +49,7 @@ const Header = ({ isAdmin }) => {
             />
           </div>
         </div>
-        <Link to="/acerca-de" className="flex items-center justify-center ms-5">
+        <Link to="/acerca-de" className="absolute top-3 right-2 sm:right-0 sm:relative sm:top-0 flex items-center justify-center ms-5">
           <Tooltip title="Acerca de InnovaXD" position="top" arrow={true}>
             <img src={logoYellowS} alt="Una imagen del Logo de Innova" />
           </Tooltip>

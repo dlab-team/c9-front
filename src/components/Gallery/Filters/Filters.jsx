@@ -53,7 +53,13 @@ const Filters = () => {
 
 
   return (
-    <div className="filter-container container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
+    <div className="mb-[2em] p-0 sm:gap-4 container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
+      <button type="button" className="sm:hidden flex items-center mr-2">
+        <FontAwesomeIcon
+          icon={faFilter}
+          className='text-secondary h-6'
+        />
+      </button>
       <div 
         className="relative inline-block"
         ref={regionDropdownRef}
@@ -259,16 +265,11 @@ const Filters = () => {
 
       <button
         type="button"
-        className={`inline-block bg-secondary rounded lg:px-10 pb-2 pt-2.5 text-md text-white hover:bg-yellow hover:text-primary transition duration-150 ease-in-out sm:px-4 sm:block`}
+        className={`hidden sm:ml-4 md:ml-0 sm:block bg-secondary rounded lg:px-10 pb-2 pt-2.5 text-md text-white hover:bg-yellow hover:text-primary transition duration-150 ease-in-out sm:px-4`}
       >
         Filtrar
       </button>
-      <button type="button" className="md:hidden">
-        <FontAwesomeIcon
-          icon={faFilter}
-          className="pt-4 text-lg text-white sm:px-4 absolute left-16 top-24"
-        />
-      </button>
+      
     </div>
   );
 };
