@@ -9,43 +9,39 @@ import LogoKodea from '../../assets/images/logo-kodea.png';
 const Footer = () => {
   return (
     <footer className="p-4 lg:text-left mt-8 bg-secondary">
-      <div className="container mx-auto grid grid-cols-2">
-        <div className="text-left">
-          <Link to="/">
-            <img
-              src={LogoYellow}
-              alt="LogoYellow"
-              className="h-18 rounded-lg"
-            />
+      <div className="container gap-2 mx-auto flex flex-col md:flex-row md:justify-between">
+        <div className="flex justify-center md:justify-start">
+          <Link to="/" className=''>
+            <img src={LogoYellow} alt="LogoYellow" className="h-14 md:h-20 rounded-lg" />
           </Link>
         </div>
-        <div className="text-right flex gap-2">
+        <div className="flex md:w-[50%] justify-end place-items-center place-self-center gap-2 md:gap-2">
           <Link to="">
             <img
               src={LogoMercurio}
               alt="Logo Innovacion"
-              className="h-16 rounded-lg border border-white border-1"
+              className="h-10 md:h-14 rounded-lg border border-white "
             />
           </Link>
           <Link to="">
             <img
               src={LogoMicrosoft}
               alt="Logo Microsoft"
-              className="h-16 rounded-lg border border-white border-1"
+              className="h-10 md:h-14 rounded-lg border border-white "
             />
           </Link>
           <Link to="">
             <img
               src={LogoAdl}
               alt="Logo ADL"
-              className="h-16 rounded-lg border border-white border-1"
+              className="h-10 md:h-14 rounded-lg border border-white"
             />
           </Link>
           <Link to="">
             <img
               src={LogoKodea}
               alt="Logo de Kodea"
-              className="h-16 border rounded-lg border-white border-1 bg-white p-1"
+              className="h-10 md:h-14 border rounded-lg border-white  bg-white p-1"
             />
           </Link>
         </div>

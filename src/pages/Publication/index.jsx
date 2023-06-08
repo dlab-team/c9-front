@@ -53,7 +53,9 @@ const Publication = () => {
       const response = await axios.get(endpoint);
       const { publication } = response.data;
 
-      setPublication(publication);
+      if (publication?.images === null) {
+        publication.images = [];
+      }
 
       // TODO: quitar cuando el form permita imagenes
       if (publication?.images.length === 0) {
@@ -65,6 +67,8 @@ const Publication = () => {
           });
         }
       }
+
+      setPublication(publication);
 
       if (carouselRef.current) {
         const dots = document.querySelectorAll('.control-dots .dot');
@@ -139,21 +143,15 @@ const Publication = () => {
         ))}
       </Carousel>
 
-      <div className='publication-content relative'>
+      <div className="publication-content relative">
         <div className="absolute right-0 w-[40%] md:w-52 lg:w-[22%]">
-          <img 
-            src={bgDer} 
-            alt="Blob Derecho"
-          />
+          <img src={bgDer} alt="Blob Derecho" />
         </div>
 
         <div className="absolute left-0 bottom-0 w-[50%] md:w-72 lg:w-[25%]">
-            <img 
-              src={bgIzq}
-              alt="Blob Izquierdo"
-            />
+          <img src={bgIzq} alt="Blob Izquierdo" />
         </div>
-      
+
         <div className="relative container mx-auto w-5/5 lg:w-4/5 py-4 whitespace-wrap">
           <div className="grid grid-cols-8 gap-4">
             <div className="col-span-1">
@@ -164,7 +162,7 @@ const Publication = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="relative innova-text container w-5/5 lg:w-4/5 mx-auto py-4">
           <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
           <div className="innova-text">
@@ -199,7 +197,7 @@ const Publication = () => {
             ))}
           </div>
         </div>
-        </div>
+      </div>
       {showButton && (
         <button
           className="fixed bottom-2 right-2 w-12 h-12 bg-gray-800 rounded-full text-white flex items-center justify-center hover:opacity-90"
@@ -211,6 +209,5 @@ const Publication = () => {
     </>
   );
 };
-
 
 export default Publication;

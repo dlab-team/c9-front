@@ -5,7 +5,7 @@ import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PublicationsList from '../../../components/Publications/list';
 
 const getPublicationsServices = async () => {
-  const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications`;
+  const endpoint = `${process.env.REACT_APP_BACKEND_URL}/admin_publications`;
   try {
     const response = await axios.get(endpoint);
     const { publications } = response.data;
@@ -24,16 +24,18 @@ const AdminPublications = () => {
     );
   }, []);
 
-  const updatePublications = newPublications =>
+  const updatePublications = (newPublications) =>
     setPublications(newPublications);
 
   const totalPublications = publications.length;
 
   return (
     <>
-      <ToastContainer /> 
+      <ToastContainer />
       <div className="container mx-auto">
-        <h1 className="my-3 breadcrumb-title">Listado de noticias ({totalPublications})</h1>
+        <h1 className="my-3 breadcrumb-title">
+          Listado de noticias ({totalPublications})
+        </h1>
         <Breadcrumb />
         <PublicationsList
           publications={publications}

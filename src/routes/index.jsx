@@ -14,6 +14,7 @@ import Publication from '../pages/Publication';
 import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
 import MiPerfil from '../pages/MiPerfil';
+import Confirm from '../pages/Admin/Users/Confirm';
 
 const AppRoutes = () => {
   return (
@@ -61,6 +62,14 @@ const AppRoutes = () => {
         element={
           <Layout>
             <MiPerfil />
+          </Layout>
+        }
+      />
+      <Route
+        path="/confirm"
+        element={
+          <Layout>
+            <Confirm />
           </Layout>
         }
       />
