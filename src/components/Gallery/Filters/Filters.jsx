@@ -505,68 +505,70 @@ const Filters = () => {
   }, [currentRegion]);
 
   return (
-    <div className="mb-[2em] p-0 sm:gap-4 container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
-      <button type="button" className="sm:hidden flex items-center mr-2">
-        <FontAwesomeIcon icon={faFilter} className="text-secondary h-6" />
-      </button>
-      <div
-        className="relative inline-block"
-        ref={regionDropdownRef}
-        data-te-dropdown-ref
-      >
-        <div className="relative inline-blockrounded-lg">
-          <select
-            data-te-select-init
-            data-te-select-filter="true"
-            onChange={(e) => {
-              setCurrentRegion(e.target.value);
-            }}
-          >
-            {regiones.map((item, index) => (
-              <option key={index} value={item.name}>
-                {item.region}
+    
+      <div className="mb-[2em] p-0 sm:gap-4 container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
+        <div className='flex mt-2 gap-2'>
+        <button type="button" className="sm:hidden flex items-center mr-2">
+          <FontAwesomeIcon icon={faFilter} className="text-secondary h-6" />
+        </button>
+        <div
+          className="relative inline-block"
+          ref={regionDropdownRef}
+          data-te-dropdown-ref
+        >
+          <div className="relative inline-blockrounded-lg">
+            <select
+              data-te-select-init
+              data-te-select-filter="true"
+              onChange={(e) => {
+                setCurrentRegion(e.target.value);
+              }}
+            >
+              {regiones.map((item, index) => (
+                <option key={index} value={item.name}>
+                  {item.region}
+                </option>
+              ))}
+            </select>
+            <label data-te-select-label-ref>Región</label>
+          </div>
+        </div>
+        <div
+          className="relative inline-block"
+          ref={comunaDropdownRef}
+          data-te-dropdown-ref
+        >
+          <select data-te-select-init data-te-select-filter="true">
+            {currentComunas &&
+              currentComunas.map((item, index) => (
+                <option key={index} value={index}>
+                  {item}
+                </option>
+              ))}
+          </select>
+          <label data-te-select-label-ref>Comuna</label>
+        </div>
+        <div
+          className="relative inline-block"
+          ref={categoriaDropdownRef}
+          data-te-dropdown-ref
+        >
+          <select data-te-select-init data-te-select-filter="true">
+            {categorias.map((item, index) => (
+              <option key={index} value={index}>
+                {item.name}
               </option>
             ))}
           </select>
-          <label data-te-select-label-ref>Región</label>
+          <label data-te-select-label-ref>Categoría</label>
         </div>
+        <button
+          type="button"
+          className={`hidden sm:ml-4 md:ml-0 sm:block bg-secondary rounded lg:px-10 pb-2 pt-2.5 text-md text-white hover:bg-yellow hover:text-primary transition duration-150 ease-in-out sm:px-4`}
+        >
+          Filtrar
+        </button>
       </div>
-      <div
-        className="relative inline-block"
-        ref={comunaDropdownRef}
-        data-te-dropdown-ref
-      >
-        <select data-te-select-init data-te-select-filter="true">
-          {currentComunas &&
-            currentComunas.map((item, index) => (
-              <option key={index} value={index}>
-                {item}
-              </option>
-            ))}
-        </select>
-        <label data-te-select-label-ref>Comuna</label>
-      </div>
-      <div
-        className="relative inline-block"
-        ref={categoriaDropdownRef}
-        data-te-dropdown-ref
-      >
-        <select data-te-select-init data-te-select-filter="true">
-          {categorias.map((item, index) => (
-            <option key={index} value={index}>
-              {item.name}
-            </option>
-          ))}
-        </select>
-        <label data-te-select-label-ref>Categoría</label>
-      </div>
-
-      <button
-        type="button"
-        className={`hidden sm:ml-4 md:ml-0 sm:block bg-secondary rounded lg:px-10 pb-2 pt-2.5 text-md text-white hover:bg-yellow hover:text-primary transition duration-150 ease-in-out sm:px-4`}
-      >
-        Filtrar
-      </button>
     </div>
   );
 };
