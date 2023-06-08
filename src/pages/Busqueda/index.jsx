@@ -5,23 +5,23 @@ import { AuthContext } from '../../context/AuthContext/AuthContext';
 import Searching from '../../components/Searching/Searching';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { SearchContext } from '../../context/SearchContext/SearchContext';
 
 const Busqueda = () => {
   const { currentUser } = useContext(AuthContext);
   const [showButton, setShowButton] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const { searchTerm } = useContext(SearchContext);
 
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: 'smooth'
     });
   };
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const isVisible = scrollTop > 100;
       setShowButton(isVisible);
     };
@@ -33,15 +33,11 @@ const Busqueda = () => {
     };
   }, []);
 
-  useEffect(() => {
-    //TODO: buscar mejora para obtener el parametro
-    setSearchValue(window.location.pathname.split('/')[2]);
-  }, []);
 
   return (
     <div className="container mx-auto">
       <main>
-        <Gallery searchValue={searchValue} />
+        <Gallery searchValue={searchTerm} />
       </main>
       {showButton && (
         <button
