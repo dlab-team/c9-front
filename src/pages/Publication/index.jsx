@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import './index.css';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Importa los estilos del carrusel
-import { Carousel } from 'react-responsive-carousel'; // Importa el componente de carrusel
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import "./index.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa los estilos del carrusel
+import { Carousel } from "react-responsive-carousel"; // Importa el componente de carrusel
 
-import bgIzq from '../../assets/images/bg-izq.png';
-import bgDer from '../../assets/images/bg-der.png';
+import bgIzq from "../../assets/images/bg-izq.png";
+import bgDer from "../../assets/images/bg-der.png";
 
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -31,14 +31,14 @@ const Publication = () => {
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
   function formatFecha(publicationDate) {
     const fecha = new Date(publicationDate);
     const numeroDia = fecha.getDate();
-    const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
+    const nombreMes = fecha.toLocaleString("es-ES", { month: "long" });
 
     return (
       <div className="bg-gray-200 text-center py-4 md:p-5 rounded">
@@ -71,7 +71,7 @@ const Publication = () => {
       setPublication(publication);
 
       if (carouselRef.current) {
-        const dots = document.querySelectorAll('.control-dots .dot');
+        const dots = document.querySelectorAll(".control-dots .dot");
         dots[0].click();
       }
     } catch (error) {
@@ -91,15 +91,15 @@ const Publication = () => {
       setShowButton(isVisible);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    const divContent = document.getElementById('content-text');
+    const divContent = document.getElementById("content-text");
     divContent.innerHTML = publication?.finalContent;
   }, [publication]);
 
@@ -116,9 +116,38 @@ const Publication = () => {
           </button>
         </Link>
         <h1 className="innova-title pt-5">{publication?.name}</h1>
-        <div className="mt-2">
-          <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-gray-500" />
-          {publication?.author}
+        <div className="mt-2 flex justify-between">
+          <div>
+            {" "}
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              className="pe-2 text-gray-500"
+            />
+            {publication?.author}
+          </div>
+
+          {/* Etiquetas de publicaciones  */}
+
+          <div className="flex gap-1 mr-4">
+            <a
+              href="/"
+              className=" inline-block whitespace-nowrap rounded-full bg-warning-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
+            >
+              {publication?.region}
+            </a>
+            <a
+              href="/"
+              className="inline-block whitespace-nowrap rounded-full bg-info-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-info-800 hover:shadow-lg ease-in-out hover:scale-110"
+            >
+              {publication?.city}
+            </a>
+            <a
+              href="/"
+              className="inline-block whitespace-nowrap rounded-full bg-neutral-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
+            >
+              {publication?.category ? publication.category : "Sin categoría"}
+            </a>
+          </div>
         </div>
       </div>
       <Carousel
@@ -161,6 +190,28 @@ const Publication = () => {
               <div id="content-text" className="innova-text"></div>
             </div>
           </div>
+          {/*  Etiquetas Publications */}
+
+          <div className="flex justify-end gap-1 my-2 mx-2  ">
+            <a
+              href="/"
+              className=" inline-block whitespace-nowrap rounded-full bg-warning-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
+            >
+              Región
+            </a>
+            <a
+              href="/"
+              className="inline-block whitespace-nowrap rounded-full bg-info-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-info-800 hover:shadow-lg ease-in-out hover:scale-110"
+            >
+              Comuna
+            </a>
+            <a
+              href="/"
+              className="inline-block whitespace-nowrap rounded-full bg-neutral-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
+            >
+              Categoría
+            </a>
+          </div>
         </div>
 
         <div className="relative innova-text container w-5/5 lg:w-4/5 mx-auto py-4">
@@ -175,7 +226,7 @@ const Publication = () => {
                   <div className="p-2">{item.question}</div>
                   <svg
                     className={`w-5 h-5 transition-transform ${
-                      activeIndex === index ? 'transform rotate-180' : ''
+                      activeIndex === index ? "transform rotate-180" : ""
                     }`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
