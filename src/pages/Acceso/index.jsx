@@ -181,7 +181,7 @@ const Admin = () => {
                 className="mt-10 mx-12 md:mx-auto lg:mx-28"
                 noValidate
               >
-                <div className="relative mb-1" data-te-input-wrapper-init>
+                <div className="relative mb-1">
                   <label
                     htmlFor="inputEmail"
                     className="block mb-2 text-sm font-medium text-primary"
@@ -207,7 +207,7 @@ const Admin = () => {
                   <span className="text-red-500 text-xs">{errors.email}</span>
                 )}
 
-                <div className="relative mb-1" data-te-input-wrapper-init>
+                <div className="relative mb-1">
                   <label
                     htmlFor="passwordInput"
                     className="block my-2 text-sm font-medium text-primary"
