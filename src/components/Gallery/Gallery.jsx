@@ -115,7 +115,7 @@ const Gallery = ({ searchValue = '' }) => {
             }`}
           >
             {filteredPublicationsBySearch.map((publication) => (
-              <>
+              <React.Fragment key={publication.id}>
                 {searchValue !== '' ? (
                   <div
                     key={publication.id}
@@ -196,7 +196,7 @@ const Gallery = ({ searchValue = '' }) => {
                     </div>
                   </div>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </div>
         </div>
