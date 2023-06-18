@@ -86,6 +86,13 @@ const Gallery = ({ searchValue = '' }) => {
     searchValue.length > 0
       ? filterPublicationsBySearh(publications, searchValue)
       : publications;
+  
+  // Variable para almacenar el número total de publicaciones existentes
+  const totalPublications = publications.length;
+
+  // Variable para almacenar el número de elementos encontrados en la búsqueda
+  const numResults = filteredPublicationsBySearch.length;
+
 
   return (
     <>
@@ -97,14 +104,23 @@ const Gallery = ({ searchValue = '' }) => {
       {!isloading && (
         <div>
           {searchValue || searchValue !== '' ? (
+            <>
             <h1 className="innova-heading text-center text-3xl font-bold text-blue-800 my-5">
               {filteredPublicationsBySearch.length > 0
                 ? `Resultados para la búsqueda: ${searchValue}`
                 : `No se encontraron resultados para la búsqueda: ${searchValue}`}
             </h1>
+            <h3 className="reasultsStatistics text-secondary">
+              {filteredPublicationsBySearch.length > 0
+                ? `${numResults} de ${totalPublications} publicaciones`
+                : ''
+              }
+            </h3>
+            </>
           ) : (
             <Filters />
           )}
+          
           {/* <div className="columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto"> */}
           {/* <div className={`gap-6 container mx-auto`}> */}
           <div
@@ -115,7 +131,7 @@ const Gallery = ({ searchValue = '' }) => {
             }`}
           >
             {filteredPublicationsBySearch.map((publication) => (
-              <>
+              <React.Fragment key={publication.id}>
                 {searchValue !== '' ? (
                   <div
                     key={publication.id}
@@ -196,7 +212,7 @@ const Gallery = ({ searchValue = '' }) => {
                     </div>
                   </div>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </div>
         </div>

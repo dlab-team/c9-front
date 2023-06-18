@@ -183,14 +183,14 @@ const Publication = () => {
           ))}
         </Carousel>
 
-        <div className="publication-content relative">
-          <div className="absolute right-0 w-[40%] md:w-52 lg:w-[22%]">
-            <img src={bgDer} alt="Blob Derecho" />
-          </div>
+      <div className="publication-content relative">
+        <div className="absolute right-0 w-[40%] md:w-52 lg:w-[22%] opacity-40">
+          <img src={bgDer} alt="Blob Derecho" />
+        </div>
 
-          <div className="absolute left-0 bottom-0 w-[50%] md:w-72 lg:w-[25%]">
-            <img src={bgIzq} alt="Blob Izquierdo" />
-          </div>
+        <div className="absolute left-0 bottom-0 w-[50%] md:w-72 lg:w-[25%] opacity-40">
+          <img src={bgIzq} alt="Blob Izquierdo" />
+        </div>
 
           <div className="relative container mx-auto w-5/5 lg:w-4/5 py-4 whitespace-wrap">
             <div className="grid grid-cols-8 gap-4">
