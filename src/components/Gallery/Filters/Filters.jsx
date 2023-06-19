@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { Select, initTE } from 'tw-elements';
+import { FiltersContext } from '../../../context/FiltersContext';
 
 // TODO: traer esta data desde el back
 const regiones = [
+  {region: 'todas', comunas: []},
   {
     region: 'Metropolitana de Santiago',
     comunas: [
@@ -429,6 +431,7 @@ const regiones = [
 ];
 
 const categorias = [
+  {name: 'todas'},
   { name: 'General' },
   { name: 'Tecnología' },
   { name: 'Ciencia' },
@@ -436,62 +439,14 @@ const categorias = [
   { name: 'Espacio' },
 ];
 
-const Filters = () => {
-  const [isRegionOpen, setIsRegionOpen] = useState(false);
-  const [isComunaOpen, setIsComunaOpen] = useState(false);
-  const [isCategoriaOpen, setIsCategoriaOpen] = useState(false);
-
+const Filters = ({filterOnClick}) => {
   const regionDropdownRef = useRef(null);
   const comunaDropdownRef = useRef(null);
   const categoriaDropdownRef = useRef(null);
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const handleClickOutside = (event) => {
-    if (
-      regionDropdownRef.current &&
-      !regionDropdownRef.current.contains(event.target)
-    ) {
-      setIsRegionOpen(false);
-    }
-    if (
-      comunaDropdownRef.current &&
-      !comunaDropdownRef.current.contains(event.target)
-    ) {
-      setIsComunaOpen(false);
-    }
-    if (
-      categoriaDropdownRef.current &&
-      !categoriaDropdownRef.current.contains(event.target)
-    ) {
-      setIsCategoriaOpen(false);
-    }
-  };
-
-  const toggleRegionDropdown = () => {
-    setIsRegionOpen(!isRegionOpen);
-  };
-
-  const toggleComunaDropdown = () => {
-    setIsComunaOpen(!isComunaOpen);
-  };
-
-  const toggleCategoriaDropdown = () => {
-    setIsCategoriaOpen(!isCategoriaOpen);
-  };
-
-  const [currentRegion, setCurrentRegion] = useState(
-    'Metropolitana de Santiago'
-  );
-  const [currentComunas, setCurrentComunas] = useState('');
-
+  const [currentComunas, setCurrentComunas] = useState([]);
+  const {filters, updateFilters} = useContext(FiltersContext);
   const loadComunas = () => {
-    const index = regiones.findIndex((item) => item.region === currentRegion);
+    const index = regiones.findIndex((item) => item.region.id === filters.region);
     const comunas = regiones[index].comunas;
     setCurrentComunas(comunas);
   };
@@ -502,13 +457,15 @@ const Filters = () => {
 
   useEffect(() => {
     loadComunas();
-  }, [currentRegion]);
+  }, [filters]);
 
   return (
     
       <div className="mb-[2em] p-0 sm:gap-4 container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
         <div className='flex mt-2 gap-2'>
-        <button type="button" className="sm:hidden flex items-center mr-2">
+        <button type="button" className="sm:hidden flex items-center mr-2"
+          onClick={() => filterOnClick()}
+        >
           <FontAwesomeIcon icon={faFilter} className="text-secondary h-6" />
         </button>
         <div
@@ -521,11 +478,11 @@ const Filters = () => {
               data-te-select-init
               data-te-select-filter="true"
               onChange={(e) => {
-                setCurrentRegion(e.target.value);
+                updateFilters({region: e.target.value, city: 'todas'});
               }}
             >
               {regiones.map((item, index) => (
-                <option key={index} value={item.name}>
+                <option key={index} value={item.id}>
                   {item.region}
                 </option>
               ))}
@@ -538,10 +495,18 @@ const Filters = () => {
           ref={comunaDropdownRef}
           data-te-dropdown-ref
         >
-          <select data-te-select-init data-te-select-filter="true">
+          <select data-te-select-init data-te-select-filter="true"
+            onChange={ event => 
+              updateFilters({city: event.target.value})
+            }
+            value={filters.city}
+          >
+            <option key={'comunna-all'} value={'todas'}>
+                todas
+            </option>
             {currentComunas &&
               currentComunas.map((item, index) => (
-                <option key={index} value={index}>
+                <option key={index} value={item.id}>
                   {item}
                 </option>
               ))}
@@ -553,9 +518,11 @@ const Filters = () => {
           ref={categoriaDropdownRef}
           data-te-dropdown-ref
         >
-          <select data-te-select-init data-te-select-filter="true">
+          <select data-te-select-init data-te-select-filter="true"
+          onChange={event => updateFilters({category: event.target.value})}
+          >
             {categorias.map((item, index) => (
-              <option key={index} value={index}>
+              <option key={index} value={item.id}>
                 {item.name}
               </option>
             ))}
@@ -564,6 +531,7 @@ const Filters = () => {
         </div>
         <button
           type="button"
+          onClick={() => filterOnClick()}
           className={`hidden sm:ml-4 md:ml-0 sm:block bg-secondary rounded lg:px-10 pb-2 pt-2.5 text-md text-white hover:bg-yellow hover:text-primary transition duration-150 ease-in-out sm:px-4`}
         >
           Filtrar
