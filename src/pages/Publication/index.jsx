@@ -81,10 +81,6 @@ const Publication = () => {
       const { publication } = response.data;
       setPublication(publication);
 
-      if (carouselRef.current) {
-        const dots = document.querySelectorAll('.control-dots .dot');
-        dots[0].click();
-      }
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -113,6 +109,10 @@ const Publication = () => {
   useEffect(() => {
     const divContent = document.getElementById('content-text');
     divContent.innerHTML = publication?.finalContent;
+    if (carouselRef.current && publication) {
+        const dots = document.querySelectorAll('.control-dots .dot');
+        dots[0].click();
+    }
   }, [publication]);
 
   return (
