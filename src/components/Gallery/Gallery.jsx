@@ -102,7 +102,7 @@ const Gallery = ({ searchValue = '' }) => {
   const totalPublications = publications.length;
 
   // Variable para almacenar el número de elementos encontrados en la búsqueda
-  const numResults = filteredPublicationsBySearch.length;
+  const numResults = publicationsToRender.length;
 
 
   return (
@@ -134,6 +134,21 @@ const Gallery = ({ searchValue = '' }) => {
           
           {/* <div className="columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto"> */}
           {/* <div className={`gap-6 container mx-auto`}> */}
+          { 
+            filteredPublications?.length > 0 &&
+              (<h3 className="reasultsStatistics text-secondary mb-4">
+                {filteredPublicationsBySearch.length > 0
+                  ? `${numResults} de ${totalPublications} publicaciones`
+                  : ''
+                }
+              </h3>)
+          
+          }
+          { filteredPublications?.length === 0 &&
+            (<h3 className="reasultsStatistics text-xl text-secondary mb-4">
+            No se encontraron resultados para los filtros aplicados
+            </h3>)
+          }
           <div
             className={`${
               searchValue !== ''

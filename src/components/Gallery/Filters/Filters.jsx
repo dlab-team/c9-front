@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { Select, initTE } from "tw-elements";
-import axios from "axios";
 import { FiltersContext } from "../../../context/FiltersContext";
 
 // TODO: traer esta data desde el back
@@ -11,10 +10,10 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-const Filters = () => {
+const Filters = ({filterOnClick}) => {
   const [categorias, setCategorias] = useState([]);
   const [regiones, setRegiones] = useState([]);
-  const [currentComunas, setCurrentComunas] = useState("");
+  const [currentComunas, setCurrentComunas] = useState([]);
   const {filters, updateFilters} = useContext(FiltersContext);
 
   const getCategories = async () => {
@@ -48,7 +47,7 @@ const Filters = () => {
 
   const loadComunas = () => {
     const index = regiones.findIndex((region) => region.id === filters.region);
-    const comunas = regiones[index]?.cities;
+    const comunas = regiones[index]?.cities || [];
     setCurrentComunas(comunas);
   };
 
@@ -62,15 +61,13 @@ const Filters = () => {
         </button>
         <div
           className="relative inline-block"
-          ref={regionDropdownRef}
-          data-te-dropdown-ref
         >
           <div className="relative inline-blockrounded-lg">
             <select
               data-te-select-init
               data-te-select-filter="true"
-              onChange={(e) => {
-                updateFilters({region: e.target.value, city: 'todas'});
+              onChange={(e) => { 
+                updateFilters({region: Number(e.target.value) || 'todas', city: 'todas'});
               }}
             >
               <option value={"todas"}>Todas</option>
@@ -85,22 +82,20 @@ const Filters = () => {
         </div>
         <div
           className="relative inline-block"
-          ref={comunaDropdownRef}
-          data-te-dropdown-ref
         >
           <select data-te-select-init data-te-select-filter="true"
             onChange={ event => 
-              updateFilters({city: event.target.value})
+              updateFilters({city:Number(event.target.value) || 'todas'})
             }
             value={filters.city}
           >
             <option key={'comunna-all'} value={'todas'}>
                 Todas
             </option>
-            {currentComunas &&
+            {currentComunas.length >= 1 &&
               currentComunas.map((item, index) => (
                 <option key={'comunas-'+item.id} value={item.id}>
-                  {item}
+                  {item.name}
                 </option>
               ))}
           </select>
@@ -108,11 +103,9 @@ const Filters = () => {
         </div>
         <div
           className="relative inline-block"
-          ref={categoriaDropdownRef}
-          data-te-dropdown-ref
         >
           <select data-te-select-init data-te-select-filter="true"
-          onChange={event => updateFilters({category: event.target.value})}
+          onChange={event => updateFilters({category: Number(event.target.value) || 'todas'  })}
           >
             <option value={"todas"}>Todas</option>
             {categorias.map((item, index) => (
