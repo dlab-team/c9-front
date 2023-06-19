@@ -40,6 +40,28 @@ const Publication = () => {
     });
   };
 
+  const setLocation = (location) => {
+    let locationName = '';
+    console.log(location);
+    if (
+      location === null ||
+      (location?.region === null && location?.city === null)
+    ) {
+      locationName = 'Chile';
+      return locationName;
+    }
+
+    if (location?.region?.name) {
+      locationName = location.region.name;
+    }
+
+    if (location?.city) {
+      locationName = `${locationName} / ${location.city.name}`;
+    }
+
+    return locationName;
+  };
+
   function formatFecha(publicationDate) {
     const fecha = new Date(publicationDate);
     const numeroDia = fecha.getDate();
@@ -57,22 +79,6 @@ const Publication = () => {
     try {
       const response = await axios.get(endpoint);
       const { publication } = response.data;
-
-      if (publication?.images === null) {
-        publication.images = [];
-      }
-
-      // TODO: quitar cuando el form permita imagenes
-      if (publication?.images.length === 0) {
-        for (let i = 0; i < 3; i++) {
-          const randomId = Math.floor(Math.random() * 1000) + 1;
-          const imageUrl = `https://picsum.photos/1200/800?random=${randomId}`;
-          publication.images.push({
-            url: imageUrl,
-          });
-        }
-      }
-
       setPublication(publication);
 
       if (carouselRef.current) {
@@ -149,14 +155,16 @@ const Publication = () => {
                   icon={faGlobeAmericas}
                   className="pe-2 text-gray-500 "
                 />
-                {publication?.region} / {publication?.city}
+                {setLocation(publication?.location)}
               </a>
               <a
                 href="/"
                 className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
               >
                 <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
-                {publication?.category ? publication.category : 'Sin categoría'}
+                {publication?.category.name
+                  ? publication.category.name
+                  : 'Sin categoría'}
               </a>
             </div>
           </div>
@@ -183,14 +191,14 @@ const Publication = () => {
           ))}
         </Carousel>
 
-      <div className="publication-content relative">
-        <div className="absolute right-0 w-[40%] md:w-52 lg:w-[22%] opacity-40">
-          <img src={bgDer} alt="Blob Derecho" />
-        </div>
+        <div className="publication-content relative">
+          <div className="absolute right-0 w-[40%] md:w-52 lg:w-[22%] opacity-40">
+            <img src={bgDer} alt="Blob Derecho" />
+          </div>
 
-        <div className="absolute left-0 bottom-0 w-[50%] md:w-72 lg:w-[25%] opacity-40">
-          <img src={bgIzq} alt="Blob Izquierdo" />
-        </div>
+          <div className="absolute left-0 bottom-0 w-[50%] md:w-72 lg:w-[25%] opacity-40">
+            <img src={bgIzq} alt="Blob Izquierdo" />
+          </div>
 
           <div className="relative container mx-auto w-5/5 lg:w-4/5 py-4 whitespace-wrap">
             <div className="grid grid-cols-8 gap-4">
