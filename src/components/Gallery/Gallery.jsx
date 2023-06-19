@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { Filters } from '../../components';
 import axios from 'axios';
 import { normalizeSync } from 'normalize-diacritics';
 import { Spinner } from '../UI';
+import { FiltersContext } from '../../context/FiltersContext';
 
 function formatoFecha(fecha) {
   const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -34,7 +35,9 @@ const filterPublicationsBySearh = (publications, searchValue) => {
 const Gallery = ({ searchValue = '' }) => {
   const [page, setPage] = useState(1);
   const [publications, setPublications] = useState([]);
+  const [ filteredPublications , setFilteredPublications] = useState(null);
   const [isloading, setIsloading] = useState(true);
+  const { filterPublications} = useContext(FiltersContext)
   const navigate = useNavigate();
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications`;
   // Define el ancho máximo para considerar la pantalla como pequeña
@@ -82,16 +85,24 @@ const Gallery = ({ searchValue = '' }) => {
     };
   }, []);
 
+  const filterOnClick = () => {
+    const filteredPublication = filterPublications(publications);
+    setFilteredPublications(filteredPublication);
+  }
+
   const filteredPublicationsBySearch =
     searchValue.length > 0
       ? filterPublicationsBySearh(publications, searchValue)
       : publications;
   
+  const publicationsToRender = (filteredPublications && searchValue === '')
+    ? filteredPublications : filteredPublicationsBySearch;
+  
   // Variable para almacenar el número total de publicaciones existentes
   const totalPublications = publications.length;
 
   // Variable para almacenar el número de elementos encontrados en la búsqueda
-  const numResults = filteredPublicationsBySearch.length;
+  const numResults = publicationsToRender.length;
 
 
   return (
@@ -118,11 +129,26 @@ const Gallery = ({ searchValue = '' }) => {
             </h3>
             </>
           ) : (
-            <Filters />
+            <Filters filterOnClick={filterOnClick} />
           )}
           
           {/* <div className="columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto"> */}
           {/* <div className={`gap-6 container mx-auto`}> */}
+          { 
+            filteredPublications?.length > 0 &&
+              (<h3 className="reasultsStatistics text-secondary mb-4">
+                {filteredPublicationsBySearch.length > 0
+                  ? `${numResults} de ${totalPublications} publicaciones`
+                  : ''
+                }
+              </h3>)
+          
+          }
+          { filteredPublications?.length === 0 &&
+            (<h3 className="reasultsStatistics text-xl text-secondary mb-4">
+            No se encontraron resultados para los filtros aplicados
+            </h3>)
+          }
           <div
             className={`${
               searchValue !== ''
@@ -130,7 +156,7 @@ const Gallery = ({ searchValue = '' }) => {
                 : 'columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto'
             }`}
           >
-            {filteredPublicationsBySearch.map((publication) => (
+            {publicationsToRender.map((publication) => (
               <React.Fragment key={publication.id}>
                 {searchValue !== '' ? (
                   <div
