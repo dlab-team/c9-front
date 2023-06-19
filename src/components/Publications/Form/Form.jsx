@@ -42,6 +42,10 @@ const Form = ({ publication } = null) => {
     publication?.finalContent || ''
   );
   const [imageFiles, setImageFiles] = useState(null);
+  const [labels, setLabels] = useState({
+    location: publication?.location || null,
+    category: publication?.category || { id: null },
+  });
   const promptInput = useRef(null);
   const titleInput = useRef(null);
   const slugInput = useRef(null);
@@ -49,6 +53,48 @@ const Form = ({ publication } = null) => {
   const [QA, setQA] = useState([]);
   const [preguntas, setPreguntas] = useState([]);
   const [count, setCount] = useState(5);
+
+  const [categorias, setCategorias] = useState([]);
+  const [regiones, setRegiones] = useState([]);
+  const [currentRegion, setCurrentRegion] = useState('Región metropolitana');
+  const [currentComunas, setCurrentComunas] = useState('');
+
+  const loadComunas = () => {
+    const index = regiones.findIndex((region) => region.name === currentRegion);
+    const comunas = regiones[index]?.cities;
+    setCurrentComunas(comunas);
+  };
+
+  const getRegiones = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/regions`
+    );
+    const data = await response.json();
+    setRegiones(data);
+  };
+
+  const getCategories = async () => {
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/categories`
+    );
+    const data = await response.json();
+    const dataCapitalized = data.map((item) => {
+      item.name = capitalize(item.name);
+      return item;
+    });
+    setCategorias(dataCapitalized);
+  };
+
+  useEffect(() => {
+    getCategories();
+    getRegiones();
+  }, []);
+  useEffect(() => {
+    loadComunas();
+  }, [currentRegion]);
 
   const handleSave = async (event, isPublished = false) => {
     event.preventDefault();
@@ -76,8 +122,9 @@ const Form = ({ publication } = null) => {
     formData.append('slug', slug);
     formData.append('initialContent', initialContent);
     formData.append('finalContent', finalContent);
-    formData.append('category', 'Tecnología');
     formData.append('published', isPublished);
+    formData.append('location', JSON.stringify(labels.location));
+    formData.append('category', JSON.stringify(labels.category));
 
     formData.append('questions', JSON.stringify(preguntas));
 
@@ -306,6 +353,15 @@ const Form = ({ publication } = null) => {
     slugInput.current.value = slug;
   };
 
+  const updateLocationLabels = (locationPartial) => {
+    setLabels((oldStateLabels) => {
+      return {
+        ...oldStateLabels,
+        location: { ...oldStateLabels.location, ...locationPartial },
+      };
+    });
+  };
+
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -429,11 +485,23 @@ const Form = ({ publication } = null) => {
                 className="w-full h-12 rounded-[8px] border-[2px] 
               border-[#00425A] bg-transparent px-3"
                 name="region"
+                onChange={(event) => {
+                  setCurrentRegion(event.target.value);
+                  updateLocationLabels({
+                    region: { id: Number(event.target.value) || null },
+                  });
+                }}
               >
-                <option value={null}>Seleccione Region</option>
-                {[1, 2, 3].map((item) => (
-                  <option key={`${item}-region`} value={item}>
-                    Opcion {item}
+                {publication?.location && (
+                  <option value={publication.location.region.id}>
+                    {publication.location.region.name}
+                  </option>
+                )}
+                <option value={null}>Sin region</option>
+                <option value={'todas'}>Todas</option>
+                {regiones.map((item) => (
+                  <option key={item.id} value={item.name}>
+                    {item.name}
                   </option>
                 ))}
               </select>
@@ -444,26 +512,50 @@ const Form = ({ publication } = null) => {
                 className="w-full h-12 rounded-[8px] border-[2px] 
               border-[#00425A] bg-transparent px-3"
                 name="comuna"
+                onChange={(event) =>
+                  updateLocationLabels({
+                    city: { id: Number(event.target.value) || null },
+                  })
+                }
               >
-                <option value={null}>Seleccione comuna</option>
-                {[1, 2, 3].map((item) => (
-                  <option key={`${item}-comuna`} value={item}>
-                    Opcion {item}
+                {publication?.location?.city && (
+                  <option value={publication.location.city.id}>
+                    {publication.location.city.name}
                   </option>
-                ))}
+                )}
+                <option value={'todas'}>Todas</option>
+                {currentComunas &&
+                  currentComunas.map((item, id) => (
+                    <option key={id} value={id}>
+                      {item.name}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="w-full text-base font-sora">
-              <label className="flex h-5 w-5 mb-4">Categoria</label>
+              <label className="flex h-5 w-5 mb-4">Categoría</label>
               <select
                 className="w-full h-12 rounded-[8px] border-[2px] 
               border-[#00425A] bg-transparent px-3"
                 name="category"
+                onChange={(event) =>
+                  setLabels((oldState) => {
+                    return {
+                      ...oldState,
+                      category: { id: Number(event.target.value) || null },
+                    };
+                  })
+                }
               >
+                {publication?.category && (
+                  <option value={publication.category.id}>
+                    {publication.category.name}
+                  </option>
+                )}
                 <option value={null}>Seleccione categoria</option>
-                {[1, 2, 3].map((item) => (
-                  <option key={`${item}-category`} value={item}>
-                    Opcion {item}
+                {categorias.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
                   </option>
                 ))}
               </select>
