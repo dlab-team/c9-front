@@ -3,7 +3,7 @@ import styles from './Form.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
-  faArrowUpFromBracket
+  faArrowUpFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { faSave, faTrashCan } from '@fortawesome/free-regular-svg-icons';
@@ -25,7 +25,7 @@ Quill.register(
     'formats/emoji': quillEmoji.EmojiBlot,
     'modules/emoji-toolbar': quillEmoji.ToolbarEmoji,
     'modules/emoji-textarea': quillEmoji.TextAreaEmoji,
-    'modules/emoji-shortname': quillEmoji.ShortNameEmoji
+    'modules/emoji-shortname': quillEmoji.ShortNameEmoji,
   },
   true
 );
@@ -44,7 +44,7 @@ const Form = ({ publication } = null) => {
   const [imageFiles, setImageFiles] = useState(null);
   const [labels, setLabels] = useState({
     location: publication?.location || null,
-    category: publication?.category || { id: null }
+    category: publication?.category || { id: null },
   });
   const promptInput = useRef(null);
   const titleInput = useRef(null);
@@ -53,6 +53,48 @@ const Form = ({ publication } = null) => {
   const [QA, setQA] = useState([]);
   const [preguntas, setPreguntas] = useState([]);
   const [count, setCount] = useState(5);
+
+  const [categorias, setCategorias] = useState([]);
+  const [regiones, setRegiones] = useState([]);
+  const [currentRegion, setCurrentRegion] = useState('Región metropolitana');
+  const [currentComunas, setCurrentComunas] = useState('');
+
+  const loadComunas = () => {
+    const index = regiones.findIndex((region) => region.name === currentRegion);
+    const comunas = regiones[index]?.cities;
+    setCurrentComunas(comunas);
+  };
+
+  const getRegiones = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/regions`
+    );
+    const data = await response.json();
+    setRegiones(data);
+  };
+
+  const getCategories = async () => {
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/categories`
+    );
+    const data = await response.json();
+    const dataCapitalized = data.map((item) => {
+      item.name = capitalize(item.name);
+      return item;
+    });
+    setCategorias(dataCapitalized);
+  };
+
+  useEffect(() => {
+    getCategories();
+    getRegiones();
+  }, []);
+  useEffect(() => {
+    loadComunas();
+  }, [currentRegion]);
 
   const handleSave = async (event, isPublished = false) => {
     event.preventDefault();
@@ -70,7 +112,7 @@ const Form = ({ publication } = null) => {
     ) {
       toast('Todos los campos son obligatorios', {
         type: 'error',
-        autoClose: 3000
+        autoClose: 3000,
       });
       return;
     }
@@ -99,8 +141,8 @@ const Form = ({ publication } = null) => {
           formData,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            }
+              Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
           }
         )
         .then(
@@ -112,13 +154,13 @@ const Form = ({ publication } = null) => {
                 setTimeout(() => {
                   navigate('/admin/publications');
                 }, 3000);
-              }
+              },
             });
           },
           (error) => {
             toast('Error al Actualizar la publicación', {
               type: 'error',
-              autoClose: 3000
+              autoClose: 3000,
             });
           }
         );
@@ -127,14 +169,14 @@ const Form = ({ publication } = null) => {
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwt')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        },
       })
       .then(
         (response) => {
           toast('Publicación guardada correctamente', {
             type: 'success',
-            autoClose: 3000
+            autoClose: 3000,
             // onClose: () => {
             //   setTimeout(() => {
             //     navigate('/admin/publications');
@@ -145,7 +187,7 @@ const Form = ({ publication } = null) => {
         (error) => {
           toast('Error al guardar la publicación', {
             type: 'error',
-            autoClose: 3000
+            autoClose: 3000,
           });
         }
       );
@@ -164,13 +206,13 @@ const Form = ({ publication } = null) => {
             setTimeout(() => {
               navigate('/admin/publications');
             }, 3000);
-          }
+          },
         });
       })
       .catch((error) => {
         toast('Error al eliminar la publicación', {
           type: 'error',
-          autoClose: 3000
+          autoClose: 3000,
         });
       });
   };
@@ -182,7 +224,7 @@ const Form = ({ publication } = null) => {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'text-davinci-003',
@@ -192,8 +234,8 @@ const Form = ({ publication } = null) => {
         prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
   
-          '''${translatedText}'''`
-      })
+          '''${translatedText}'''`,
+      }),
     };
 
     try {
@@ -211,7 +253,7 @@ const Form = ({ publication } = null) => {
         return {
           index: item.index,
           question,
-          answer
+          answer,
         };
       });
 
@@ -233,7 +275,7 @@ const Form = ({ publication } = null) => {
         return {
           index,
           question: item.question,
-          answer: item.answer
+          answer: item.answer,
         };
       });
       setQA(dataChoices);
@@ -250,7 +292,7 @@ const Form = ({ publication } = null) => {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'text-davinci-003',
@@ -259,8 +301,8 @@ const Form = ({ publication } = null) => {
         n: 1,
         prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) ${customPrompt}
-          '''${originalText}'''`
-      })
+          '''${originalText}'''`,
+      }),
     };
 
     try {
@@ -281,7 +323,7 @@ const Form = ({ publication } = null) => {
       setIsLoading(false);
       toast('Error al traducir el texto', {
         type: 'error',
-        autoClose: 3000
+        autoClose: 3000,
       });
     }
   };
@@ -315,7 +357,7 @@ const Form = ({ publication } = null) => {
     setLabels((oldStateLabels) => {
       return {
         ...oldStateLabels,
-        location: { ...oldStateLabels.location, ...locationPartial }
+        location: { ...oldStateLabels.location, ...locationPartial },
       };
     });
   };
@@ -421,12 +463,12 @@ const Form = ({ publication } = null) => {
                           ['emoji', 'image'],
                           [{ color: [] }, { background: [] }],
                           [{ indent: '-1' }, { indent: '+1' }],
-                          [{ align: [] }]
-                        ]
+                          [{ align: [] }],
+                        ],
                       },
                       'emoji-toolbar': true,
                       'emoji-textarea': false,
-                      'emoji-shortname': true
+                      'emoji-shortname': true,
                     }}
                   />
                 </div>
@@ -443,11 +485,12 @@ const Form = ({ publication } = null) => {
                 className="w-full h-12 rounded-[8px] border-[2px] 
               border-[#00425A] bg-transparent px-3"
                 name="region"
-                onChange={(event) =>
+                onChange={(event) => {
+                  setCurrentRegion(event.target.value);
                   updateLocationLabels({
-                    region: { id: Number(event.target.value) || null }
-                  })
-                }
+                    region: { id: Number(event.target.value) || null },
+                  });
+                }}
               >
                 {publication?.location && (
                   <option value={publication.location.region.id}>
@@ -455,9 +498,10 @@ const Form = ({ publication } = null) => {
                   </option>
                 )}
                 <option value={null}>Sin region</option>
-                {[7, 8, 9].map((item) => (
-                  <option key={`${item}-region`} value={item}>
-                    Opcion {item}
+                <option value={'todas'}>Todas</option>
+                {regiones.map((item) => (
+                  <option key={item.id} value={item.name}>
+                    {item.name}
                   </option>
                 ))}
               </select>
@@ -470,7 +514,7 @@ const Form = ({ publication } = null) => {
                 name="comuna"
                 onChange={(event) =>
                   updateLocationLabels({
-                    city: { id: Number(event.target.value) || null }
+                    city: { id: Number(event.target.value) || null },
                   })
                 }
               >
@@ -479,26 +523,26 @@ const Form = ({ publication } = null) => {
                     {publication.location.city.name}
                   </option>
                 )}
-                <option value={null}>Sin comuna</option>
-                {[4, 5, 6].map((item) => (
-                  <option key={`${item}-comuna`} value={item}>
-                    Opcion {item}
-                  </option>
-                ))}
+                <option value={'todas'}>Todas</option>
+                {currentComunas &&
+                  currentComunas.map((item, id) => (
+                    <option key={id} value={id}>
+                      {item.name}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="w-full text-base font-sora">
-              <label className="flex h-5 w-5 mb-4">Categoria</label>
+              <label className="flex h-5 w-5 mb-4">Categoría</label>
               <select
                 className="w-full h-12 rounded-[8px] border-[2px] 
               border-[#00425A] bg-transparent px-3"
                 name="category"
-                placeholder="sdsd"
                 onChange={(event) =>
                   setLabels((oldState) => {
                     return {
                       ...oldState,
-                      category: { id: Number(event.target.value) || null }
+                      category: { id: Number(event.target.value) || null },
                     };
                   })
                 }
@@ -508,10 +552,10 @@ const Form = ({ publication } = null) => {
                     {publication.category.name}
                   </option>
                 )}
-                <option value={null}>Sin categoria</option>
-                {[1, 2, 3].map((item) => (
-                  <option key={`${item}-category`} value={item}>
-                    Opcion {item}
+                <option value={null}>Seleccione categoria</option>
+                {categorias.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
                   </option>
                 ))}
               </select>
