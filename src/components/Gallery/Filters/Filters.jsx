@@ -62,7 +62,7 @@ const Filters = ({filterOnClick}) => {
         <div
           className="relative inline-block"
         >
-          <div className="relative inline-blockrounded-lg">
+          <div className="relative inline-block rounded-lg">
             <select
               data-te-select-init
               data-te-select-filter="true"

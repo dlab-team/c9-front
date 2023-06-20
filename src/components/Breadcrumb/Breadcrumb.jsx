@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
 
 const Breadcrumb = ({ param } = null) => {
   const location = useLocation();
+  const { currentUser } = useContext(AuthContext);
 
   const paths = [
     {
@@ -15,6 +17,10 @@ const Breadcrumb = ({ param } = null) => {
 
   if (location.pathname.includes('mi-perfil')) {
     paths.push({ name: 'Mi Perfil', url: '/mi-perfil' });
+  }
+
+  if (location.pathname.includes('admin') && (!currentUser || !currentUser.isAdmin)) {
+    paths.push({ name: 'Publicaciones', url: '/admin/publications' });
   }
 
   if (location.pathname.includes('admin')) {
