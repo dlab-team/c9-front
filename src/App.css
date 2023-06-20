@@ -89,9 +89,7 @@ button {
   nav {
     background: none !important;
   }
-  .fa-circle-user {
-    display: none;
-  }
+  
   .input-search {
     width: 100%;
   }

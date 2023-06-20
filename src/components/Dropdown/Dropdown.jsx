@@ -42,7 +42,7 @@ const Dropdown = ({ isAdmin }) => {
   };
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative hidden sm:flex items-center">
       <button
         id="dropdownButton"
         data-dropdown-toggle="dropdownMenu"
