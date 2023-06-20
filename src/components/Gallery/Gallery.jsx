@@ -209,9 +209,7 @@ const Gallery = ({ searchValue = '' }) => {
                     />
                     <div className={`px-4 py-2 text-left`}>
                       <h1
-                        className={`text-xl leading-[1.2] text-md ${
-                          isSmallScreen ? 'text-sm' : ''
-                        }`}
+                        className={`text-base sm:text-xl leading-[1.2]`}
                       >
                         {publication.name}
                       </h1>
