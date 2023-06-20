@@ -497,8 +497,7 @@ const Form = ({ publication } = null) => {
                     {publication.location.region.name}
                   </option>
                 )}
-                <option value={null}>Sin region</option>
-                <option value={'todas'}>Todas</option>
+                <option value={null}>Todas</option>
                 {regiones.map((item) => (
                   <option key={item.id} value={item.name}>
                     {item.name}
