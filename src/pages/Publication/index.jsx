@@ -42,7 +42,6 @@ const Publication = () => {
 
   const setLocation = (location) => {
     let locationName = '';
-    console.log(location);
     if (
       location === null ||
       (location?.region === null && location?.city === null)
@@ -110,8 +109,8 @@ const Publication = () => {
     const divContent = document.getElementById('content-text');
     divContent.innerHTML = publication?.finalContent;
     if (carouselRef.current && publication) {
-        const dots = document.querySelectorAll('.control-dots .dot');
-        dots[0].click();
+      const dots = document.querySelectorAll('.control-dots .dot');
+      dots[0].click();
     }
   }, [publication]);
 
@@ -162,8 +161,8 @@ const Publication = () => {
                 className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
               >
                 <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
-                {publication?.category
-                  ? publication.category
+                {publication?.category.name
+                  ? publication.category.name
                   : 'Sin categoría'}
               </a>
             </div>
