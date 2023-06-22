@@ -161,7 +161,7 @@ const Publication = () => {
                 className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
               >
                 <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
-                {publication?.category.name
+                {publication?.category?.name
                   ? publication.category.name
                   : 'Sin categoría'}
               </a>

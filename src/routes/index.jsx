@@ -4,7 +4,6 @@ import AcercaDe from '../pages/AcercaDe';
 import Admin from '../pages/Admin';
 import AdminPublications from '../pages/Admin/Publications';
 import EditOne from '../pages/Admin/Publications/Edit';
-import ViewOne from '../pages/Admin/Publications/View';
 import AdminPublicationsNew from '../pages/Admin/Publications/new';
 import AdminUsers from '../pages/Admin/Users';
 import Home from '../pages/Home';
@@ -116,15 +115,6 @@ const AppRoutes = () => {
           element={
             <Layout>
               <EditOne />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="admin/publications/:slug"
-          element={
-            <Layout>
-              <ViewOne />
             </Layout>
           }
         />
