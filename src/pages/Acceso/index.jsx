@@ -14,6 +14,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/UI/Spinner';
 import { Link } from 'react-router-dom';
+import { Ripple, initTE,} from "tw-elements";
+
+initTE({ Ripple });
 
 const loginService = async (email, password) => {
   const endPoint = `${process.env.REACT_APP_BACKEND_URL}/users/auth`;
@@ -237,6 +240,8 @@ const Admin = () => {
                 {isLoading ? (
                 <button
                   type="submit"
+                  data-te-ripple-init
+                  data-te-ripple-color="light"
                   disabled={isLoading}
                   className={`${
                     isLoading

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -10,31 +10,8 @@ const Dropdown = ({ isAdmin }) => {
   const username = currentUser.username;
   const email = currentUser.email;
 
-  // set the dropdown menu element
-  const $targetEl = document.getElementById('dropdownMenu');
-
-  // set the element that trigger the dropdown menu on click
-  const $triggerEl = document.getElementById('dropdownButton');
-
-  // options with default values
-  const options = {
-    placement: 'bottom',
-    triggerType: 'click',
-    offsetSkidding: 0,
-    offsetDistance: 10,
-    delay: 300,
-    onHide: () => {
-      setIsOpen(false);
-      console.log('dropdown has been hidden');
-    },
-    onShow: () => {
-      setIsOpen(true);
-      console.log('dropdown has been shown');
-    },
-    onToggle: () => {
-      setIsOpen((prevState) => !prevState);
-      console.log('dropdown has been toggled');
-    },
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
   };
 
   const handleLogout = () => {
@@ -48,20 +25,21 @@ const Dropdown = ({ isAdmin }) => {
         data-dropdown-toggle="dropdownMenu"
         className="flex mx-3 text-sm rounded-full md:mr-0"
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+
+        onClick={handleToggle}
       >
         <span className="sr-only">Open user menu</span>
         <FontAwesomeIcon className="text-4xl text-yellow" icon={faCircleUser} />
-        <span class="w-2 my-auto xs:hidden md:block">
+        <span className="w-2 my-auto xs:hidden md:block">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
             className="h-5 w-5 text-yellow">
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd" />
+              clipRule="evenodd" />
           </svg>
         </span>
       </button>
@@ -70,11 +48,11 @@ const Dropdown = ({ isAdmin }) => {
         id="dropdownMenu"
         className={`absolute z-50 ${
           isOpen ? '' : 'hidden'
-        } bg-white divide-y divide-gray-200 rounded-lg shadow-lg w-44`}
+        } bg-white divide-y divide-gray-200 rounded-lg shadow-2xl w-44`}
         style={{
           top: '100%',
           left: '50%',
-          transform: 'translateX(-50%)',
+          transform: 'translateX(-50%)'
         }}
       >
         <div className="px-4 py-3 text-sm text-primary dark:text-white">
@@ -82,13 +60,13 @@ const Dropdown = ({ isAdmin }) => {
           <div className="font-medium truncate">{email}</div>
         </div>
         <ul
-          className="py-2 text-sm text-gray-700 dark:text-gray-200"
+          className="py-2 text-sm text-gray-700 dark:text-gray-200 transition duration-300"
           aria-labelledby="dropdownUserAvatarButton"
         >
           <li>
             <Link
               to="/mi-perfil"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-600 dark:hover:text-white transition duration-300"
             >
               Mi Perfil
             </Link>
@@ -96,7 +74,7 @@ const Dropdown = ({ isAdmin }) => {
           <li>
             <Link
               to="/admin/publications"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-600 dark:hover:text-white transition duration-300"
             >
               Publicaciones
             </Link>
@@ -105,7 +83,7 @@ const Dropdown = ({ isAdmin }) => {
             <li>
               <Link
                 to="/admin/users"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-600 dark:hover:text-white transition duration-300"
               >
                 Usuarios
               </Link>
@@ -115,7 +93,7 @@ const Dropdown = ({ isAdmin }) => {
         <div className="py-2">
           <button
             onClick={handleLogout}
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white transition duration-300"
           >
             Cerrar Sesión
           </button>
