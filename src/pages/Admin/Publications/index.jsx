@@ -27,7 +27,7 @@ const AdminPublications = () => {
   const updatePublications = (newPublications) =>
     setPublications(newPublications);
 
-  const totalPublications = publications.length;
+  const totalPublications = publications?.length || 0;
 
   return (
     <>

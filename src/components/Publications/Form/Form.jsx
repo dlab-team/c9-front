@@ -56,11 +56,11 @@ const Form = ({ publication } = null) => {
 
   const [categorias, setCategorias] = useState([]);
   const [regiones, setRegiones] = useState([]);
-  const [currentRegion, setCurrentRegion] = useState('Región metropolitana');
+  const [currentRegion, setCurrentRegion] = useState(publication?.location?.region.id || null);
   const [currentComunas, setCurrentComunas] = useState('');
 
   const loadComunas = () => {
-    const index = regiones.findIndex((region) => region.name === currentRegion);
+    const index = regiones.findIndex((region) => region.id === currentRegion);
     const comunas = regiones[index]?.cities;
     setCurrentComunas(comunas);
   };
@@ -94,7 +94,7 @@ const Form = ({ publication } = null) => {
   }, []);
   useEffect(() => {
     loadComunas();
-  }, [currentRegion]);
+  }, [currentRegion, regiones]);
 
   const handleSave = async (event, isPublished = false) => {
     event.preventDefault();
@@ -486,7 +486,7 @@ const Form = ({ publication } = null) => {
               border-[#00425A] bg-transparent px-3"
                 name="region"
                 onChange={(event) => {
-                  setCurrentRegion(event.target.value);
+                  setCurrentRegion(Number(event.target.value) || null);
                   updateLocationLabels({
                     region: { id: Number(event.target.value) || null },
                   });
@@ -499,7 +499,7 @@ const Form = ({ publication } = null) => {
                 )}
                 <option value={null}>Todas</option>
                 {regiones.map((item) => (
-                  <option key={item.id} value={item.name}>
+                  <option key={item.id} value={item.id}>
                     {item.name}
                   </option>
                 ))}
@@ -524,8 +524,8 @@ const Form = ({ publication } = null) => {
                 )}
                 <option value={'todas'}>Todas</option>
                 {currentComunas &&
-                  currentComunas.map((item, id) => (
-                    <option key={id} value={id}>
+                  currentComunas.map((item, index) => (
+                    <option key={`cmunnas-${index}`} value={item.id}>
                       {item.name}
                     </option>
                   ))}
