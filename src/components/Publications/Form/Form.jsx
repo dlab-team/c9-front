@@ -56,7 +56,9 @@ const Form = ({ publication } = null) => {
 
   const [categorias, setCategorias] = useState([]);
   const [regiones, setRegiones] = useState([]);
-  const [currentRegion, setCurrentRegion] = useState(publication?.location?.region.id || null);
+  const [currentRegion, setCurrentRegion] = useState(
+    publication?.location?.region.id || null
+  );
   const [currentComunas, setCurrentComunas] = useState('');
 
   const loadComunas = () => {
@@ -145,25 +147,17 @@ const Form = ({ publication } = null) => {
             },
           }
         )
-        .then(
-          (response) => {
-            toast('Publicación Actualizada correctamente', {
-              type: 'success',
-              autoClose: 3000,
-              onClose: () => {
-                setTimeout(() => {
-                  navigate('/admin/publications');
-                }, 3000);
-              },
-            });
-          },
-          (error) => {
-            toast('Error al Actualizar la publicación', {
-              type: 'error',
-              autoClose: 3000,
-            });
-          }
-        );
+        .then((response) => {
+          toast('Publicación Actualizada correctamente', {
+            type: 'success',
+            autoClose: 3000,
+            onClose: () => {
+              setTimeout(() => {
+                navigate('/admin/publications');
+              }, 3000);
+            },
+          });
+        });
     }
 
     axios
