@@ -8,7 +8,7 @@ import LogoKodea from '../../assets/images/kodea_blanco.png';
 
 const Footer = () => {
   return (
-    <footer className="px-4 lg:text-left mt-8 py-8 bg-secondary">
+    <footer className="px-4 lg:text-left py-8 bg-secondary">
       <div className="container gap-2 mx-auto flex flex-col md:flex-row md:justify-between">
         <div className="flex justify-center md:justify-start">
           <Link to="/" className=''>

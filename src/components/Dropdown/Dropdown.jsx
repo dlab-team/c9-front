@@ -19,7 +19,7 @@ const Dropdown = ({ isAdmin }) => {
   };
 
   return (
-    <div className="relative hidden sm:flex items-center">
+    <div className="relative hidden sm:flex items-center mr-5">
       <button
         id="dropdownButton"
         data-dropdown-toggle="dropdownMenu"
@@ -52,7 +52,7 @@ const Dropdown = ({ isAdmin }) => {
         style={{
           top: '100%',
           left: '50%',
-          transform: 'translateX(-50%)'
+          transform: 'translateX(-60%)'
         }}
       >
         <div className="px-4 py-3 text-sm text-primary dark:text-white">
