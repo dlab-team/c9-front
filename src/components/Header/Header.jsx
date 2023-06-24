@@ -42,7 +42,7 @@ const Header = ({ isAdmin }) => {
             </div>
             <input
               type="text"
-              className="input-search border-2 border-yellow pl-10 pr-3 py-1 rounded-full min-h-10 text-blue-800 placeholder-blue-900"
+              className="input-search border-2 border-yellow pl-10 mr-3 py-1 rounded-full min-h-10 text-blue-800 placeholder-blue-900"
               placeholder="Encontrar"
               value={inputSearchValue}
               onChange={(event) => setInputSearchValue(event.target.value)}
@@ -51,13 +51,13 @@ const Header = ({ isAdmin }) => {
           </div>
         </div>
         <MobileMenu />
-        <Link to="/acerca-de" className="hidden sm:flex sm:right-0 sm:relative sm:top-0 items-center justify-center ms-5">
+        <Link to="/acerca-de" className="hidden sm:flex sm:right-0 sm:relative sm:top-0 items-center justify-center">
           <Tooltip title="Acerca de InnovaXD" position="top" arrow={true}>
             <img src={logoYellowS} alt="Una imagen del Logo de Innova" />
           </Tooltip>
         </Link>
         {currentUser ? (
-          <Dropdown isAdmin={currentUser.isAdmin} />
+          <Dropdown className="pl-3" isAdmin={currentUser.isAdmin} />
         ) : (
           <Link to="/acceso" className="hidden sm:flex items-center justify-center mx-3">
             <Tooltip title="Acceder" position="top" arrow={true}>

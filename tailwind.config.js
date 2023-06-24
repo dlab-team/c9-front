@@ -23,6 +23,7 @@ module.exports = {
         'orange-button': '#FF8552',
         'delete-button': '#EE3C3C',
       },
+    
     },
   },
   darkMode: 'class',
