@@ -2,7 +2,6 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
 import logoYellowS from '../../assets/images/logo_innova_yellow_s.png';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
@@ -64,14 +63,15 @@ export const MobileMenu = () => {
             className="w-[70%] h-full bg-secondary border-l border-gray-600"
           >
             {/* Contenido del menu*/}
-            <Link to="/acerca-de" className="flex items-center w-16 mt-6 ml-4">
-              <Tooltip title="Acerca de InnovaXD" position="top" arrow={true}>
-                <img src={logoYellowS} alt="Una imagen del Logo de Innova" />
-              </Tooltip>
-            </Link>
+            
             <div className="py-4 px-6 text-white">
+              <Link to="/acerca-de" className="flex items-center mt-10 mb-3 ml-[-4px] hover:bg-blue-200/40 hover:text-primary"
+              >
+                <img src={logoYellowS} alt="Una imagen del Logo de Innova" />
+                  Acerca de Innova XD
+              </Link>
               {!currentUser && (
-                <Link to="/acceso" className="flex items-center mt-2 ml-[-4px]">
+                <Link to="/acceso" className="flex items-center mt-2 ml-[-4px] hover:bg-blue-200/40 hover:text-primary">
                   <FontAwesomeIcon
                     className="h-8 mr-2 text-primary"
                     icon={faCircleUser}
@@ -81,15 +81,15 @@ export const MobileMenu = () => {
               )}
               {currentUser && (
                 <>
-                  <ul className="">
+                  <ul>
                     <li className="flex flex-col">
-                      <span className="font-semibold text-primary">
+                      <span className="font-semibold text-yellow">
                         {currentUser?.username}
                       </span>
-                      <span className="font-light">{currentUser?.email}</span>
+                      <span className="font-light text-gray-300">{currentUser?.email}</span>
                       <Link
                         to="/mi-perfil"
-                        className="block mt-2 hover:bg-gray-100  hover:text-black"
+                        className="block mt-2 py-1 hover:bg-blue-200/40 hover:text-primary"
                       >
                         Mi Perfil
                       </Link>
@@ -97,13 +97,13 @@ export const MobileMenu = () => {
                   </ul>
                   <hr className="my-4" />
                   <ul className={`${currentUser ? '' : 'hidden'}`}>
-                    <span className="text-primary font-semibold text-sm">
+                    <span className="text-yellow font-semibold text-sm">
                       Administración
                     </span>
                     <li>
                       <Link
                         to="/admin/publications"
-                        className="block py-1 mt-1 hover:bg-gray-100 hover:text-black"
+                        className="block py-1 mt-1 hover:bg-blue-200/40 hover:text-primary"
                       >
                         Publicaciones
                       </Link>
@@ -112,7 +112,7 @@ export const MobileMenu = () => {
                       <li>
                         <Link
                           to="/admin/users"
-                          className="block py-1 hover:bg-gray-100  hover:text-black"
+                          className="block py-1 hover:bg-blue-200/40 hover:text-primary"
                         >
                           Usuarios
                         </Link>
@@ -124,7 +124,7 @@ export const MobileMenu = () => {
                     onClick={() => {
                       setUserLogout();
                     }}
-                    className="block w-full text-start text-base hover:bg-gray-100  hover:text-black"
+                    className="block w-full py-2 text-start text-base hover:bg-blue-200/40 hover:text-primary"
                   >
                     Cerrar Sesión
                   </button>

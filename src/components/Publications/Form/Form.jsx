@@ -365,7 +365,7 @@ const Form = ({ publication } = null) => {
   return (
     <>
       <ToastContainer></ToastContainer>
-      <div>
+      <div className='mb-8'>
         <form onSubmit={(event) => event.preventDefault()}>
           <div className="container mx-auto py-6">
             <h2 className="page-title">Traducir noticia</h2>

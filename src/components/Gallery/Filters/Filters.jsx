@@ -120,7 +120,7 @@ const Filters = ({filterOnClick}) => {
           onClick={() => filterOnClick()}
         >
           <FontAwesomeIcon icon={faFilter} className="h-6" />
-          <span className="text-primary text-xs">Filtrar</span>
+          <span className="text-primary leading-3 text-xs">Filtrar</span>
         </button>
         <button
           type="button"
