@@ -8,8 +8,6 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
 import { faTag } from '@fortawesome/free-solid-svg-icons';
 import './index.css';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Importa los estilos del carrusel
-import { Carousel } from 'react-responsive-carousel'; // Importa el componente de carrusel
 
 import bgIzq from '../../assets/images/bg-izq.png';
 import bgDer from '../../assets/images/bg-der.png';
@@ -122,7 +120,7 @@ const Publication = () => {
         </div>
       </div>
       <div className={loading ? 'hidden' : ''}>
-        <div className="container container-flex mx-auto py-7 my-3">
+        <div className="container container-flex mx-auto py-7 my-3 px-8">
           <Link to="/">
             <button
               type="button"
@@ -134,7 +132,7 @@ const Publication = () => {
           </Link>
           <h1 className="innova-title pt-5">{publication?.name}</h1>
           <div className="mt-2 flex justify-between">
-            <div className="inline-block whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+            <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
               {' '}
               <FontAwesomeIcon
                 icon={faCircleUser}
@@ -168,49 +166,44 @@ const Publication = () => {
             </div>
           </div>
         </div>
-        <Carousel
-          ref={carouselRef}
-          showStatus={false}
-          showThumbs={false}
-          centerMode
-          centerSlidePercentage={60}
-          autoPlay={true} // Se le agrega autoplay al carrusel
-          interval={5000} // se le define un intervalo
-          infiniteLoop
-          className="pb-4 mt-0 w-full"
-        >
-          {publication?.images.map((img, index) => (
-            <div key={`img_${index}`}>
-              <img
-                className="imgSlide w-full"
-                src={img.url}
-                alt={`Imagen ${index}`}
+        <div className="flex mb-5">
+          {publication?.images.length > 0 && (
+            <img
+              className="imgSingle mx-auto max-w-[92%] md:w-[80%] rounded-md shadow-lg shadow-gray-300"
+              src={publication.images[0].url}
+              alt="Imagen principal"
+            />
+          )}
+        </div>
+        <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+              {' '}
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                className="pe-2 text-white"
               />
-            </div>
-          ))}
-        </Carousel>
-
+              {publication?.author}
+        </div>
         <div className="publication-content relative">
-          <div className="absolute right-0 w-[40%] md:w-52 lg:w-1/5 opacity-50">
+          <div className="absolute right-0 w-[40%] md:w-[16%] opacity-40">
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
-          <div className="absolute left-0 bottom-0 w-[50%] md:w-72 lg:w-1/5 opacity-50">
+          <div className="absolute left-0 bottom-0 w-[55%] md:w-[18%] opacity-40">
             <img src={bgIzq} alt="Blob Izquierdo" />
           </div>
 
-          <div className="relative container mx-auto w-5/5 lg:w-4/5 py-4 whitespace-wrap">
-            <div className="grid grid-cols-8 gap-4">
-              <div className="col-span-1">
+          <div className="relative container mx-auto w-5/5 lg:w-4/5 py-4 whitespace-normal">
+            <div className="grid grid-cols-12 md:grid-cols-8 gap-2 md:gap-4">
+              <div className="col-span-2 md:col-span-1">
                 {formatFecha(publication?.publicationDate)}
               </div>
-              <div className="col-span-7">
+              <div className="col-span-10 md:col-span-7">
                 <div id="content-text" className="innova-text"></div>
               </div>
             </div>
           </div>
 
-          <div className="relative innova-text container w-5/5 lg:w-4/5 mx-auto py-4">
+          <div className="relative innova-text container w-5/5 lg:w-4/5 mx-auto py-5">
             <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
             <div className="innova-text">
               {publication?.questions.map((item, index) => (

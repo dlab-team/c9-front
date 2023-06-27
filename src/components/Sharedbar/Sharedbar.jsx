@@ -55,6 +55,7 @@ const Sharedbar = ({ description }) => {
             {/* Whatsapp */}
             <a
               href={`https://api.whatsapp.com/send/?text=${url}&type=custom_url&app_absent=0`}
+              target='_blank'
               className='p-1 rounded-full bg-green-500 text-white w-12 h-12 flex items-center justify-center shadow-md hover:opacity-75'
             >
               <FontAwesomeIcon icon={faWhatsapp} className='text-3xl' />
