@@ -61,9 +61,7 @@ export const MobileMenu = () => {
         >
           <div className="bg-black h-full w-[30%] opacity-60"></div>
           <div
-            className="w-[70%] h-full bg-secondary border-l border-gray-600
-            
-            "
+            className="w-[70%] h-full bg-secondary border-l border-gray-600"
           >
             {/* Contenido del menu*/}
             <Link to="/acerca-de" className="flex items-center w-16 mt-6 ml-4">
@@ -105,7 +103,7 @@ export const MobileMenu = () => {
                     <li>
                       <Link
                         to="/admin/publications"
-                        className="block py-1  mt-1 hover:bg-gray-100 hover:text-black"
+                        className="block py-1 mt-1 hover:bg-gray-100 hover:text-black"
                       >
                         Publicaciones
                       </Link>

@@ -4,6 +4,7 @@ import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { Select, Ripple, initTE } from "tw-elements";
 import { FiltersContext } from "../../../context/FiltersContext";
 
+
 // TODO: traer esta data desde el back
 
 function capitalize(str) {
@@ -52,17 +53,8 @@ const Filters = ({filterOnClick}) => {
   };
 
   return (
-      <div className="mb-[2em] p-0 sm:gap-4 container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
-        <div className='flex mt-2 gap-2'>
-        <button 
-          type="button" 
-          data-te-ripple-init
-          data-te-ripple-color="light"
-          className="sm:hidden flex items-center mr-2"
-          onClick={() => filterOnClick()}
-        >
-          <FontAwesomeIcon icon={faFilter} className="text-secondary h-6" />
-        </button>
+      <div className="container mx-auto flex justify-center md:justify-end my-8">
+        <div className='flex gap-2'>
         <div
           className="relative inline-block"
         >
@@ -74,7 +66,7 @@ const Filters = ({filterOnClick}) => {
                 updateFilters({region: Number(e.target.value) || 'todas', city: 'todas'});
               }}
             >
-              <option value={"todas"}>Todas</option>
+              <option className="max-h-2 overflow-auto" value={"todas"}>Todas</option>
               {regiones.map((item) => (
                 <option key={'regions-'+item.id} value={item.id}>
                   {item.name}
@@ -120,6 +112,16 @@ const Filters = ({filterOnClick}) => {
           </select>
           <label data-te-select-label-ref>Categoría</label>
         </div>
+        <button 
+          type="button" 
+          data-te-ripple-init
+          data-te-ripple-color="light"
+          className="sm:hidden flex flex-col items-center text-secondary"
+          onClick={() => filterOnClick()}
+        >
+          <FontAwesomeIcon icon={faFilter} className="h-6" />
+          <span className="text-primary text-xs">Filtrar</span>
+        </button>
         <button
           type="button"
           data-te-ripple-init
