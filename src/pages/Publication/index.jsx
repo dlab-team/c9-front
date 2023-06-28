@@ -120,7 +120,7 @@ const Publication = () => {
         </div>
       </div>
       <div className={loading ? 'hidden' : ''}>
-        <div className="container container-flex mx-auto py-7 my-3 px-8">
+        <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96">
           <Link to="/">
             <button
               type="button"
@@ -130,6 +130,7 @@ const Publication = () => {
               Volver
             </button>
           </Link>
+        
           <h1 className="innova-title pt-5">{publication?.name}</h1>
           <div className="mt-2 flex justify-between">
             <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
@@ -165,42 +166,47 @@ const Publication = () => {
               </a>
             </div>
           </div>
-        </div>
-        <div className="flex mb-5">
-          {publication?.images.length > 0 && (
-            <img
-              className="imgSingle mx-auto max-w-[92%] md:w-[80%] rounded-md shadow-lg shadow-gray-300"
-              src={publication.images[0].url}
-              alt="Imagen principal"
-            />
-          )}
-        </div>
-        <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
-          {' '}
-          <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-white" />
-          {publication?.author}
-        </div>
-        <div className="publication-content relative">
-          <div className="absolute right-0 w-[40%] md:w-[16%] opacity-40">
+          </div>
+          <div className="flex mb-3 md:mb-8">
+            {publication?.images.length > 0 && (
+              <img
+                className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-300"
+                src={publication.images[0].url}
+                alt="Imagen principal"
+              />
+            )}
+          </div>
+
+          <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+                {' '}
+                <FontAwesomeIcon
+                  icon={faCircleUser}
+                  className="pe-2 text-white"
+                />
+                {publication?.author}
+          </div>
+        
+        <div className="publication-content md:px-14 lg:px-40 relative">
+          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] opacity-40">
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
-          <div className="absolute left-0 bottom-0 w-[55%] md:w-[18%] opacity-40">
+          <div className="absolute left-0 bottom-0 w-[55%] md:w-[24%] lg:w-[18%] opacity-40">
             <img src={bgIzq} alt="Blob Izquierdo" />
           </div>
 
-          <div className="relative container mx-auto w-5/5 lg:w-4/5 py-4 whitespace-normal">
-            <div className="grid grid-cols-12 md:grid-cols-8 gap-2 md:gap-4">
-              <div className="col-span-2 md:col-span-1">
+          <div className="relative container mx-auto whitespace-normal">
+            <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
+              <div className="col-span-1">
                 {formatFecha(publication?.publicationDate)}
               </div>
-              <div className="col-span-10 md:col-span-7">
+              <div className="col-span-6 md:col-span-7">
                 <div id="content-text" className="innova-text"></div>
               </div>
             </div>
           </div>
 
-          <div className="relative innova-text container w-5/5 lg:w-4/5 mx-auto py-5">
+          <div className="relative innova-text container w-5/5 mx-auto py-5">
             <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
             <div className="innova-text">
               {publication?.questions.map((item, index) => (
