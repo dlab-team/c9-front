@@ -8,11 +8,15 @@ import LogoKodea from '../../assets/images/kodea_blanco.png';
 
 const Footer = () => {
   return (
-    <footer className="px-4 lg:text-left py-8 bg-secondary">
+    <footer className="px-4 lg:text-left py-8 bg-secondary mt-6">
       <div className="container gap-2 mx-auto flex flex-col md:flex-row md:justify-between">
         <div className="flex justify-center md:justify-start">
-          <Link to="/" className=''>
-            <img src={LogoYellow} alt="LogoYellow" className="h-16 md:h-20 rounded-lg" />
+          <Link to="/" className="">
+            <img
+              src={LogoYellow}
+              alt="LogoYellow"
+              className="h-16 md:h-20 rounded-lg"
+            />
           </Link>
         </div>
         <div className="flex md:w-[50%] justify-end place-items-center place-self-center gap-2 md:gap-2">
@@ -31,18 +35,10 @@ const Footer = () => {
             />
           </Link>
           <Link to="">
-            <img
-              src={LogoAdl}
-              alt="Logo ADL"
-              className="w-18 md:w-28"
-            />
+            <img src={LogoAdl} alt="Logo ADL" className="w-18 md:w-28" />
           </Link>
           <Link to="">
-            <img
-              src={LogoKodea}
-              alt="Logo de Kodea"
-              className="w-18 md:w-24"
-            />
+            <img src={LogoKodea} alt="Logo de Kodea" className="w-18 md:w-24" />
           </Link>
         </div>
       </div>
