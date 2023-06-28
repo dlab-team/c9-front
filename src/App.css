@@ -89,7 +89,6 @@ button {
   nav {
     background: none !important;
   }
-  
   .input-search {
     width: 100%;
   }
@@ -101,7 +100,6 @@ button {
   }
   .input-search-two {
     width: 50%;
-    display: none;
   }
   .container-flex-two {
     width: 12%;
