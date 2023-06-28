@@ -6,13 +6,12 @@ import UserList from '../../../components/Users/List';
 import { AuthContext } from '../../../context/AuthContext/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 
-const getUsersAllService = async token => {
+const getUsersAllService = async (token) => {
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/users`;
   try {
-    const response = await axios.get(endpoint, { headers: { Authorization: `Bearer ${token}` } });
-    if (response.status !== 200) {
-      throw new Error('Error al obtener los usuarios');
-    }
+    const response = await axios.get(endpoint, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   } catch (error) {
     throw new Error('Error al obtener los usuarios');
@@ -31,22 +30,22 @@ const AdminUsers = () => {
       setIsLoading(false);
     };
 
-    getUsers().catch(error => {
-      setIsLoading(false);
-      return toast(error.message, {
-        type: 'error',
-        autoClose: 3000
-      });
-    });
+    getUsers();
   }, []);
 
   return (
     <>
       <ToastContainer />
       <div className="container mx-auto">
-        <h1 className="my-3 breadcrumb-title">Listado de usuarios ({users.length})</h1>
+        <h1 className="my-3 breadcrumb-title">
+          Listado de usuarios ({users.length})
+        </h1>
         <Breadcrumb />
-        <div className={`h-96 flex items-center justify-center ${isLoading ? 'block' : 'hidden'}`}>
+        <div
+          className={`h-96 flex items-center justify-center ${
+            isLoading ? 'block' : 'hidden'
+          }`}
+        >
           <Spinner />
         </div>
         <div className={`${isLoading ? 'hidden' : 'block'}`}>
