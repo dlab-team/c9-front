@@ -633,7 +633,7 @@ const Form = ({ publication } = null) => {
                 : null}
             </ul>
           </div>
-          <div className="mt-10 sm:flex gap-4 h-10">
+          <div className="mt-10 mb-4 flex flex-wrap gap-4 h-10">
             <ButtonBase
               className={'bg-primary text-white px-6'}
               onClick={(event) => handleSave(event, true)}
