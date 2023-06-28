@@ -10,19 +10,24 @@ const UserList = ({ users }) => {
   const columns = useMemo(
     () => [
       {
-        width: '10px'
+        width: '10px',
       },
       {
         name: 'Email',
-        selector: row => row.email,
+        selector: (row) => row.email,
         minWidth: '200px',
         maxWidth: '350px',
-        wrap: true
+        wrap: true,
       },
       {
         name: 'Nombre',
-        selector: row => row.name,
-        wrap: true
+        selector: (row) => row.name,
+        wrap: true,
+      },
+      {
+        name: 'Username',
+        selector: (row) => row.username,
+        wrap: true,
       },
       {
         name: 'Estado',
@@ -37,19 +42,22 @@ const UserList = ({ users }) => {
               {row.enabled ? 'Activado' : 'Desactivado'}
             </span>
           );
-        }
+        },
       },
       {
         name: 'Opciones',
         width: '140px',
         style: {
           display: 'flex',
-          'justify-content': 'center'
+          'justify-content': 'center',
         },
         cell: (row, index, column, id) => {
           return (
             <div className="flex gap-4 items-center justify-end">
-              <Link to={`/admin/users/edit/${row.id}`} className="flex items-center">
+              <Link
+                to={`/admin/users/edit/${row.id}`}
+                className="flex items-center"
+              >
                 <FontAwesomeIcon
                   icon={faPenToSquare}
                   className="h-5 text-gray-700 cursor-pointer "
@@ -57,8 +65,8 @@ const UserList = ({ users }) => {
               </Link>
             </div>
           );
-        }
-      }
+        },
+      },
     ],
     []
   );
@@ -76,7 +84,7 @@ const UserList = ({ users }) => {
         pagination
         paginationComponentOptions={{
           rowsPerPageText: 'Filas por página',
-          rangeSeparatorText: 'de'
+          rangeSeparatorText: 'de',
         }}
         paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
         highlightOnHover

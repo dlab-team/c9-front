@@ -176,12 +176,9 @@ const Publication = () => {
           )}
         </div>
         <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
-              {' '}
-              <FontAwesomeIcon
-                icon={faCircleUser}
-                className="pe-2 text-white"
-              />
-              {publication?.author}
+          {' '}
+          <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-white" />
+          {publication?.author}
         </div>
         <div className="publication-content relative">
           <div className="absolute right-0 w-[40%] md:w-[16%] opacity-40">
