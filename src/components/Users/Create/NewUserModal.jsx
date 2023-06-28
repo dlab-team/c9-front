@@ -1,25 +1,37 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CreateUserForm from './CreateUserForm';
 import { useState } from 'react';
-import { faCirclePlus, faEnvelopeCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCirclePlus,
+  faEnvelopeCircleCheck,
+} from '@fortawesome/free-solid-svg-icons';
 
 const NewUserModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSuccess, setIsSucces] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleOpenOrCloseModal = () => {
     setIsOpen(!isOpen);
-    setIsSucces(false);
+    setIsSuccess(false);
+
+    if(isSuccess){
+      location.reload();
+    }
   };
 
   const handleCreateUser = () => {
-    const createUserButtonSubmit = document.getElementById('createUserButtonSubmit');
+    const createUserButtonSubmit = document.getElementById(
+      'createUserButtonSubmit'
+    );
     createUserButtonSubmit.click();
   };
 
   return (
     <>
-      <div className="w-fit flex justify-center items-center" onClick={handleOpenOrCloseModal}>
+      <div
+        className="w-fit flex justify-center items-center"
+        onClick={handleOpenOrCloseModal}
+      >
         <button className="flex gap-4 rounded bg-secondary text-white items-center max-w-fit h-10 px-4">
           <div className="grid place-content-center bg-white rounded-full w-5 h-5">
             <FontAwesomeIcon icon={faCirclePlus} className="h-7 text-primary" />
@@ -72,13 +84,22 @@ const NewUserModal = () => {
                   stroke="currentColor"
                   className="h-6 w-6"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
 
             {/*<!--Modal body-->*/}
-            {!isSuccess && <CreateUserForm clearFormData={isOpen} setIsSucces={setIsSucces} />}
+            {!isSuccess && (
+              <CreateUserForm
+                clearFormData={isOpen}
+                setIsSuccess={setIsSuccess}
+              />
+            )}
             {isSuccess && (
               <div className="relative text-center p-6 w-full h-[300px]">
                 <h3 className="text-xl font-bold">Registrado Correctamente</h3>
@@ -91,8 +112,8 @@ const NewUserModal = () => {
                   </div>
                 </div>
                 <p className="text-gray-500 text-lg">
-                  Se ha enviado un correo electrónico al usuario registrado para completar el
-                  proceso
+                  Se ha enviado un correo electrónico al usuario registrado para
+                  completar el proceso
                 </p>
               </div>
             )}
