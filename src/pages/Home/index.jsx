@@ -33,7 +33,7 @@ const Home = () => {
 
   return (
     <div className="container mx-auto">
-      <main>
+      <main className='md:px-5'>
         <Gallery />
       </main>
       {showButton && (

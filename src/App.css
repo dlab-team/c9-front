@@ -89,9 +89,6 @@ button {
   nav {
     background: none !important;
   }
-  .fa-circle-user {
-    display: none;
-  }
   .input-search {
     width: 100%;
   }
@@ -103,7 +100,6 @@ button {
   }
   .input-search-two {
     width: 50%;
-    display: none;
   }
   .container-flex-two {
     width: 12%;

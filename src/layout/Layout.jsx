@@ -7,12 +7,12 @@ import { SearchContextProvider } from '../context';
 const Layout = ({ children }) => {
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className='flex flex-col min-h-screen'>
         <SearchContextProvider>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className='flex-1'>{children}</main>
           <Footer />
-          <Sharedbar />
+          <Sharedbar description={'Innova XD '} />
         </SearchContextProvider>
       </div>
     </>

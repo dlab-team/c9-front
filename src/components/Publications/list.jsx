@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ButtonBase, ButtonConfirmationModal, Spinner } from '../UI';
 import ListDesktop from './ListDesktop';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
+import ListMobile from './ListMobile';
 
 const PublicationsTable = ({ publications, updatePublications }) => {
   const { currentUser } = useContext(AuthContext);
@@ -133,7 +134,7 @@ const PublicationsTable = ({ publications, updatePublications }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="">
       <ToastContainer />
 
       {isLoading && (
@@ -141,13 +142,13 @@ const PublicationsTable = ({ publications, updatePublications }) => {
           <Spinner />
         </div>
       )}
-      <div className={`mt-2 w-full ${isLoading ? 'opacity-50' : ''} `}>
-        <div className="flex justify-end mb-4">
+      <div className={`relative mt-2 w-full ${isLoading ? 'opacity-50' : ''} `}>
+        <div className="flex mb-4 max-md:justify-center md:justify-end ">
           <div
             className={`${!hasSelectedPublications ? 'hidden' : ''} 
-        flex flex-col gap-2 mx-4 md:gap-4 md:flex-row w-full`}
+            max-md:fixed flex-wrap max-md:bg-white max-md:bottom-0 max-md:h-16 
+            max-md:items-center max-md:justify-center gap-2 flex md:gap-4 md:flex-row w-full`}
           >
-            <div className="flex md:flex-row gap-2 md:gap-4">
               <ButtonBase
                 className={'bg-primary text-white'}
                 onClick={() => handlePublishOrUnpublish(true)}
@@ -162,7 +163,6 @@ const PublicationsTable = ({ publications, updatePublications }) => {
                 <FontAwesomeIcon icon={faArrowUpFromBracket} className="rotate-180" />
                 Despublicar
               </ButtonBase>
-            </div>
             <ButtonConfirmationModal
               title={'Eliminar publicaciones seleccionadas'}
               bodyText={'¿Está seguro que desea eliminar las publicaciones seleccionadas?'}
@@ -179,8 +179,14 @@ const PublicationsTable = ({ publications, updatePublications }) => {
               }
             />
           </div>
-
-          <Link to="/admin/publications/new">
+          <Link to="/admin/publications/new" className='h-10 bottom-16 mb-4 text-primary md:hidden fixed right-2'>
+            <button className="flex gap-4 rounded items-center max-w-fit h-10 px-4">
+              <div className="grid place-content-center bg-white rounded-full w-5 h-5">
+                <FontAwesomeIcon icon={faCirclePlus} className="h-10 text-primary" />
+              </div>
+            </button>
+          </Link>
+          <Link to="/admin/publications/new" className='max-md:hidden'>
             <button className="flex gap-4 rounded bg-secondary text-white items-center max-w-fit h-10 px-4">
               <div className="grid place-content-center bg-white rounded-full w-5 h-5">
                 <FontAwesomeIcon icon={faCirclePlus} className="h-7 text-primary" />
@@ -189,13 +195,17 @@ const PublicationsTable = ({ publications, updatePublications }) => {
             </button>
           </Link>
         </div>
-
-        <ListDesktop
-          publications={publications}
-          onSelectedRowsChange={handleSelectedItems}
-          handleDeletePublication={handleDeletePublication}
-          clearSelectedRows={clearSelectionInDesktopList}
-        />
+        <div className='hidden lg:block'>
+          <ListDesktop
+            publications={publications}
+            onSelectedRowsChange={handleSelectedItems}
+            handleDeletePublication={handleDeletePublication}
+            clearSelectedRows={clearSelectionInDesktopList}
+          />
+        </div>
+        <div className='lg:hidden'>
+          <ListMobile publications={publications} setSelectedItems={setItemsSelected} clearSelection={clearSelectionInDesktopList} />
+        </div>
       </div>
     </div>
   );

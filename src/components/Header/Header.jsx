@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import { SearchContext } from '../../context/SearchContext/SearchContext';
@@ -10,14 +10,16 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
 import Dropdown from '../Dropdown/Dropdown';
+import MobileMenu from './MobileMenu';
 
 const Header = ({ isAdmin }) => {
   const { currentUser } = useContext(AuthContext);
-  const { handleSearch } = useContext(SearchContext);
+  const { handleSearch, searchTerm } = useContext(SearchContext);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const isMobile = window.innerWidth < 640;
   const [inputSearchValue, setInputSearchValue] = useState('');
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   // Renderizar estructura de header para la página de inicio
   const renderHomeHeader = () => (
@@ -36,12 +38,12 @@ const Header = ({ isAdmin }) => {
         </Link>
         <div className="flex-1 bg-innova-blue nav-rounded flex justify-end">
           <div className="relative flex items-center">
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <div className="absolute left-4 top-1/2 mt-[2px] transform -translate-y-1/2 text-gray-400">
               <FontAwesomeIcon icon={faSearch} className="text-blue-800" />
             </div>
             <input
               type="text"
-              className="input-search pl-10 pr-3 py-1 rounded-full min-h-10 border border-yellow-500 text-blue-800 placeholder-blue-900"
+              className="input-search border-2 border-yellow pl-10 mr-3 py-1 rounded-full min-h-10 text-blue-800 placeholder-blue-900"
               placeholder="Encontrar"
               value={inputSearchValue}
               onChange={(event) => setInputSearchValue(event.target.value)}
@@ -49,15 +51,22 @@ const Header = ({ isAdmin }) => {
             />
           </div>
         </div>
-        <Link to="/acerca-de" className="absolute top-3 right-2 sm:right-0 sm:relative sm:top-0 flex items-center justify-center ms-5">
+        <MobileMenu />
+        <Link
+          to="/acerca-de"
+          className="hidden sm:flex sm:right-0 sm:relative sm:top-0 items-center justify-center"
+        >
           <Tooltip title="Acerca de InnovaXD" position="top" arrow={true}>
             <img src={logoYellowS} alt="Una imagen del Logo de Innova" />
           </Tooltip>
         </Link>
         {currentUser ? (
-          <Dropdown isAdmin={currentUser.isAdmin} />
+          <Dropdown className="pl-3" isAdmin={currentUser.isAdmin} />
         ) : (
-          <Link to="/acceso" className="flex items-center justify-center mx-3">
+          <Link
+            to="/acceso"
+            className="hidden sm:flex items-center justify-center mx-3"
+          >
             <Tooltip title="Acceder" position="top" arrow={true}>
               <FontAwesomeIcon
                 className="text-4xl text-blue-200"
@@ -86,12 +95,18 @@ const Header = ({ isAdmin }) => {
             <FontAwesomeIcon
               icon={faSearch}
               className="fa-search text-blue-800"
+              onClick={() => setShowSearchBar(!showSearchBar)}
             />
           </div>
-          <input
-            type="text"
-            className="input-search-two pl-10 pr-3 py-1 rounded-full min-h-10 border border-yellow-500 text-blue-800 placeholder-blue-900"
-          />
+          {showSearchBar && (
+            <input
+              type="text"
+              className="input-search-two pl-3 pr-3 py-1 rounded-full min-h-10 border border-yellow-500 text-blue-800 placeholder-blue-900 absolute"
+              style={{ width: '250px', right: '60px' }}
+              onChange={(event) => setInputSearchValue(event.target.value)}
+              onKeyUp={handleSearch}
+            />
+          )}
         </div>
       </div>
     </nav>

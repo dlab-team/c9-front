@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { Select, initTE } from "tw-elements";
+import { Select, Ripple, initTE } from "tw-elements";
 import { FiltersContext } from "../../../context/FiltersContext";
+
 
 // TODO: traer esta data desde el back
 
@@ -38,7 +39,7 @@ const Filters = ({filterOnClick}) => {
   useEffect(() => {
     getCategories();
     getRegiones();
-    initTE({ Select });
+    initTE({ Select, Ripple });
   }, []);
 
   useEffect(() => {
@@ -52,17 +53,12 @@ const Filters = ({filterOnClick}) => {
   };
 
   return (
-      <div className="mb-[2em] p-0 sm:gap-4 container flex flex-wrap justify-center md:justify-end mt-3 md:mr-0 md:gap-x-5 md:my-4 md:bg-white py-5">
-        <div className='flex mt-2 gap-2'>
-        <button type="button" className="sm:hidden flex items-center mr-2"
-          onClick={() => filterOnClick()}
-        >
-          <FontAwesomeIcon icon={faFilter} className="text-secondary h-6" />
-        </button>
+      <div className="container mx-auto flex justify-center md:justify-end my-8">
+        <div className='flex gap-2'>
         <div
           className="relative inline-block"
         >
-          <div className="relative inline-blockrounded-lg">
+          <div className="relative inline-block rounded-lg">
             <select
               data-te-select-init
               data-te-select-filter="true"
@@ -70,7 +66,7 @@ const Filters = ({filterOnClick}) => {
                 updateFilters({region: Number(e.target.value) || 'todas', city: 'todas'});
               }}
             >
-              <option value={"todas"}>Todas</option>
+              <option className="max-h-2 overflow-auto" value={"todas"}>Todas</option>
               {regiones.map((item) => (
                 <option key={'regions-'+item.id} value={item.id}>
                   {item.name}
@@ -116,10 +112,22 @@ const Filters = ({filterOnClick}) => {
           </select>
           <label data-te-select-label-ref>Categoría</label>
         </div>
+        <button 
+          type="button" 
+          data-te-ripple-init
+          data-te-ripple-color="light"
+          className="sm:hidden flex flex-col items-center text-secondary"
+          onClick={() => filterOnClick()}
+        >
+          <FontAwesomeIcon icon={faFilter} className="h-6" />
+          <span className="text-primary leading-3 text-xs">Filtrar</span>
+        </button>
         <button
           type="button"
+          data-te-ripple-init
+          data-te-ripple-color="light"
           onClick={() => filterOnClick()}
-          className={`hidden sm:ml-4 md:ml-0 sm:block bg-secondary rounded lg:px-10 pb-2 pt-2.5 text-md text-white hover:bg-yellow hover:text-primary transition duration-150 ease-in-out sm:px-4`}
+          className={`hidden sm:ml-4 md:ml-0 sm:block bg-secondary rounded shadow-md lg:px-10 pb-2 pt-2.5 text-md text-white hover:bg-yellow hover:text-primary hover:shadow-lg transition duration-280 ease-in-out sm:px-4`}
         >
           Filtrar
         </button>

@@ -18,16 +18,16 @@ const createUserService = async (name, email, tokenAdmin) => {
   }
 };
 
-const isValidEmail = email => {
+const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
-const isValidName = name => {
+const isValidName = (name) => {
   return name.length >= 1;
 };
 
 const initialState = { email: '', name: '' };
-const CreateUserForm = ({ setIsSucces, clearFormData }) => {
+const CreateUserForm = ({ setIsSuccess, clearFormData }) => {
   const [errors, setErrors] = useState(initialState);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState(initialState);
@@ -38,7 +38,7 @@ const CreateUserForm = ({ setIsSucces, clearFormData }) => {
     const isNameValid = isValidName(formData.name);
     setErrors({
       email: isEmailValid ? '' : 'El email debe tener un formato válido',
-      name: isNameValid ? '' : 'El nombre es requerido'
+      name: isNameValid ? '' : 'El nombre es requerido',
     });
   }, [formData]);
 
@@ -47,19 +47,19 @@ const CreateUserForm = ({ setIsSucces, clearFormData }) => {
     setErrors(initialState);
   }, [clearFormData]);
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setIsLoading(true);
       await createUserService(formData.name, formData.email, currentUser.token);
       setFormData(initialState);
       setIsLoading(false);
-      setIsSucces(true);
+      setIsSuccess(true);
     } catch (error) {
       setIsLoading(false);
       toast(error.message, {
         type: 'error',
-        autoClose: 3000
+        autoClose: 3000,
       });
     }
   };
@@ -72,7 +72,10 @@ const CreateUserForm = ({ setIsSucces, clearFormData }) => {
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
-          <label htmlFor="inputName" className="block mb-2 text-sm font-medium text-primary">
+          <label
+            htmlFor="inputName"
+            className="block mb-2 text-sm font-medium text-primary"
+          >
             Nombre
           </label>
           <input
@@ -83,11 +86,16 @@ const CreateUserForm = ({ setIsSucces, clearFormData }) => {
             } block min-h-[auto] w-full rounded-md border-2 focus:border-blue-500 focus:outline-none bg-gray-200 px-3 py-[0.20rem] leading-[1.6]`}
             id="inputName"
             name="inputName"
-            onChange={event => setFormData({ ...formData, name: event.target.value })}
+            onChange={(event) =>
+              setFormData({ ...formData, name: event.target.value })
+            }
             value={formData.name}
           />
 
-          <label htmlFor="inputEmail" className="block mt-3 mb-2 text-sm font-medium text-primary">
+          <label
+            htmlFor="inputEmail"
+            className="block mt-3 mb-2 text-sm font-medium text-primary"
+          >
             Email
           </label>
           <input
@@ -100,7 +108,9 @@ const CreateUserForm = ({ setIsSucces, clearFormData }) => {
             value={formData.email}
             aria-describedby="email"
             placeholder="usuario@innova.cl"
-            onChange={event => setFormData({ ...formData, email: event.target.value })}
+            onChange={(event) =>
+              setFormData({ ...formData, email: event.target.value })
+            }
           />
           {formData.email && errors.email && (
             <div className="text-red-400 text-sm">{errors.email}</div>

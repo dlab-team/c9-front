@@ -28,7 +28,7 @@ const ListDesktop = ({
       },
       {
         name: 'Categoria',
-        selector: (row) => row.category,
+        selector: (row) => row.category?.name || 'Sin Categoria',
         width: '140px',
       },
       {
