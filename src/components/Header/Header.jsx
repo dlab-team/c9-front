@@ -31,7 +31,7 @@ const Header = ({ isAdmin }) => {
       <div className="relative z-10 header-container container mx-auto flex">
         <a href="/">
           <img
-            className="me-3 py-3"
+            className="me-3 py-3 2xl:py-6"
             src={logoBlue}
             alt="Una imagen del Logo de Innova"
           />
@@ -51,6 +51,7 @@ const Header = ({ isAdmin }) => {
             />
           </div>
         </div>
+        
         <MobileMenu />
         <Link
           to="/acerca-de"
@@ -76,6 +77,7 @@ const Header = ({ isAdmin }) => {
           </Link>
         )}
       </div>
+        
     </nav>
   );
 

@@ -189,7 +189,7 @@ const Publication = () => {
         </div>
 
         <div className="publication-content md:px-14 lg:px-40 relative">
-          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] opacity-40">
+          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] 2xl:w-[14%] opacity-40">
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
