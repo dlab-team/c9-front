@@ -49,7 +49,11 @@ const AdminUsers = () => {
           <Spinner />
         </div>
         <div className={`${isLoading ? 'hidden' : 'block'}`}>
-          <UserList className="hidden" users={users} />
+          <UserList className="hidden" 
+            users={users} 
+            setUsers={setUsers} 
+            setIsLoading={setIsLoading} 
+          />
         </div>
       </div>
     </>
