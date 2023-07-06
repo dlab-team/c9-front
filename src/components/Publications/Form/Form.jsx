@@ -325,14 +325,13 @@ const Form = ({ publication } = null) => {
   function handleRemove(index) {
     const newList = preguntas.filter((item) => item.index !== index);
     setPreguntas(newList);
-    // TODO: para que es esto?
-    // if (count < 14) {
-    //   newList.push(QA[count]);
-    //   setCount(count + 1);
-    //   setPreguntas(newList);
-    // } else {
-    //   setPreguntas(newList);
-    // }
+    if (count < 14) {
+      newList.push(QA[count]);
+      setCount(count + 1);
+      setPreguntas(newList);
+    } else {
+      setPreguntas(newList);
+    }
   }
 
   const handleOriginalTextChange = (event) => {
@@ -361,16 +360,16 @@ const Form = ({ publication } = null) => {
       <ToastContainer></ToastContainer>
       <div className='mb-8'>
         <form onSubmit={(event) => event.preventDefault()}>
-          <div className="container mx-auto py-6">
-            <h2 className="page-title">Traducir noticia</h2>
+          <div className='container mx-auto py-6'>
+            <h2 className='page-title'>Traducir noticia</h2>
 
-            <div className="grid gap-4 grid-cols-2">
+            <div className='grid gap-4 grid-cols-2'>
               <div>
-                <p className="page-subtitle">Título:</p>
+                <p className='page-subtitle'>Título:</p>
                 <input
-                  className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
-                  type="text"
-                  placeholder=""
+                  className='p-4 col-span-2 col-start-1 border rounded w-full border-primary'
+                  type='text'
+                  placeholder=''
                   ref={titleInput}
                   defaultValue={publication?.name}
                   onKeyUp={(e) => {
@@ -379,73 +378,73 @@ const Form = ({ publication } = null) => {
                 />
               </div>
               <div>
-                <p className="page-subtitle">Url Amigable:</p>
+                <p className='page-subtitle'>Url Amigable:</p>
                 <input
-                  className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
-                  type="text"
-                  placeholder=""
+                  className='p-4 col-span-2 col-start-1 border rounded w-full border-primary'
+                  type='text'
+                  placeholder=''
                   defaultValue={publication?.slug}
                   ref={slugInput}
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 mt-4">
-              <p className="page-subtitle">Prompt Basico:</p>
+            <div className='grid grid-cols-2 gap-2 mt-4'>
+              <p className='page-subtitle'>Prompt Basico:</p>
               <input
-                className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
-                type="text"
-                placeholder=""
-                defaultValue="Convertir la noticia en una publicación para un niño de 6 años"
+                className='p-4 col-span-2 col-start-1 border rounded w-full border-primary'
+                type='text'
+                placeholder=''
+                defaultValue='Convertir la noticia en una publicación para un niño de 6 años'
                 ref={promptInput}
               />
-              <div className="grid grid-cols-2 gap-0 col-span-2 mt-2">
+              <div className='grid grid-cols-2 gap-0 col-span-2 mt-2'>
                 <div
                   className={`${styles.element2} p-4 col-span-2 col-start-1 rounded flex justify-evenly items-center`}
                 >
-                  <h3 className="textarea-title">Texto Original</h3>
+                  <h3 className='textarea-title'>Texto Original</h3>
                   {isLoading ? (
                     <button
-                      className="py-2 px-4 rounded-2xl bg-blue-900 text-white items-center flex"
-                      type="button"
+                      className='py-2 px-4 rounded-2xl bg-blue-900 text-white items-center flex'
+                      type='button'
                     >
                       {' '}
                       Transformando
                       <img
                         src={spinner}
                         style={{ width: '20px' }}
-                        className="ml-2"
+                        className='ml-2'
                       />
                     </button>
                   ) : (
                     <button
-                      className="py-2 px-4 rounded-2xl bg-blue-900 text-white items-center flex"
-                      type="button"
+                      className='py-2 px-4 rounded-2xl bg-blue-900 text-white items-center flex'
+                      type='button'
                       onClick={transformContent}
                     >
                       {' '}
                       Transformar
                       <FontAwesomeIcon
                         icon={faArrowRight}
-                        className="ml-2 text-yellow"
+                        className='ml-2 text-yellow'
                       />
                     </button>
                   )}
-                  <h3 className="mr-10 textarea-title">Texto GPT</h3>
+                  <h3 className='mr-10 textarea-title'>Texto GPT</h3>
                 </div>
                 <textarea
-                  className="p-4 resize-none border rounded"
-                  rows="3"
-                  placeholder="Escribe o pega texto aqui..."
+                  className='p-4 resize-none border rounded'
+                  rows='3'
+                  placeholder='Escribe o pega texto aqui...'
                   value={originalText}
                   onChange={handleOriginalTextChange}
                 ></textarea>
                 <div
                   style={{ border: '1px solid #00425a', borderWidth: '1px' }}
-                  className="rounded"
+                  className='rounded'
                 >
                   <ReactQuill
-                    className="rounded h-96"
+                    className='rounded h-96'
                     value={translatedText}
                     onChange={setTranslatedText}
                     modules={{
@@ -469,16 +468,16 @@ const Form = ({ publication } = null) => {
               </div>
             </div>
           </div>
-          <h2 className="my-4 text-[28px] text-primary font-principal">
+          <h2 className='my-4 text-[28px] text-primary font-principal'>
             Agregar etiquetas
           </h2>
-          <div className="grid grid-cols-4 gap-4">
-            <div className="w-full text-base font-sora">
-              <label className="flex h-5 w-5 mb-4">Region</label>
+          <div className='grid grid-cols-4 gap-4'>
+            <div className='w-full text-base font-sora'>
+              <label className='flex h-5 w-5 mb-4'>Region</label>
               <select
-                className="w-full h-12 rounded-[8px] border-[2px] 
-              border-[#00425A] bg-transparent px-3"
-                name="region"
+                className='w-full h-12 rounded-[8px] border-[2px] 
+              border-[#00425A] bg-transparent px-3'
+                name='region'
                 onChange={(event) => {
                   setCurrentRegion(Number(event.target.value) || null);
                   updateLocationLabels({
@@ -499,12 +498,12 @@ const Form = ({ publication } = null) => {
                 ))}
               </select>
             </div>
-            <div className="w-full text-base font-sora">
-              <label className="flex h-5 w-5 mb-4">Comuna</label>
+            <div className='w-full text-base font-sora'>
+              <label className='flex h-5 w-5 mb-4'>Comuna</label>
               <select
-                className="w-full h-12 rounded-[8px] border-[2px] 
-              border-[#00425A] bg-transparent px-3"
-                name="comuna"
+                className='w-full h-12 rounded-[8px] border-[2px] 
+              border-[#00425A] bg-transparent px-3'
+                name='comuna'
                 onChange={(event) =>
                   updateLocationLabels({
                     city: { id: Number(event.target.value) || null },
@@ -525,12 +524,12 @@ const Form = ({ publication } = null) => {
                   ))}
               </select>
             </div>
-            <div className="w-full text-base font-sora">
-              <label className="flex h-5 w-5 mb-4">Categoría</label>
+            <div className='w-full text-base font-sora'>
+              <label className='flex h-5 w-5 mb-4'>Categoría</label>
               <select
-                className="w-full h-12 rounded-[8px] border-[2px] 
-              border-[#00425A] bg-transparent px-3"
-                name="category"
+                className='w-full h-12 rounded-[8px] border-[2px] 
+              border-[#00425A] bg-transparent px-3'
+                name='category'
                 onChange={(event) =>
                   setLabels((oldState) => {
                     return {
@@ -553,17 +552,17 @@ const Form = ({ publication } = null) => {
                 ))}
               </select>
             </div>
-            <div className="w-full text-base font-sora">
-              <label className="flex h-5 w-5 mb-4">Autor</label>
+            <div className='w-full text-base font-sora'>
+              <label className='flex h-5 w-5 mb-4'>Autor</label>
               <input
-                className="w-full h-12 rounded-[8px] border-[2px] border-[#00425A] bg-transparent px-3"
-                name="author"
-                placeholder="Ingrese autor"
+                className='w-full h-12 rounded-[8px] border-[2px] border-[#00425A] bg-transparent px-3'
+                name='author'
+                placeholder='Ingrese autor'
               />
             </div>
           </div>
 
-          <h2 className="mt-6 text-[28px] text-primary font-principal">
+          <h2 className='mt-6 text-[28px] text-primary font-principal'>
             Agregar Fotos
           </h2>
           <ImagesUploader
@@ -571,60 +570,70 @@ const Form = ({ publication } = null) => {
             imagesUrls={publication ? publication.images : null}
           />
 
-          <h2 className="mt-6 mb-3 text-[28px] text-primary font-principal">
+          <h2 className='mt-6 mb-3 text-[28px] text-primary font-principal'>
             Agregar Preguntas
           </h2>
-
-          {isLoadingQA ? (
-            <button
-              className="py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex"
-              type="button"
-            >
-              {' '}
-              Cargando Preguntas
-              <img src={spinnerQA} style={{ width: '20px' }} className="ml-2" />
-            </button>
-          ) : (
-            <button
-              className="py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex"
-              type="button"
-              onClick={() => handleGetPreguntas()}
-            >
-              {' '}
-              Traer Preguntas
-              <FontAwesomeIcon
-                icon={faQuestionCircle}
-                className="ml-2 text-yellow"
-              />
-            </button>
-          )}
+          <section>
+            <div className='group flex items-center'>
+              {isLoadingQA ? (
+                <button
+                  className='py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex'
+                  type='button'
+                >
+                  Cargando Preguntas
+                  <img
+                    src={spinnerQA}
+                    style={{ width: '20px' }}
+                    className='ml-2'
+                  />
+                </button>
+              ) : (
+                <button
+                  className='py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex'
+                  type='button'
+                  onClick={() => handleGetPreguntas()}
+                >
+                  Traer Preguntas
+                  <FontAwesomeIcon
+                    icon={faQuestionCircle}
+                    className='ml-2 text-yellow'
+                  />
+                </button>
+              )}
+              <p className='opacity-0 px-4 text-red-600 group-hover:opacity-80'>
+                {' '}
+                Puedes eliminar una pregunta para traer una nueva (hasta 10
+                veces)
+              </p>
+            </div>
+          </section>
 
           <div>
-            <ul className="my-3">
+            <ul className='my-3'>
               {preguntas
                 ? preguntas.map((item) => (
-                    <li key={item.index} className="mt-2 mb-4">
-                      <div className="flex justify-between">
-                        <div className="rounded w-full border border-primary p-4">
+                    <li key={item.index} className='mt-2 mb-4'>
+                      <div className='flex justify-between'>
+                        <div className='rounded w-full border border-primary p-4'>
                           <input
-                            type="text"
-                            className="w-full"
+                            type='text'
+                            className='w-full'
                             value={item.question}
                           />
                           <input
-                            type="text"
-                            className="w-full"
+                            type='text'
+                            className='w-full'
                             value={item.answer}
                           />
                         </div>
                         <button
-                          type="button"
+                          type='button'
                           onClick={() => handleRemove(item.index)}
-                          className="rounded border border-primary ml-2 p-4"
+                          className='rounded border border-primary ml-2 p-4'
                         >
                           <FontAwesomeIcon
                             icon={faTrashCan}
-                            className="h-6 text-delete-button cursor-pointer"
+                            className='h-6 text-delete-button cursor-pointer'
                           />
                         </button>
                       </div>
@@ -633,28 +642,28 @@ const Form = ({ publication } = null) => {
                 : null}
             </ul>
           </div>
-          <div className="mt-10 mb-4 flex flex-wrap gap-4 h-10">
+          <div className='mt-10 mb-4 flex flex-wrap gap-4 h-10'>
             <ButtonBase
               className={'bg-primary text-white px-6'}
               onClick={(event) => handleSave(event, true)}
-              type="button"
+              type='button'
             >
-              <FontAwesomeIcon icon={faArrowUpFromBracket} className="h-5" />
+              <FontAwesomeIcon icon={faArrowUpFromBracket} className='h-5' />
               Publicar
             </ButtonBase>
             <ButtonBase
-              className="bg-orange-button px-6"
-              type="button"
+              className='bg-orange-button px-6'
+              type='button'
               onClick={(event) =>
                 handleSave(event, publication ? publication.published : false)
               }
             >
-              <FontAwesomeIcon icon={faSave} className="text-black h-6" />
+              <FontAwesomeIcon icon={faSave} className='text-black h-6' />
               Guardar
             </ButtonBase>
             <ButtonBase
-              className="bg-secondary text-white px-6"
-              type="button"
+              className='bg-secondary text-white px-6'
+              type='button'
               onClick={(event) => handleSave(event, true)}
             >
               Guardar y Publicar
@@ -663,9 +672,9 @@ const Form = ({ publication } = null) => {
               <ButtonBase
                 onClick={() => handleDeletePublication(publication.slug)}
                 type={'button'}
-                className="border border-black px-6 hover:bg-delete-button"
+                className='border border-black px-6 hover:bg-delete-button'
               >
-                <FontAwesomeIcon icon={faTrashCan} className="h-5" />
+                <FontAwesomeIcon icon={faTrashCan} className='h-5' />
                 Eliminar
               </ButtonBase>
             )}
