@@ -12,7 +12,7 @@ import NotFound from '../pages/NotFound';
 import Publication from '../pages/Publication';
 import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
-import MiPerfil from '../pages/MiPerfil';
+import Profile from '../pages/Profile';
 import Confirm from '../pages/Admin/Users/Confirm';
 
 const AppRoutes = () => {
@@ -57,10 +57,19 @@ const AppRoutes = () => {
       />
       <Route
         exact
-        path="/mi-perfil"
+        path="/perfil/:username"
         element={
           <Layout>
-            <MiPerfil />
+            <Profile />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/mi-perfil/:username"
+        element={
+          <Layout>
+            <Profile />
           </Layout>
         }
       />
