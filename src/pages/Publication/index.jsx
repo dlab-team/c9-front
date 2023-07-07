@@ -130,17 +130,18 @@ const Publication = () => {
               Volver
             </button>
           </Link>
-        
+
           <h1 className="innova-title pt-5">{publication?.name}</h1>
           <div className="mt-2 flex justify-between">
-            <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
-              {' '}
-              <FontAwesomeIcon
-                icon={faCircleUser}
-                className="pe-2 text-white "
-              />
-              {publication?.author}
-            </div>
+            <Link to={`/perfil/${publication?.author.username}`}>
+              <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+                <FontAwesomeIcon
+                  icon={faCircleUser}
+                  className="pe-2 text-white "
+                />
+                {publication?.author?.name}
+              </div>
+            </Link>
 
             {/* Etiquetas de publicaciones  */}
 
@@ -166,26 +167,24 @@ const Publication = () => {
               </a>
             </div>
           </div>
-          </div>
-          <div className="flex mb-3 md:mb-8">
-            {publication?.images.length > 0 && (
-              <img
-                className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-300"
-                src={publication.images[0].url}
-                alt="Imagen principal"
-              />
-            )}
-          </div>
+        </div>
+        <div className="flex mb-3 md:mb-8">
+          {publication?.images.length > 0 && (
+            <img
+              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-300"
+              src={publication.images[0].url}
+              alt="Imagen principal"
+            />
+          )}
+        </div>
 
-          <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
-                {' '}
-                <FontAwesomeIcon
-                  icon={faCircleUser}
-                  className="pe-2 text-white"
-                />
-                {publication?.author}
-          </div>
-        
+        <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+          <Link to={`/perfil/${publication?.author.username}`}>
+            <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-white" />
+            {publication?.author?.name}
+          </Link>
+        </div>
+
         <div className="publication-content md:px-14 lg:px-40 relative">
           <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] opacity-40">
             <img src={bgDer} alt="Blob Derecho" />

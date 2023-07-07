@@ -7,6 +7,10 @@ import { normalizeSync } from 'normalize-diacritics';
 import { Spinner } from '../UI';
 import { FiltersContext } from '../../context/FiltersContext';
 
+// font awesome star
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
 function formatoFecha(fecha) {
   const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
   const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', opciones);
@@ -195,7 +199,7 @@ const Gallery = ({ searchValue = '' }) => {
                     {publication.featured && (
                       <div class="absolute right-0 z-[9999999999999]">
                         <span class="inline-block bg-blue-500 text-white text-xs font-bold py-1 px-2 me-3 rounded-b">
-                          Destacado
+                          <FontAwesomeIcon icon={faStar} />
                         </span>
                       </div>
                     )}
@@ -234,7 +238,9 @@ const Gallery = ({ searchValue = '' }) => {
                       )}
                     </div>
                     <div className={`px-4 py-4`}>
-                      <p className={`text-xs`}>@{publication.author}</p>
+                      <p className={`text-xs`}>
+                        @{publication.author.username}
+                      </p>
                     </div>
                   </div>
                 )}
