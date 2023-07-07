@@ -151,17 +151,7 @@ const AppRoutes = () => {
               <AdminRegiones />
             </Layout>
           }
-        />
-         <Route
-          exact
-          path="admin/regiones/new"
-          element={
-            <Layout>
-              <AdminPublicationsNew />
-            </Layout>
-          }
-        />
-        
+        />   
       </Route>
     </Routes>
   );
