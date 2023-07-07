@@ -1,21 +1,23 @@
 import { useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { useMemo } from 'react';
 import { ButtonConfirmationModal } from '../../components/UI';
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 import { customStyles } from '../Publications/ListDesktop/customStyles';
 import axios from 'axios';
-import NewRegionModal from './NewRegionModal';
+import NewModal from './NewModal';
+import EditModal from './EditModal';
+import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 
-const ListaRegiones = (
-  handleDeleteRegiones,
-  onSelectedRowsChange,) => {
+const ListaRegiones = ({onSelectedRowsChange}) => {
   const [regiones, setRegiones] = useState([]);
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/regions`;
+  const [selectedRegion, setSelectedRegion] = useState(null);
+
 
   useEffect(() => {
     // Hacer la solicitud al backend 
@@ -28,13 +30,37 @@ const ListaRegiones = (
       });
   }, []);
 
+  const handleDeleteRegiones = (regionId) => {
+    axios
+        .delete(
+            `${endpoint}/${regionId}`
+        )
+        .then((response) => {
+            setRegiones(regiones => regiones.filter(region => region.id !== regionId));
+            toast('Región eliminada correctamente', {
+            type: 'success',
+            autoClose: 3000,
+            onClose: () => {
+                setTimeout(() => {
+                navigate('/admin/regiones');
+                }, 3000);
+            },
+            });
+        })
+        .catch((error) => {
+            toast('Error al eliminar la región', {
+            type: 'error',
+            autoClose: 3000,
+            });
+        });
+    };
+
   const columns = useMemo(
     () => [
       {
         name: 'Región',
         cell: (row) => (
           <Link to={`admin/regiones/${row.id}`}>
-            <FontAwesomeIcon icon={faMapMarkerAlt} size="md" />
             {` ${row.name}`}
           </Link>
         ),
@@ -45,15 +71,15 @@ const ListaRegiones = (
         cell: (row, index, column, id) => {
           return (
             <div className="flex gap-4 items-center">
-              <Link
-                to={`/admin/regiones/edit/${row.id}`}
-                className="flex items-center"
+              <Button
+                  onClick={() => setSelectedRegion(row)}
+                  className="flex items-center"
               >
                 <FontAwesomeIcon
                   icon={faPenToSquare}
                   className="h-5 text-gray-700 cursor-pointer "
                 />
-              </Link>
+              </Button>
               <ButtonConfirmationModal
                 title={'Eliminar región'}
                 bodyText={'¿Está seguro que desea eliminar esta región?'}
@@ -77,6 +103,10 @@ const ListaRegiones = (
     []
   );
 
+  const handleCloseModal = () => {
+    setSelectedRegion(null);
+  };
+
   const handleSelectedRowsChange = (state) => {
     onSelectedRowsChange(state.selectedRows);
   };
@@ -84,9 +114,19 @@ const ListaRegiones = (
   return (
     <div className="mt-4">
       <div className="flex justify-end mb-4">
-        <NewRegionModal />
+        <NewModal />
       </div>
-      
+      <div className="flex justify-end mb-4">
+        {selectedRegion && (
+          <EditModal
+            isOpen={selectedRegion !== null}
+            onClose={() => setSelectedRegion(null)}
+            region={selectedRegion}
+            handleOpenOrCloseModal={handleCloseModal} 
+          />
+        )}
+      </div>
+
       <DataTable
       className=""
       columns={columns}
@@ -101,6 +141,7 @@ const ListaRegiones = (
       selectableRowsNoSelectAll
       selectableRowsHighlight
       highlightOnHover
+      handleSelectedRowsChange={handleSelectedRowsChange}
       responsive
       customStyles={customStyles}
     />

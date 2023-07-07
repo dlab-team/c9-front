@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Form from './Form/Form';
+import Crear from './Form/Crear';
 import { useState } from 'react';
 import {
     faCirclePlus,
     faEnvelopeCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
-const NewUserModal = () => {
+const NewModal = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
@@ -63,10 +63,10 @@ const NewUserModal = () => {
                 >
                 {/*<!--Modal title-->*/}
                 <h5
-                    className="text-xl  text-center  self-center font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+                    className="text-xl text-center self-center font-medium leading-normal text-neutral-800 dark:text-neutral-200"
                     id="exampleModalScrollableLabel"
                 >
-                    Crear nuevo región
+                    Crear nueva región
                 </h5>
                 {/*<!--Close button-->*/}
                 <button
@@ -95,7 +95,7 @@ const NewUserModal = () => {
 
                 {/*<!--Modal body-->*/}
                 {!isSuccess && (
-                <Form
+                <Crear
                     clearFormData={isOpen}
                     setIsSuccess={setIsSuccess}
                 />
@@ -146,4 +146,4 @@ const NewUserModal = () => {
     );
 };
 
-export default NewUserModal;
+export default NewModal;

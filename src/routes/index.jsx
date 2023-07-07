@@ -14,8 +14,6 @@ import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
 import Profile from '../pages/Profile';
 import Confirm from '../pages/Admin/Users/Confirm';
-import Regiones from '../components/Regiones/regionesList';
-import EditRegion from '../pages/Admin/Regiones/Edit';
 import AdminRegiones from '../pages/Admin/Regiones';
 
 const AppRoutes = () => {
@@ -163,15 +161,7 @@ const AppRoutes = () => {
             </Layout>
           }
         />
-        <Route
-          exact
-          path="admin/regiones/edit/:id"
-          element={
-            <Layout>
-              <EditRegion />
-            </Layout>
-          }
-        />
+        
       </Route>
     </Routes>
   );

@@ -4,23 +4,23 @@ import { ToastContainer, toast } from 'react-toastify';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import RegionesList from '../../../components/Regiones/regionesList';
 
-const getRegionsServices = async () => {
+const getRegionesServices = async () => {
     const endpoint = `${process.env.REACT_APP_BACKEND_URL}/regions`;
     try {
         const response = await axios.get(endpoint);
-        const { regiones } = response.data;
-        return regiones;
+        const regiones = response.data;
+        return regiones;  
     } catch (error) {
         console.error(error);
     }
 };
 
-const AdminRegiones = () => {
+const adminRegiones = () => {
     const [regiones, setRegiones] = useState([]);
 
     useEffect(() => {
-        getRegionsServices().then((regiones) =>
-        setRegiones(regiones)
+        getRegionesServices().then((regiones) =>
+            setRegiones(regiones),
         );
     }, []);
 
@@ -28,6 +28,7 @@ const AdminRegiones = () => {
         setRegiones(newRegiones);
 
     const totalRegiones = regiones?.length || 0;
+
 
     return (
         <>
@@ -46,4 +47,4 @@ const AdminRegiones = () => {
     );
 };
 
-export default AdminRegiones;
+export default adminRegiones;
