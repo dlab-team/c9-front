@@ -15,6 +15,9 @@ import Acceso from '../pages/Acceso';
 import Profile from '../pages/Profile';
 import Confirm from '../pages/Admin/Users/Confirm';
 import AdminRegiones from '../pages/Admin/Regiones';
+import AdminComunas from '../pages/Admin/Comunas';
+import Authors from '../pages/Admin/Authors';
+
 
 const AppRoutes = () => {
   return (
@@ -128,6 +131,16 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+        <Route
+          exact
+          path="admin/autores"
+          element={
+            <Layout>
+              <Authors />
+            </Layout>
+          }
+        />
+
       </Route>
 
       <Route element={<ProtectedRoute requiredAdminRole={true} />}>
@@ -152,6 +165,18 @@ const AppRoutes = () => {
             </Layout>
           }
         />   
+
+        <Route
+          exact
+          path="admin/comunas"
+          element={
+            <Layout>
+              <AdminComunas />
+            </Layout>
+          }
+        /> 
+      
+      
       </Route>
     </Routes>
   );

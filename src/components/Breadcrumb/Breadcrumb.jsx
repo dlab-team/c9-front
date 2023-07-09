@@ -79,6 +79,19 @@ const Breadcrumb = ({ param } = '') => {
     }
   }
 
+  if (location.pathname.includes('autores')) {
+    paths.push({ name: 'Autores', url: '/admin/autores' });
+
+    if (location.pathname.includes('new')) {
+      paths.push({ name: 'Nueva', url: '/admin/autores/new' });
+    }
+
+    if (param !== null) {
+      paths.push({ name: 'Editar', url: '/admin/autores/edit/' + param });
+    }
+  }
+
+
   const filteredPaths = paths.filter((path) => location.pathname !== path.url);
 
   const items = [];

@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
-
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { Filters } from '../../components';
@@ -115,7 +112,11 @@ const Gallery = ({ searchValue = '' }) => {
 
   return (
     <>
-      
+      {isloading && (
+        <div className="w-full h-[20vh] sm:h-[60vh] flex justify-center items-center">
+          <Spinner />
+        </div>
+      )}
       {!isloading && (
         <div>
           {searchValue || searchValue !== '' ? (
@@ -164,8 +165,8 @@ const Gallery = ({ searchValue = '' }) => {
                     className="bg-gray-100 border p-3 my-3 rounded-lg shadow-lg flex cursor-pointer hover:shadow-xl hover:shadow-black/20 duration-300"
                     onClick={() => navigate(`/noticias/${publication.slug}`)}
                   >
-                    <LazyLoadImage
-                      className={`image object-cover object-center rounded-lg w-[200px] transition duration-300 ease-in-out hover:opacity-60`}
+                    <img
+                      className={`object-cover object-center rounded-lg w-[200px] transition duration-300 ease-in-out hover:opacity-60`}
                       src={
                         (publication?.images && publication?.images[0]?.url) ||
                         `https://picsum.photos/1200/800?random=${
@@ -173,7 +174,6 @@ const Gallery = ({ searchValue = '' }) => {
                         }`
                       }
                       alt={publication.name}
-                      effect="blur"
                     />
                     <div className="ms-5">
                       <div>{formatoFecha(publication.publicationDate)}</div>
@@ -214,7 +214,6 @@ const Gallery = ({ searchValue = '' }) => {
                         }`
                       }
                       alt={publication.name}
-                      effect="blur"
                     />
                     <div className={`px-4 py-2 text-left`}>
                       <h1 className={`text-base sm:text-xl leading-[1.2]`}>

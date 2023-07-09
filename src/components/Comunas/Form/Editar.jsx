@@ -88,7 +88,7 @@ const Editar = ({ setIsSuccess, clearFormData }) => {
                 }
                 value={formData.name}
             />
-            <button id="editRegionButtonSubmit" type="submit" className="hidden">
+            <button id="editMuniButtonSubmit" type="submit" className="hidden">
                 Actualizar 
             </button>
             </form>

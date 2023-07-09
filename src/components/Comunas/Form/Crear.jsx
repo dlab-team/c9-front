@@ -5,17 +5,17 @@ import { Spinner } from '../../UI';
 import { AuthContext } from '../../../context/AuthContext/AuthContext';
 
 
-const EditRegion = async (regionId, name, token) => {
-    const endPoint = `${process.env.REACT_APP_BACKEND_URL}/regions/${regionId}`;
+const CreateRegion = async (name, token) => {
+    const endPoint = `${process.env.REACT_APP_BACKEND_URL}/regions`;
     try {
-        const { data } = await axios.put(
+        const { data } = await axios.post(
         endPoint,
         { name },
         { headers: { Authorization: `Bearer ${token}` } }
         );
         return data;
     } catch (error) {
-        throw new Error('Error al editar la región');
+        throw new Error('Error al crear la región');
     }
 };
 
@@ -25,12 +25,18 @@ const isValidName = (name) => {
 };
 
 const initialState = { name: '' };
-const Editar = ({ setIsSuccess, clearFormData }) => {
+const Crear = ({ setIsSuccess, clearFormData }) => {
     const [errors, setErrors] = useState(initialState);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState(initialState);
     const { currentUser } = useContext(AuthContext);
+    const [tokenAdmin, setTokenAdmin] = useState('');
 
+    useEffect(() => {
+        if (currentUser && currentUser.token) {
+            setTokenAdmin(currentUser.token);
+        }
+    }, [currentUser]);
 
     useEffect(() => {
         const isNameValid = isValidName(formData.name);
@@ -44,22 +50,23 @@ const Editar = ({ setIsSuccess, clearFormData }) => {
         setErrors(initialState);
     }, [clearFormData]);
 
-    const handleSubmit = async (event) => {
+    const handleSubmitForm = async (event) => {
         event.preventDefault();
         try {
-        setIsLoading(true);
-        await EditRegion(formData.name, currentUser.token);
-        setFormData(initialState);
-        setIsLoading(false);
-        setIsSuccess(true);
+          setIsLoading(true);
+          await CreateRegion(formData.name, tokenAdmin);
+          setFormData(initialState);
+          setIsLoading(false);
+          setIsSuccess(true);
         } catch (error) {
-        setIsLoading(false);
-        toast(error.message, {
+          setIsLoading(false);
+          toast(error.message, {
             type: 'error',
             autoClose: 3000,
-        });
+          });
         }
-    };
+      };
+      
 
     return (
         <div className="p-10 w-full h-[150px]">
@@ -68,7 +75,7 @@ const Editar = ({ setIsSuccess, clearFormData }) => {
             <Spinner />
             </div>
         ) : (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmitForm}>
             <label
                 htmlFor="inputName"
                 className="block mb-2 text-sm font-medium text-primary"
@@ -88,8 +95,8 @@ const Editar = ({ setIsSuccess, clearFormData }) => {
                 }
                 value={formData.name}
             />
-            <button id="editRegionButtonSubmit" type="submit" className="hidden">
-                Actualizar 
+            <button id="createMuniButtonSubmit" type="submit" className="hidden">
+                Crear 
             </button>
             </form>
         )}
@@ -97,4 +104,4 @@ const Editar = ({ setIsSuccess, clearFormData }) => {
     );
 };
 
-export default Editar;
+export default Crear;

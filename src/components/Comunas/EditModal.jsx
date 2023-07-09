@@ -21,9 +21,9 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
       };
 
 
-    const handleEditRegion = () => {
-        const editRegionButtonSubmit = document.getElementById('editRegionButtonSubmit');
-        editRegionButtonSubmit.click();
+    const handleEditComuna = () => {
+        const editMuniButtonSubmit = document.getElementById('editMuniButtonSubmit');
+        editMuniButtonSubmit.click();
     };
 
     return (
@@ -32,7 +32,6 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
             className="w-fit flex justify-center items-center"
             onClick={handleOpenModal}
         >
-            {/*tiene que ir el botón de editar */}
         </div>
 
         {/*<!--Verically centered modal-->*/}
@@ -61,12 +60,12 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
                     className="text-xl text-center self-center font-medium leading-normal text-neutral-800 dark:text-neutral-200"
                     id="exampleModalScrollableLabel"
                 >
-                    Editar región
+                    Editar comuna
                 </h5>
                 {/*<!--Close button-->*/}
                 <button
                     type="button"
-                    onClick={() => handleOpenOrCloseModal(false)}
+                    onClick={() => handleCloseModal(false)}
                     className="box-content rounded-none border-none hover:no-underline hover:opacity-75 
                     focus:opacity-100 focus:shadow-none focus:outline-none"
                     aria-label="Close"
@@ -129,9 +128,9 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
                     } ml-1 inline-block rounded bg-secondary px-6 pb-2 pt-2.5 text-xs font-medium uppercase 
                     leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca]
                     focus:outline-none focus:ring-0 hover:bg-primary focus:bg-primary`}
-                    onClick={handleEditRegion}
+                    onClick={handleEditComuna}
                 >
-                    Editar región
+                    Editar comuna
                 </button>
                 </div>
             </div>

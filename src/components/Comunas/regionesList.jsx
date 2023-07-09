@@ -4,7 +4,7 @@ import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { useMemo } from 'react';
 import { ButtonConfirmationModal } from '../../components/UI';
 import DataTable from 'react-data-table-component';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { customStyles } from '../Publications/ListDesktop/customStyles';
 import axios from 'axios';
 import NewModal from './NewModal';
@@ -13,42 +13,43 @@ import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 
-const ListaRegiones = ({onSelectedRowsChange}) => {
-  const [regiones, setRegiones] = useState([]);
+const MunicipalitiesList = ({onSelectedRowsChange}) => {
+  const [municipalities, setMunicipalities] = useState([]);
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/regions`;
-  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [selectedMuni, setSelectedMuni] = useState(null);
+  const navigate = useNavigate();
 
 
   useEffect(() => {
     // Hacer la solicitud al backend 
     axios.get(endpoint)
       .then(response => {
-        setRegiones(response.data);
+        setMunicipalities(response.data);
       })
       .catch(error => {
-        console.error('Error al obtener las regiones:', error);
+        console.error('Error al obtener las comunas:', error);
       });
   }, []);
 
-  const handleDeleteRegiones = (regionId) => {
+  const handleDeleteMunicipalities = (MuniId) => {
     axios
         .delete(
-            `${endpoint}/${regionId}`
+            `${endpoint}/${MuniId}`
         )
         .then((response) => {
-            setRegiones(regiones => regiones.filter(region => region.id !== regionId));
-            toast('Región eliminada correctamente', {
+            setMunicipalities(comunas => comunas.filter(comuna => comuna.id !== MuniId));
+            toast('Comuna eliminada correctamente', {
             type: 'success',
             autoClose: 3000,
             onClose: () => {
                 setTimeout(() => {
-                navigate('/admin/regiones');
+                navigate('/admin/comunas');
                 }, 3000);
             },
             });
         })
         .catch((error) => {
-            toast('Error al eliminar la región', {
+            toast('Error al eliminar la comuna', {
             type: 'error',
             autoClose: 3000,
             });
@@ -59,16 +60,17 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
     () => [
       {
         name: 'Nombre',
-        cell: (row) => (
-          row.name
+        cell: (row) => (     
+          row.name  
         ),
       },
       {
         name: 'Región Id',
-        cell: (row) => (
-          row.id
+        cell: (row) => (     
+          row.id  
         ),
       },
+      
       {
         name: 'Opciones',
         width: '130px',
@@ -76,7 +78,7 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
           return (
             <div className="flex gap-4 items-center">
               <Button
-                  onClick={() => setSelectedRegion(row)}
+                  onClick={() => setSelectedMuni(row)}
                   className="flex items-center"
               >
                 <FontAwesomeIcon
@@ -85,11 +87,11 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
                 />
               </Button>
               <ButtonConfirmationModal
-                title={'Eliminar región'}
-                bodyText={'¿Está seguro que desea eliminar esta región?'}
+                title={'Eliminar comuna'}
+                bodyText={'¿Está seguro que desea eliminar esta comuna?'}
                 actionNameConfirm={'Eliminar'}
                 actionFunctionConfirm={() => {
-                  handleDeleteRegiones(row.id);
+                  handleDeleteMunicipalities(row.id);
                 }}
                 actionButtonClassName={'bg-red-500 hover:bg-red-700'}
                 OpenButton={
@@ -108,7 +110,7 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
   );
 
   const handleCloseModal = () => {
-    setSelectedRegion(null);
+    setSelectedMuni(null);
   };
 
   const handleSelectedRowsChange = (state) => {
@@ -121,11 +123,11 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
         <NewModal />
       </div>
       <div className="flex justify-end mb-4">
-        {selectedRegion && (
+        {selectedMuni && (
           <EditModal
-            isOpen={selectedRegion !== null}
-            onClose={() => setSelectedRegion(null)}
-            region={selectedRegion}
+            isOpen={selectedMuni !== null}
+            onClose={() => setSelectedMuni(null)}
+            comuna={selectedMuni}
             handleOpenOrCloseModal={handleCloseModal} 
           />
         )}
@@ -134,7 +136,7 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
       <DataTable
       className=""
       columns={columns}
-      data={regiones}
+      data={municipalities}
       pagination
       paginationComponentOptions={{
         rowsPerPageText: 'Filas por página',
@@ -153,4 +155,4 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
   );
 };
 
-export default ListaRegiones;
+export default MunicipalitiesList;

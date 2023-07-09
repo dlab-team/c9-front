@@ -1,38 +1,43 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Crear from './Form/Crear';
 import { useState } from 'react';
 import {
     faCirclePlus,
     faEnvelopeCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
-import Editar from './Form/Editar';
 
-const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
+const NewModal = () => {
+    const [isOpen, setIsOpen] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const handleOpenModal = () => {
-        handleOpenOrCloseModal(true);
-    };
-    
-    const handleCloseModal = () => {
-        handleOpenOrCloseModal(false);
-        if (isSuccess) {
-          location.reload();
+    const handleOpenOrCloseModal = () => {
+        setIsOpen(!isOpen);
+        setIsSuccess(false);
+
+        if(isSuccess){
+        location.reload();
         }
-      };
+    };
 
-
-    const handleEditRegion = () => {
-        const editRegionButtonSubmit = document.getElementById('editRegionButtonSubmit');
-        editRegionButtonSubmit.click();
+    const handleCreateMuni = () => {
+        const createMuniButtonSubmit = document.getElementById(
+        'createMuniButtonSubmit'
+        );
+        createMuniButtonSubmit.click();
     };
 
     return (
         <>
         <div
             className="w-fit flex justify-center items-center"
-            onClick={handleOpenModal}
+            onClick={handleOpenOrCloseModal}
         >
-            {/*tiene que ir el botón de editar */}
+            <button className="flex gap-4 rounded bg-secondary text-white items-center max-w-fit h-10 px-4">
+            <div className="grid place-content-center bg-white rounded-full w-5 h-5">
+                <FontAwesomeIcon icon={faCirclePlus} className="h-7 text-primary" />
+            </div>
+            Agregar
+            </button>
         </div>
 
         {/*<!--Verically centered modal-->*/}
@@ -61,12 +66,12 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
                     className="text-xl text-center self-center font-medium leading-normal text-neutral-800 dark:text-neutral-200"
                     id="exampleModalScrollableLabel"
                 >
-                    Editar región
+                    Crear nueva comuna
                 </h5>
                 {/*<!--Close button-->*/}
                 <button
                     type="button"
-                    onClick={() => handleOpenOrCloseModal(false)}
+                    onClick={handleOpenOrCloseModal}
                     className="box-content rounded-none border-none hover:no-underline hover:opacity-75 
                     focus:opacity-100 focus:shadow-none focus:outline-none"
                     aria-label="Close"
@@ -90,14 +95,14 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
 
                 {/*<!--Modal body-->*/}
                 {!isSuccess && (
-                <Editar
+                <Crear
                     clearFormData={isOpen}
                     setIsSuccess={setIsSuccess}
                 />
                 )}
                 {isSuccess && (
                 <div className="relative text-center p-6 w-full h-[300px]">
-                    <h3 className="text-xl font-bold">Actualizada Correctamente</h3>
+                    <h3 className="text-xl font-bold">Registrado Correctamente</h3>
                     <div className="flex justify-center m-4">
                     <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center">
                         <FontAwesomeIcon
@@ -115,7 +120,7 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
                     rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 gap-2"
                 >
                 <button
-                    onClick={handleCloseModal}
+                    onClick={handleOpenOrCloseModal}
                     type="button"
                     className="inline-block border border-gray-300 rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
                     text-primary-700 hover:bg-gray-300 focus:bg-gray-300 focus:outline-none focus:ring-0"
@@ -129,9 +134,9 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
                     } ml-1 inline-block rounded bg-secondary px-6 pb-2 pt-2.5 text-xs font-medium uppercase 
                     leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca]
                     focus:outline-none focus:ring-0 hover:bg-primary focus:bg-primary`}
-                    onClick={handleEditRegion}
+                    onClick={handleCreateMuni}
                 >
-                    Editar región
+                    Crear comuna
                 </button>
                 </div>
             </div>
@@ -141,4 +146,4 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
     );
 };
 
-export default EditModal;
+export default NewModal;
