@@ -1,78 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+
 import axios from 'axios';
+
 
 const AuthorForm = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id= '' } = useParams();
   const isEditing = id !== undefined;
 
-  const [nombre, setNombre] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [avatar, setAvatar] = useState('');
+  const [description, setDescription] = useState('');
+  
+  const [image, setImage] = useState(null);
+
+  const emailInput = useRef(null);
+  const nameInput = useRef(null);
+  const descriptionInput = useRef(null);
+
+    // formData = new FormData();
+    //formData.append('name', name);
+    //formData.append('email', email);
+    //formData.append('description', description);
+    //formData.append('image', image);
+
+  const endpoint = `${process.env.REACT_APP_BACKEND_URL}/regions`
+
 
   useEffect(() => {
     if (isEditing) {
       // Obtener los datos del autor para editar
-      axios.get(`http://api.example.com/autores/${id}`)
-        .then(response => {
-          const author = response.data;
-          setNombre(author.nombre);
-          setEmail(author.email);
-          setDescripcion(author.descripcion);
-          setAvatar(author.avatar);
-        })
-        .catch(error => {
-          console.error('Error al obtener los datos del autor:', error);
-        });
-    }
+        axios.get(`${endpoint}/${id}`)
+          .then(response => {
+            const author = response.data;
+            setName(author.name);
+            //setEmail(author.email);
+            //setDescription(author.description);
+            //setPhoto(author.photo);
+          })
+          .catch(error => {
+            console.error('Error al obtener los datos del autor:', error);
+          });
+      }
   }, [id, isEditing]);
+   
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('nombre', nombre);
-    formData.append('email', email);
-    formData.append('descripcion', descripcion);
-    formData.append('avatar', avatar);
+    formData.append('nombre', name);
+    //formData.append('email', email);
+    //formData.append('descripción', description);
+    //formData.append('avatar', photo);
 
     if (isEditing) {
-      // Actualizar un autor existente
-      axios.put(`http://api.example.com/autores/${id}`, formData)
-        .then(response => {
-          navigate('/admin/autores');
-        })
-        .catch(error => {
-          console.error('Error al actualizar el autor:', error);
-        });
+      console.log('Actualizar autor:', formData);
+      navigate('/admin/autores');
     } else {
-      // Crear un nuevo autor
-      axios.post('http://api.example.com/autores', formData)
-        .then(response => {
-          navigate('/admin/autores');
-        })
-        .catch(error => {
-          console.error('Error al crear el autor:', error);
-        });
+      console.log('Crear autor:', formData);
+      navigate('/admin/autores');
     }
   };
 
   return (
     <div>
+       <ToastContainer></ToastContainer>
       <h1>{isEditing ? 'Editar Autor' : 'Crear Autor'}</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="nombre">Nombre:</label>
-          <input
-            type="text"
-            id="nombre"
-            value={nombre}
-            onChange={(event) => setNombre(event.target.value)}
-          />
-        </div>
-        <div>
+        <div className='container mx-auto py-6'>
+      
+        
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -82,11 +83,11 @@ const AuthorForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="descripcion">Descripción:</label>
+          <label htmlFor="description">Descripción:</label>
           <textarea
-            id="descripcion"
-            value={descripcion}
-            onChange={(event) => setDescripcion(event.target.value)}
+            id="descripton"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
           ></textarea>
         </div>
         <div>
@@ -95,7 +96,7 @@ const AuthorForm = () => {
             type="file"
             id="avatar"
             accept="image/jpeg, image/png"
-            onChange={(event) => setAvatar(event.target.files[0])}
+            onChange={(event) => setPhoto(event.target.files[0])}
           />
         </div>
         <button type="submit">{isEditing ? 'Actualizar' : 'Crear'}</button>

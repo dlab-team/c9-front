@@ -17,6 +17,8 @@ import Confirm from '../pages/Admin/Users/Confirm';
 import AdminRegiones from '../pages/Admin/Regiones';
 import AdminComunas from '../pages/Admin/Comunas';
 import Authors from '../pages/Admin/Authors';
+import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
+import AdminAuthorNew from '../pages/Admin/Authors/New';
 
 
 const AppRoutes = () => {
@@ -137,6 +139,24 @@ const AppRoutes = () => {
           element={
             <Layout>
               <Authors />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/autores/new"
+          element={
+            <Layout>
+              <AdminAuthorNew />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/autores/edit"
+          element={
+            <Layout>
+              <AdminAuthorEdit/>
             </Layout>
           }
         />

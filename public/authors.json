@@ -1,0 +1,26 @@
+
+{
+    "authors": [
+        {
+            "id": 1,
+            "nombre": "Autor 1",
+            "email": "autor1@example.com",
+            "descripcion": "Descripción del Autor 1",
+            "avatar": "avatar1.jpg"
+        },
+        {
+            "id": 2,
+            "nombre": "Autor 2",
+            "email": "autor2@example.com",
+            "descripcion": "Descripción del Autor 2",
+            "avatar": "avatar2.jpg"
+        },
+        {
+            "id": 3,
+            "nombre": "Autor 3",
+            "email": "autor3@example.com",
+            "descripcion": "Descripción del Autor 3",
+            "avatar": "avatar3.jpg"
+        }
+    ]
+    }

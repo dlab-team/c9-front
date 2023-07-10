@@ -32,7 +32,7 @@ const Breadcrumb = ({ param } = '') => {
       paths.push({ name: 'Usuarios', url: '/admin/users' });
   
       if (location.pathname.includes('new')) {
-        paths.push({ name: 'Nueva', url: '/admin/users/new' });
+        paths.push({ name: 'Nuevo', url: '/admin/users/new' });
       }
   
       if (param !== null) {
@@ -83,7 +83,7 @@ const Breadcrumb = ({ param } = '') => {
     paths.push({ name: 'Autores', url: '/admin/autores' });
 
     if (location.pathname.includes('new')) {
-      paths.push({ name: 'Nueva', url: '/admin/autores/new' });
+      paths.push({ name: 'Nuevo', url: '/admin/autores/new' });
     }
 
     if (param !== null) {
