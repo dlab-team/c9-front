@@ -49,6 +49,7 @@ const Form = ({ publication } = null) => {
   const promptInput = useRef(null);
   const titleInput = useRef(null);
   const slugInput = useRef(null);
+  const publicationDateInput = useRef(null);
 
   const [QA, setQA] = useState([]);
   const [preguntas, setPreguntas] = useState([]);
@@ -119,6 +120,13 @@ const Form = ({ publication } = null) => {
       return;
     }
 
+    const inputDate = new Date(publicationDateInput.current.value || new Date()) ;
+    const selectedPublicationDate = new Date(
+      inputDate.getUTCFullYear(),
+      inputDate.getUTCMonth(),
+      inputDate.getUTCDate()
+    );
+
     const formData = new FormData();
     formData.append('name', title);
     formData.append('slug', slug);
@@ -127,9 +135,8 @@ const Form = ({ publication } = null) => {
     formData.append('published', isPublished);
     formData.append('location', JSON.stringify(labels.location));
     formData.append('category', JSON.stringify(labels.category));
-
+    formData.append('fecha_publicacion', selectedPublicationDate);
     formData.append('questions', JSON.stringify(preguntas));
-
     if (imageFiles) {
       imageFiles.forEach((image) => {
         formData.append('images', image);
@@ -559,6 +566,14 @@ const Form = ({ publication } = null) => {
                 className="w-full h-12 rounded-[8px] border-[2px] border-[#00425A] bg-transparent px-3"
                 name="author"
                 placeholder="Ingrese autor"
+              />
+            </div>
+            <div className='flex flex-col gap-2'> 
+              <label htmlFor="publicationDate" className='mt-2'>Fecha de publicacion</label>
+              <input type="date" id="publicationDate"
+                className='appearance-none text-lg border-2 w-full border-[#00425A] p-2 rounded-lg inline-block'
+                ref={publicationDateInput}
+                defaultValue={publication? publication.publicationDate.split('/').join('-') : undefined}
               />
             </div>
           </div>
