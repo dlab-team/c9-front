@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const getRegionesServices = async () => {
-    const endpoint = `${process.env.REACT_APP_BACKEND_URL}/regions`;
+    const endpoint = `${process.env.REACT_APP_BACKEND_URL}/region`;
     try {
         const response = await axios.get(endpoint);
         const regiones = response.data;

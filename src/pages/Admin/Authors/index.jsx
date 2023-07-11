@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import { ToastContainer, toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
 import AuthorList from '../../../components/Autores/AuthorsList';
 import AuthorForm from '../../../components/Autores/Form/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,13 +9,14 @@ import {faAt} from '@fortawesome/free-solid-svg-icons';
 
 
 const getAutoresServices = async () => {
-    const endpoint = `${process.env.REACT_APP_BACKEND_URL}/regions`;
+    const endpoint = `${process.env.REACT_APP_BACKEND_URL}/author`;
     try {
         const response = await axios.get(endpoint);
         const autores = response.data;
         return autores;  
     } catch (error) {
         console.error(error);
+        return [];
     }
 };
 
@@ -24,18 +24,18 @@ const Authors = () => {
     const [autores, setAutores] = useState([]);
 
     useEffect(() => {
-        const getAutores = async () => {
-            const authors = await getAutoresServices(autores);
-            setAutores(autores);
+        const fetchData = async () => {
+            const authors = await getAutoresServices();
+            setAutores(authors);
         };
     
-            getAutores();
-        }, []);
+            fetchData();
+    }, []);
 
     const updateAutores = (newAutores) =>
         setAutores(newAutores);
 
-    const totalAutores = autores?.length || 0;
+    const totalAutores = autores.length;
 
     return (
         <>

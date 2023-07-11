@@ -153,7 +153,7 @@ const AppRoutes = () => {
         />
         <Route
           exact
-          path="admin/autores/edit"
+          path="admin/autores/edit/:id"
           element={
             <Layout>
               <AdminAuthorEdit/>

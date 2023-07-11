@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthorForm from '../../../../components/Autores/Form/Form'
+import Form from '../../../../components/Autores/Form/Form'
 import { useParams } from 'react-router-dom';
 import Breadcrumb from '../../../../components/Breadcrumb/Breadcrumb'
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const AdminAuthorEdit = () => {
     const { id } = useParams();
-    const endpoint = `${process.env.REACT_APP_BACKEND_URL}/regions/${id}`;
+    const endpoint = `${process.env.REACT_APP_BACKEND_URL}/author/${id}`;
     const [autor, setAutor] = useState();
 
     const getAuthorData = async () => {
@@ -31,10 +31,10 @@ const AdminAuthorEdit = () => {
         <div>
         <main>
             <div className="container mx-auto">
-            <h1 className="my-3">Editar</h1>
+            <h1 className="my-3 breadcrumb-title">Editar</h1>
             <Breadcrumb param={id} />
             {autor ? (
-                <AuthorForm autor={autor} />
+                <Form autor={autor} />
             ) : (
                 <span>Cargando...</span>
             )}

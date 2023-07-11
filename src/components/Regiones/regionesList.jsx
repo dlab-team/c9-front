@@ -4,7 +4,7 @@ import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { useMemo } from 'react';
 import { ButtonConfirmationModal } from '../../components/UI';
 import DataTable from 'react-data-table-component';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { customStyles } from '../Publications/ListDesktop/customStyles';
 import axios from 'axios';
 import NewModal from './NewModal';
@@ -14,8 +14,9 @@ import { toast } from 'react-toastify';
 
 
 const ListaRegiones = ({onSelectedRowsChange}) => {
+  const navigate = useNavigate();
   const [regiones, setRegiones] = useState([]);
-  const endpoint = `${process.env.REACT_APP_BACKEND_URL}/regions`;
+  const endpoint = `${process.env.REACT_APP_BACKEND_URL}/region`;
   const [selectedRegion, setSelectedRegion] = useState(null);
 
 

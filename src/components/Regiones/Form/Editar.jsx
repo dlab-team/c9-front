@@ -5,12 +5,12 @@ import { Spinner } from '../../UI';
 import { AuthContext } from '../../../context/AuthContext/AuthContext';
 
 
-const EditRegion = async (regionId, name, token) => {
-    const endPoint = `${process.env.REACT_APP_BACKEND_URL}/regions/${regionId}`;
+const EditRegion = async (regionId, token) => {
+    const endPoint = `${process.env.REACT_APP_BACKEND_URL}/region/${regionId}`;
     try {
         const { data } = await axios.put(
         endPoint,
-        { name },
+        { regionId},
         { headers: { Authorization: `Bearer ${token}` } }
         );
         return data;
@@ -25,7 +25,7 @@ const isValidName = (name) => {
 };
 
 const initialState = { name: '' };
-const Editar = ({ setIsSuccess, clearFormData }) => {
+const Editar = ({ regionId, setIsSuccess, clearFormData }) => {
     const [errors, setErrors] = useState(initialState);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState(initialState);
@@ -48,7 +48,7 @@ const Editar = ({ setIsSuccess, clearFormData }) => {
         event.preventDefault();
         try {
         setIsLoading(true);
-        await EditRegion(formData.name, currentUser.token);
+        await EditRegion(regionId,formData.name, currentUser.token);
         setFormData(initialState);
         setIsLoading(false);
         setIsSuccess(true);

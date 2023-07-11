@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState, useContext, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { AuthContext } from '../../../context/AuthContext/AuthContext';
 import axios from 'axios';
 import { Spinner } from '../../UI';
-import { AuthContext } from '../../../context/AuthContext/AuthContext';
-
 
 const CreateRegion = async (name, token) => {
-    const endPoint = `${process.env.REACT_APP_BACKEND_URL}/regions`;
+    const endPoint = `${process.env.REACT_APP_BACKEND_URL}/region`;
     try {
         const { data } = await axios.post(
         endPoint,

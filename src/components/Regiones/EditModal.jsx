@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Editar from './Form/Editar';
 
-const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
+const EditModal = ({ handleOpenOrCloseModal, isOpen, regionId }) => {
     const [isSuccess, setIsSuccess] = useState(false);
 
     const handleOpenModal = () => {
@@ -16,9 +16,9 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
     const handleCloseModal = () => {
         handleOpenOrCloseModal(false);
         if (isSuccess) {
-          location.reload();
+            location.reload();
         }
-      };
+    };
 
 
     const handleEditRegion = () => {
@@ -91,6 +91,7 @@ const EditModal = ({ handleOpenOrCloseModal, isOpen }) => {
                 {/*<!--Modal body-->*/}
                 {!isSuccess && (
                 <Editar
+                    regionId={regionId} // Pasa el regionId a Editar
                     clearFormData={isOpen}
                     setIsSuccess={setIsSuccess}
                 />
