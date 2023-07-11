@@ -8,10 +8,9 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
 import { faTag } from '@fortawesome/free-solid-svg-icons';
 import './index.css';
-
 import bgIzq from '../../assets/images/bg-izq.png';
 import bgDer from '../../assets/images/bg-der.png';
-
+import { Tab, initTE } from 'tw-elements';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 import { Spinner } from '../../components/UI';
@@ -65,9 +64,9 @@ const Publication = () => {
     const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
 
     return (
-      <div className="bg-gray-200 text-center py-4 md:p-5 rounded">
-        <p className="text-sm md:text-4xl font-bolder">{numeroDia}</p>
-        <p className="text-xs">{nombreMes}</p>
+      <div className='bg-gray-200 text-center py-4 md:p-5 rounded'>
+        <p className='text-sm md:text-4xl font-bolder'>{numeroDia}</p>
+        <p className='text-xs'>{nombreMes}</p>
       </div>
     );
   }
@@ -86,6 +85,7 @@ const Publication = () => {
 
   useEffect(() => {
     getPublicationData();
+    initTE({ Tab });
   }, []);
 
   useEffect(() => {
@@ -106,6 +106,9 @@ const Publication = () => {
   useEffect(() => {
     const divContent = document.getElementById('content-text');
     divContent.innerHTML = publication?.finalContent;
+    const divContentEN = document.getElementById('content-text_EN');
+    divContentEN.innerHTML = publication?.finalContent_EN;
+
     if (carouselRef.current && publication) {
       const dots = document.querySelectorAll('.control-dots .dot');
       dots[0].click();
@@ -115,18 +118,18 @@ const Publication = () => {
   return (
     <>
       <div className={loading ? '' : 'hidden'}>
-        <div className="w-full h-[20vh] sm:h-[60vh] flex justify-center items-center">
+        <div className='w-full h-[20vh] sm:h-[60vh] flex justify-center items-center'>
           <Spinner />
         </div>
       </div>
       <div className={loading ? 'hidden' : ''}>
-        <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96">
-          <Link to="/">
+        <div className='pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96'>
+          <Link to='/'>
             <button
-              type="button"
-              className="btn_back text-blue-800 text-sm py-2.5 text-center inline-flex items-center"
+              type='button'
+              className='btn_back text-blue-800 text-sm py-2.5 text-center inline-flex items-center'
             >
-              <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
+              <FontAwesomeIcon icon={faChevronLeft} className='mr-2' />
               Volver
             </button>
           </Link>
@@ -145,22 +148,22 @@ const Publication = () => {
 
             {/* Etiquetas de publicaciones  */}
 
-            <div className="flex gap-1 mr-4">
+            <div className='flex gap-1 mr-4'>
               <a
-                href="/"
-                className="inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
+                href='/'
+                className='inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110'
               >
                 <FontAwesomeIcon
                   icon={faGlobeAmericas}
-                  className="pe-2 text-gray-500 "
+                  className='pe-2 text-gray-500 '
                 />
                 {setLocation(publication?.location)}
               </a>
               <a
-                href="/"
-                className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
+                href='/'
+                className='inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110'
               >
-                <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
+                <FontAwesomeIcon icon={faTag} className='pe-2 text-gray-500 ' />
                 {publication?.category?.name
                   ? publication.category.name
                   : 'Sin categoría'}
@@ -190,48 +193,99 @@ const Publication = () => {
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
-          <div className="absolute left-0 bottom-0 w-[55%] md:w-[24%] lg:w-[18%] opacity-40">
-            <img src={bgIzq} alt="Blob Izquierdo" />
+          <div className='absolute left-0 bottom-0 w-[55%] md:w-[24%] lg:w-[18%] opacity-40'>
+            <img src={bgIzq} alt='Blob Izquierdo' />
           </div>
 
-          <div className="relative container mx-auto whitespace-normal">
-            <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
-              <div className="col-span-1">
+          <div className='relative container mx-auto whitespace-normal'>
+            <div className='grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4'>
+              <div className='col-span-1'>
                 {formatFecha(publication?.publicationDate)}
+                <ul
+                  class='mr-4 flex list-none flex-row flex-wrap pl-0'
+                  role='tablist'
+                  data-te-nav-ref
+                >
+                  <li role='presentation' class='flex-grow text-center'>
+                    <a
+                      href='#tabs-home03'
+                      className='my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400'
+                      data-te-toggle='pill'
+                      data-te-target='#tabs-home03'
+                      data-te-nav-active
+                      role='tab'
+                      aria-controls='tabs-home03'
+                      aria-selected='true'
+                    >
+                      Español
+                    </a>
+                  </li>
+                  <li role='presentation' class='flex-grow text-center'>
+                    <a
+                      href='#tabs-profile03'
+                      className='focus:border-transparen my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400'
+                      data-te-toggle='pill'
+                      data-te-target='#tabs-profile03'
+                      role='tab'
+                      aria-controls='tabs-profile03'
+                      aria-selected='false'
+                    >
+                      Inglés
+                    </a>
+                  </li>
+                </ul>
               </div>
-              <div className="col-span-6 md:col-span-7">
-                <div id="content-text" className="innova-text"></div>
+              <div className='col-span-6 md:col-span-7'>
+                <div class='my-2'>
+                  <div
+                    class='hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block'
+                    id='tabs-home03'
+                    role='tabpanel'
+                    aria-labelledby='tabs-home-tab03'
+                    data-te-tab-active
+                  >
+                    <div id='content-text' className='innova-text'></div>
+                  </div>
+                  <div
+                    class='hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block'
+                    id='tabs-profile03'
+                    role='tabpanel'
+                    aria-labelledby='tabs-profile-tab03'
+                  >
+                    <div id='content-text_EN' className='innova-text'></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="relative innova-text container w-5/5 mx-auto py-5">
-            <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
-            <div className="innova-text">
+          <div className='relative innova-text container w-5/5 mx-auto py-5'>
+            <h2 className='pt-8'>PREGUNTAS RELACIONADAS</h2>
+            <div className='innova-text'>
               {publication?.questions.map((item, index) => (
-                <div key={index} className="p-2">
+                <div key={index} className='p-2'>
                   <div
-                    className="bg-blue-100 flex justify-between items-center cursor-pointer p-3 rounded-lg"
+                    className='bg-blue-100 flex justify-between items-center cursor-pointer p-3 rounded-lg'
                     onClick={() => toggleQuestion(index)}
                   >
-                    <div className="p-2">{item.question}</div>
+                    <div className='p-2'>{item.question}</div>
                     <svg
                       className={`w-5 h-5 transition-transform ${
                         activeIndex === index ? 'transform rotate-180' : ''
                       }`}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
                     >
-                      <path d="M19 9l-7 7-7-7" />
+                      <path d='M19 9l-7 7-7-7' />
                     </svg>
                   </div>
                   {activeIndex === index && (
-                    <div className="p-4 bg-gray-100 bg-opacity-60 rounded mt-2">
+                    <div className='p-4 bg-gray-100 bg-opacity-60 rounded mt-2'>
                       {item.answer}
                     </div>
                   )}
@@ -243,10 +297,10 @@ const Publication = () => {
       </div>
       {showButton && (
         <button
-          className="fixed bottom-2 right-2 w-12 h-12 bg-gray-800 rounded-full text-white flex items-center justify-center hover:opacity-90"
+          className='fixed bottom-2 right-2 w-12 h-12 bg-gray-800 rounded-full text-white flex items-center justify-center hover:opacity-90'
           onClick={handleScrollToTop}
         >
-          <FontAwesomeIcon icon={faArrowUp} className="text-2xl" />
+          <FontAwesomeIcon icon={faArrowUp} className='text-2xl' />
         </button>
       )}
     </>
