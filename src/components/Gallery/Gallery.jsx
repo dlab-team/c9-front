@@ -7,6 +7,10 @@ import { normalizeSync } from 'normalize-diacritics';
 import { Spinner } from '../UI';
 import { FiltersContext } from '../../context/FiltersContext';
 
+// font awesome star
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
 function formatoFecha(fecha) {
   const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
   const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', opciones);
@@ -35,9 +39,9 @@ const filterPublicationsBySearh = (publications, searchValue) => {
 const Gallery = ({ searchValue = '' }) => {
   const [page, setPage] = useState(1);
   const [publications, setPublications] = useState([]);
-  const [ filteredPublications , setFilteredPublications] = useState(null);
+  const [filteredPublications, setFilteredPublications] = useState(null);
   const [isloading, setIsloading] = useState(true);
-  const { filterPublications} = useContext(FiltersContext)
+  const { filterPublications } = useContext(FiltersContext);
   const navigate = useNavigate();
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications`;
   // Define el ancho máximo para considerar la pantalla como pequeña
@@ -88,22 +92,23 @@ const Gallery = ({ searchValue = '' }) => {
   const filterOnClick = () => {
     const filteredPublication = filterPublications(publications);
     setFilteredPublications(filteredPublication);
-  }
+  };
 
   const filteredPublicationsBySearch =
     searchValue.length > 0
       ? filterPublicationsBySearh(publications, searchValue)
       : publications;
-  
-  const publicationsToRender = (filteredPublications && searchValue === '')
-    ? filteredPublications : filteredPublicationsBySearch;
-  
+
+  const publicationsToRender =
+    filteredPublications && searchValue === ''
+      ? filteredPublications
+      : filteredPublicationsBySearch;
+
   // Variable para almacenar el número total de publicaciones existentes
   const totalPublications = publications.length;
 
   // Variable para almacenar el número de elementos encontrados en la búsqueda
   const numResults = publicationsToRender.length;
-
 
   return (
     <>
@@ -116,39 +121,35 @@ const Gallery = ({ searchValue = '' }) => {
         <div>
           {searchValue || searchValue !== '' ? (
             <>
-            <h1 className="innova-heading text-center text-3xl font-bold text-blue-800 my-5">
-              {filteredPublicationsBySearch.length > 0
-                ? `Resultados para la búsqueda: ${searchValue}`
-                : `No se encontraron resultados para la búsqueda: ${searchValue}`}
-            </h1>
-            <h3 className="reasultsStatistics text-secondary">
-              {filteredPublicationsBySearch.length > 0
-                ? `${numResults} de ${totalPublications} publicaciones`
-                : ''
-              }
-            </h3>
+              <h1 className="innova-heading text-center text-3xl font-bold text-blue-800 my-5">
+                {filteredPublicationsBySearch.length > 0
+                  ? `Resultados para la búsqueda: ${searchValue}`
+                  : `No se encontraron resultados para la búsqueda: ${searchValue}`}
+              </h1>
+              <h3 className="reasultsStatistics text-secondary">
+                {filteredPublicationsBySearch.length > 0
+                  ? `${numResults} de ${totalPublications} publicaciones`
+                  : ''}
+              </h3>
             </>
           ) : (
             <Filters filterOnClick={filterOnClick} />
           )}
-          
+
           {/* <div className="columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto"> */}
           {/* <div className={`gap-6 container mx-auto`}> */}
-          { 
-            filteredPublications?.length > 0 &&
-              (<h3 className="reasultsStatistics text-secondary mb-4">
-                {filteredPublicationsBySearch.length > 0
-                  ? `${numResults} de ${totalPublications} publicaciones`
-                  : ''
-                }
-              </h3>)
-          
-          }
-          { filteredPublications?.length === 0 &&
-            (<h3 className="reasultsStatistics text-xl text-secondary mb-4">
-            No se encontraron resultados para los filtros aplicados
-            </h3>)
-          }
+          {filteredPublications?.length > 0 && (
+            <h3 className="reasultsStatistics text-secondary mb-4">
+              {filteredPublicationsBySearch.length > 0
+                ? `${numResults} de ${totalPublications} publicaciones`
+                : ''}
+            </h3>
+          )}
+          {filteredPublications?.length === 0 && (
+            <h3 className="reasultsStatistics text-xl text-secondary mb-4">
+              No se encontraron resultados para los filtros aplicados
+            </h3>
+          )}
           <div
             className={`${
               searchValue !== ''
@@ -191,10 +192,17 @@ const Gallery = ({ searchValue = '' }) => {
                   </div>
                 ) : (
                   <div
-                    className={`cursor-pointer block max-h-100 rounded-2xl overflow-hidden border border-gray-200 mb-5 shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/40`}
+                    className={`cursor-pointer block max-h-100 rounded-2xl  border border-gray-200 mb-5 shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/40 relative`}
                     key={publication.id}
                     onClick={() => navigate(`/noticias/${publication.slug}`)}
                   >
+                    {publication.featured && (
+                      <div class="absolute right-0 z-[9999999999999]">
+                        <span class="inline-block bg-blue-500 text-white text-xs font-bold py-1 px-2 me-3 rounded-b">
+                          <FontAwesomeIcon icon={faStar} />
+                        </span>
+                      </div>
+                    )}
                     <img
                       className={`w-full ${
                         isSmallScreen ? 'h-48' : 'max-h-96'
@@ -208,9 +216,7 @@ const Gallery = ({ searchValue = '' }) => {
                       alt={publication.name}
                     />
                     <div className={`px-4 py-2 text-left`}>
-                      <h1
-                        className={`text-base sm:text-xl leading-[1.2]`}
-                      >
+                      <h1 className={`text-base sm:text-xl leading-[1.2]`}>
                         {publication.name}
                       </h1>
                       {!isSmallScreen && ( // Condición para mostrar la fecha solo en pantallas grandes
@@ -232,7 +238,9 @@ const Gallery = ({ searchValue = '' }) => {
                       )}
                     </div>
                     <div className={`px-4 py-4`}>
-                      <p className={`text-xs`}>@{publication.author}</p>
+                      <p className={`text-xs`}>
+                        @{publication.author.username}
+                      </p>
                     </div>
                   </div>
                 )}

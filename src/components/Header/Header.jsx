@@ -29,13 +29,13 @@ const Header = ({ isAdmin }) => {
       }}
     >
       <div className="relative z-10 header-container container mx-auto flex">
-        <Link to="/">
+        <a href="/">
           <img
             className="me-3 py-3"
             src={logoBlue}
             alt="Una imagen del Logo de Innova"
           />
-        </Link>
+        </a>
         <div className="flex-1 bg-innova-blue nav-rounded flex justify-end">
           <div className="relative flex items-center">
             <div className="absolute left-4 top-1/2 mt-[2px] transform -translate-y-1/2 text-gray-400">
