@@ -14,6 +14,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
 import Profile from '../pages/Profile';
 import Confirm from '../pages/Admin/Users/Confirm';
+import EditUserView from '../pages/Admin/EditUser';
 
 const AppRoutes = () => {
   return (
@@ -127,6 +128,15 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+        <Route
+          exact
+          path="admin/users/edit/:id"
+          element={
+            <Layout>
+              <EditUserView />
+            </Layout>
+          }
+          />
       </Route>
 
       <Route element={<ProtectedRoute requiredAdminRole={true} />}>
