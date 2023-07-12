@@ -590,8 +590,10 @@ const Form = ({ publication } = null) => {
               <Select
                 className="w-full"
                 options={categoriasOptions}
-                value={categoriasOptions.filter((option) =>
-                  labels.category.includes(option.value)
+                value={categoriasOptions.filter(
+                  (option) => null
+                  // TODO: fix this!
+                  // labels.category.includes(option.value)
                 )}
                 isMulti
                 onChange={(selectedOptions) =>
