@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { useMemo } from 'react';
@@ -12,63 +12,58 @@ import EditModal from './EditModal';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
-
-const ListaRegiones = ({onSelectedRowsChange}) => {
+const ListaRegiones = ({ onSelectedRowsChange }) => {
   const navigate = useNavigate();
   const [regiones, setRegiones] = useState([]);
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/region`;
   const [selectedRegion, setSelectedRegion] = useState(null);
 
-
   useEffect(() => {
-    // Hacer la solicitud al backend 
-    axios.get(endpoint)
-      .then(response => {
+    // Hacer la solicitud al backend
+    axios
+      .get(endpoint)
+      .then((response) => {
         setRegiones(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error al obtener las regiones:', error);
       });
   }, []);
 
   const handleDeleteRegiones = (regionId) => {
     axios
-        .delete(
-            `${endpoint}/${regionId}`
-        )
-        .then((response) => {
-            setRegiones(regiones => regiones.filter(region => region.id !== regionId));
-            toast('Región eliminada correctamente', {
-            type: 'success',
-            autoClose: 3000,
-            onClose: () => {
-                setTimeout(() => {
-                navigate('/admin/regiones');
-                }, 3000);
-            },
-            });
-        })
-        .catch((error) => {
-            toast('Error al eliminar la región', {
-            type: 'error',
-            autoClose: 3000,
-            });
+      .delete(`${endpoint}/${regionId}`)
+      .then((response) => {
+        setRegiones((regiones) =>
+          regiones.filter((region) => region.id !== regionId)
+        );
+        toast('Región eliminada correctamente', {
+          type: 'success',
+          autoClose: 3000,
+          onClose: () => {
+            setTimeout(() => {
+              navigate('/admin/regiones');
+            }, 3000);
+          },
         });
-    };
+      })
+      .catch((error) => {
+        toast('Error al eliminar la región', {
+          type: 'error',
+          autoClose: 3000,
+        });
+      });
+  };
 
   const columns = useMemo(
     () => [
       {
         name: 'Nombre',
-        cell: (row) => (
-          row.name
-        ),
+        cell: (row) => row.name,
       },
       {
         name: 'Región Id',
-        cell: (row) => (
-          row.id
-        ),
+        cell: (row) => row.id,
       },
       {
         name: 'Opciones',
@@ -77,8 +72,8 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
           return (
             <div className="flex gap-4 items-center">
               <Button
-                  onClick={() => setSelectedRegion(row)}
-                  className="flex items-center"
+                onClick={() => setSelectedRegion(row)}
+                className="flex items-center"
               >
                 <FontAwesomeIcon
                   icon={faPenToSquare}
@@ -127,29 +122,29 @@ const ListaRegiones = ({onSelectedRowsChange}) => {
             isOpen={selectedRegion !== null}
             onClose={() => setSelectedRegion(null)}
             region={selectedRegion}
-            handleOpenOrCloseModal={handleCloseModal} 
+            handleOpenOrCloseModal={handleCloseModal}
           />
         )}
       </div>
 
       <DataTable
-      className=""
-      columns={columns}
-      data={regiones}
-      pagination
-      paginationComponentOptions={{
-        rowsPerPageText: 'Filas por página',
-        rangeSeparatorText: 'de',
-      }}
-      paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
-      selectableRows
-      selectableRowsNoSelectAll
-      selectableRowsHighlight
-      highlightOnHover
-      handleSelectedRowsChange={handleSelectedRowsChange}
-      responsive
-      customStyles={customStyles}
-    />
+        className=""
+        columns={columns}
+        data={regiones}
+        pagination
+        paginationComponentOptions={{
+          rowsPerPageText: 'Filas por página',
+          rangeSeparatorText: 'de',
+        }}
+        paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
+        selectableRows
+        selectableRowsNoSelectAll
+        selectableRowsHighlight
+        highlightOnHover
+        handleSelectedRowsChange={handleSelectedRowsChange}
+        responsive
+        customStyles={customStyles}
+      />
     </div>
   );
 };
