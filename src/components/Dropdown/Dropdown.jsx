@@ -26,24 +26,22 @@ const Dropdown = ({ isAdmin }) => {
         data-dropdown-toggle="dropdownMenu"
         className="flex mx-3 text-sm rounded-full md:mr-0"
         type="button"
-
         onClick={handleToggle}
       >
         <span className="sr-only">Open user menu</span>
-        <FontAwesomeIcon 
-          className="text-4xl text-yellow" 
-          icon={faCircleUser} 
-        />
+        <FontAwesomeIcon className="text-4xl text-yellow" icon={faCircleUser} />
         <span className="w-2 my-auto xs:hidden md:block">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            className="h-5 w-5 text-yellow">
+            className="h-5 w-5 text-yellow"
+          >
             <path
               fillRule="evenodd"
               d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clipRule="evenodd" />
+              clipRule="evenodd"
+            />
           </svg>
         </span>
       </button>
@@ -56,7 +54,7 @@ const Dropdown = ({ isAdmin }) => {
         style={{
           top: '100%',
           left: '50%',
-          transform: 'translateX(-60%)'
+          transform: 'translateX(-60%)',
         }}
       >
         <div className="px-4 py-3 text-sm text-primary text-center dark:text-white">
@@ -69,12 +67,12 @@ const Dropdown = ({ isAdmin }) => {
         >
           <li>
             <Link
-              to="/mi-perfil"
+              to={`/mi-perfil/${username}`}
               className="block px-4 py-2 hover:bg-blue-100 dark:hover:bg-gray-600 dark:hover:text-white transition duration-300"
             >
-              <FontAwesomeIcon 
-                className="pr-2 text-gray-700" 
-                icon={faCircleUser} 
+              <FontAwesomeIcon
+                className="pr-2 text-gray-700"
+                icon={faCircleUser}
               />
               Mi Perfil
             </Link>
@@ -85,8 +83,8 @@ const Dropdown = ({ isAdmin }) => {
               className="block px-4 py-2 hover:bg-blue-100 dark:hover:bg-gray-600 dark:hover:text-white transition duration-300"
             >
               <FontAwesomeIcon
-                  icon={faPenToSquare}
-                  className="h-4 pr-2 text-gray-700"
+                icon={faPenToSquare}
+                className="h-4 pr-2 text-gray-700"
               />
               Publicaciones
             </Link>
@@ -97,10 +95,7 @@ const Dropdown = ({ isAdmin }) => {
                 to="/admin/users"
                 className="block px-4 py-2 hover:bg-blue-100 dark:hover:bg-gray-600 dark:hover:text-white transition duration-300"
               >
-                <FontAwesomeIcon 
-                  className="pr-2" 
-                  icon={faUsers} 
-                />
+                <FontAwesomeIcon className="pr-2" icon={faUsers} />
                 Usuarios
               </Link>
             </li>

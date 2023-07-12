@@ -1,12 +1,57 @@
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 import { customStyles } from '../Publications/ListDesktop/customStyles';
 import NewUserModal from './Create/NewUserModal';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Tooltip } from 'react-tippy';
+import axios from 'axios';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
+import { toast } from 'react-toastify';
 
-const UserList = ({ users }) => {
+async function updateUserService(authToken, { userId, enabled }) {
+  const url = `${process.env.REACT_APP_BACKEND_URL}/users/${userId}`;
+  const { data } = await axios.put(
+    url,
+    { enabled },
+    {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    }
+  );
+  return data;
+}
+
+const UserList = ({ users, setIsLoading, setUsers }) => {
+  const { currentUser } = useContext(AuthContext);
+  const handleEnableOrDisableUser = async (userId, enabled) => {
+    try {
+      setIsLoading(true);
+      await updateUserService(currentUser.token, { userId, enabled });
+      setUsers((prevState) => {
+        return prevState.map((user) => {
+          if (user.id === userId) {
+            user.enabled = enabled;
+          }
+          return user;
+        });
+      });
+      setIsLoading(false);
+      toast.success('Usuario actualizado', {
+        autoClose: 3000
+      });
+    } catch (error) {
+      setIsLoading(false);
+      toast(error.message, {
+        type: 'error',
+        autoClose: 3000
+      });
+    }
+  };
+ 
   const columns = useMemo(
     () => [
       {
@@ -63,12 +108,33 @@ const UserList = ({ users }) => {
                   className="h-5 text-gray-700 cursor-pointer "
                 />
               </Link>
+              <Tooltip
+                title={`${row.enabled ? 'Desactivar' : 'Activar'} usuario`}
+                position="top"
+                arrow={true}
+              >
+                <button
+                  className={`cursor-pointer`}
+                  onClick={() =>
+                    handleEnableOrDisableUser(row.id, !row.enabled)
+                  }
+                >
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className={`h-5 hover:scale-125 ${
+                      row.enabled
+                        ? 'text-secondary hover:text-red-500'
+                        : 'text-red-500 hover:text-secondary'
+                    } `}
+                  />
+                </button>
+              </Tooltip>
             </div>
           );
         },
       },
     ],
-    []
+    [users]
   );
 
   return (

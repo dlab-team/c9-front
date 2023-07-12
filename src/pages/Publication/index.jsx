@@ -7,11 +7,9 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
 import { faTag } from '@fortawesome/free-solid-svg-icons';
-import './index.css';
-
 import bgIzq from '../../assets/images/bg-izq.png';
 import bgDer from '../../assets/images/bg-der.png';
-
+import { Tab, initTE } from 'tw-elements';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 import { Spinner } from '../../components/UI';
@@ -30,6 +28,7 @@ const Publication = () => {
   };
 
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications/${slug}`;
+  const endpointVisit = `${process.env.REACT_APP_BACKEND_URL}/publication/${slug}/visit`;
 
   const handleScrollToTop = () => {
     window.scrollTo({
@@ -84,8 +83,17 @@ const Publication = () => {
     }
   };
 
+  const increaseVisits = async () => {
+    try {
+      await axios.post(endpointVisit);
+    } catch (error) {
+      console.error('Error al aumentar las visitas:', error);
+    }
+  };
+
   useEffect(() => {
     getPublicationData();
+    initTE({ Tab });
   }, []);
 
   useEffect(() => {
@@ -106,11 +114,18 @@ const Publication = () => {
   useEffect(() => {
     const divContent = document.getElementById('content-text');
     divContent.innerHTML = publication?.finalContent;
+    const divContentEN = document.getElementById('content-text_EN');
+    divContentEN.innerHTML = publication?.finalContent_EN;
+
     if (carouselRef.current && publication) {
       const dots = document.querySelectorAll('.control-dots .dot');
       dots[0].click();
     }
   }, [publication]);
+
+  useEffect(() => {
+    increaseVisits();
+  }, []);
 
   return (
     <>
@@ -130,17 +145,18 @@ const Publication = () => {
               Volver
             </button>
           </Link>
-        
+
           <h1 className="innova-title pt-5">{publication?.name}</h1>
-          <div className="mt-2 flex justify-between">
-            <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
-              {' '}
-              <FontAwesomeIcon
-                icon={faCircleUser}
-                className="pe-2 text-white "
-              />
-              {publication?.author}
-            </div>
+          <div className="mt-2 py-6 flex justify-between">
+            <Link to={`/perfil/${publication?.author.username}`}>
+              <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+                <FontAwesomeIcon
+                  icon={faCircleUser}
+                  className="pe-2 text-white "
+                />
+                {publication?.author?.name}
+              </div>
+            </Link>
 
             {/* Etiquetas de publicaciones  */}
 
@@ -166,28 +182,27 @@ const Publication = () => {
               </a>
             </div>
           </div>
-          </div>
-          <div className="flex mb-3 md:mb-8">
-            {publication?.images.length > 0 && (
-              <img
-                className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-300"
-                src={publication.images[0].url}
-                alt="Imagen principal"
-              />
-            )}
-          </div>
+        </div>
 
-          <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
-                {' '}
-                <FontAwesomeIcon
-                  icon={faCircleUser}
-                  className="pe-2 text-white"
-                />
-                {publication?.author}
-          </div>
-        
+        <div className="flex mb-3 md:mb-8">
+          {publication?.images.length > 0 && (
+            <img
+              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-300"
+              src={publication.images[0].url}
+              alt="Imagen principal"
+            />
+          )}
+        </div>
+
+        <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+          <Link to={`/perfil/${publication?.author.username}`}>
+            <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-white" />
+            {publication?.author?.name}
+          </Link>
+        </div>
+
         <div className="publication-content md:px-14 lg:px-40 relative">
-          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] opacity-40">
+          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40">
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
@@ -199,9 +214,63 @@ const Publication = () => {
             <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
               <div className="col-span-1">
                 {formatFecha(publication?.publicationDate)}
+                <div className="sm:inline-block hidden whitespace-nowrap w-full rounded bg-gray-200 text-black p-3 text-center align-baseline text-[0.85em] leading-none mt-4">
+                  Visitas: {publication?.visits}
+                </div>
+                <ul
+                  class="mr-4 flex list-none flex-row flex-wrap pl-0"
+                  role="tablist"
+                  data-te-nav-ref
+                >
+                  <li role="presentation" class="flex-grow text-center">
+                    <a
+                      href="#tabs-home03"
+                      className="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                      data-te-toggle="pill"
+                      data-te-target="#tabs-home03"
+                      data-te-nav-active
+                      role="tab"
+                      aria-controls="tabs-home03"
+                      aria-selected="true"
+                    >
+                      Español
+                    </a>
+                  </li>
+                  <li role="presentation" class="flex-grow text-center">
+                    <a
+                      href="#tabs-profile03"
+                      className="focus:border-transparen my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                      data-te-toggle="pill"
+                      data-te-target="#tabs-profile03"
+                      role="tab"
+                      aria-controls="tabs-profile03"
+                      aria-selected="false"
+                    >
+                      Inglés
+                    </a>
+                  </li>
+                </ul>
               </div>
               <div className="col-span-6 md:col-span-7">
-                <div id="content-text" className="innova-text"></div>
+                <div class="my-2">
+                  <div
+                    class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+                    id="tabs-home03"
+                    role="tabpanel"
+                    aria-labelledby="tabs-home-tab03"
+                    data-te-tab-active
+                  >
+                    <div id="content-text" className="innova-text"></div>
+                  </div>
+                  <div
+                    class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+                    id="tabs-profile03"
+                    role="tabpanel"
+                    aria-labelledby="tabs-profile-tab03"
+                  >
+                    <div id="content-text_EN" className="innova-text"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

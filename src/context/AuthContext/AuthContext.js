@@ -9,11 +9,11 @@ const initialState = token ? { ...jwtDecode(token), token } : null;
 function AuthContextProvider(props) {
   const [currentUser, setCurrentUser] = useState(initialState);
 
-  const setUserLogin = token => {
+  const setUserLogin = (token) => {
     localStorage.setItem('jwt', token);
     setCurrentUser({
       ...jwtDecode(token),
-      token
+      token,
     });
   };
 
@@ -27,7 +27,6 @@ function AuthContextProvider(props) {
       setUserLogout();
     }
   }, [currentUser]);
-
 
   return (
     <AuthContext.Provider value={{ currentUser, setUserLogin, setUserLogout }}>

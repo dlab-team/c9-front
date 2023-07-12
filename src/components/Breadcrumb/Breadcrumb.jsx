@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 
-const Breadcrumb = ({ param } = null) => {
+const Breadcrumb = ({ param } = '') => {
   const location = useLocation();
   const { currentUser } = useContext(AuthContext);
 
@@ -19,10 +19,6 @@ const Breadcrumb = ({ param } = null) => {
     paths.push({ name: 'Mi Perfil', url: '/mi-perfil' });
   }
 
-  if (location.pathname.includes('admin') && (!currentUser || !currentUser.isAdmin)) {
-    paths.push({ name: 'Publicaciones', url: '/admin/publications' });
-  }
-
   if (location.pathname.includes('admin')) {
     paths.push({ name: 'Administración', url: '/admin' });
   }
@@ -31,17 +27,45 @@ const Breadcrumb = ({ param } = null) => {
     paths.push({ name: 'Acerca de', url: '/acerca-de' });
   }
 
-  if (location.pathname.includes('users')) {
-    paths.push({ name: 'Usuarios', url: '/admin/users' });
-
-    if (location.pathname.includes('new')) {
-      paths.push({ name: 'Nueva', url: '/admin/users/new' });
+  if (currentUser && currentUser.isAdmin) {
+    if (location.pathname.includes('users')) {
+      paths.push({ name: 'Usuarios', url: '/admin/users' });
+  
+      if (location.pathname.includes('new')) {
+        paths.push({ name: 'Nuevo', url: '/admin/users/new' });
+      }
+  
+      if (param !== null) {
+        paths.push({ name: 'Editar', url: '/admin/users/edit/' + param });
+      }
     }
 
-    if (param !== null) {
-      paths.push({ name: 'Editar', url: '/admin/users/edit/' + param });
+    if (location.pathname.includes('regiones')) {
+      paths.push({ name: 'Regiones', url: '/admin/regiones' });
+
+      if (location.pathname.includes('new')) {
+        paths.push({ name: 'Nueva', url: '/admin/regiones/new' });
+      }
+  
+      if (param !== null) {
+        paths.push({ name: 'Editar', url: '/admin/regiones/edit/' + param });
+      }
+    }
+
+    if (location.pathname.includes('comunas')) {
+      paths.push({ name: 'Comunas', url: '/admin/comunas' });
+
+      if (location.pathname.includes('new')) {
+        paths.push({ name: 'Nueva', url: '/admin/comunas/new' });
+      }
+  
+      if (param !== null) {
+        paths.push({ name: 'Editar', url: '/admin/comunas/edit/' + param });
+      }
     }
   }
+
+  
 
   if (location.pathname.includes('publications')) {
     paths.push({ name: 'Publicaciones', url: '/admin/publications' });
@@ -54,6 +78,19 @@ const Breadcrumb = ({ param } = null) => {
       paths.push({ name: 'Editar', url: '/admin/publications/edit/' + param });
     }
   }
+
+  if (location.pathname.includes('autores')) {
+    paths.push({ name: 'Autores', url: '/admin/autores' });
+
+    if (location.pathname.includes('new')) {
+      paths.push({ name: 'Nuevo', url: '/admin/autores/new' });
+    }
+
+    if (param !== null) {
+      paths.push({ name: 'Editar', url: '/admin/autores/edit/' + param });
+    }
+  }
+
 
   const filteredPaths = paths.filter((path) => location.pathname !== path.url);
 
@@ -78,7 +115,7 @@ const Breadcrumb = ({ param } = null) => {
   items.push(
     <li key={currentIndex}>
       <span className="font-bold text-warning-500">
-        {paths[currentIndex].name}
+        {paths[currentIndex] && paths[currentIndex].name}
       </span>
     </li>
   );

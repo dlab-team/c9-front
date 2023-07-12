@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import styles from './Form.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -19,6 +19,8 @@ import 'react-quill-emoji/dist/quill-emoji.css';
 import 'react-quill/dist/quill.snow.css';
 import ImagesUploader from './ImagesUploader';
 import ButtonBase from '../../UI/ButtonBase';
+import { AuthContext } from '../../../context/AuthContext/AuthContext.js';
+import Select from 'react-select';
 
 Quill.register(
   {
@@ -30,7 +32,27 @@ Quill.register(
   true
 );
 
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    minHeight: '47px', // Establece una altura mínima deseada
+    height: state.selectProps.menuIsOpen ? 'auto' : 'auto', // Ajusta la altura según el estado del menú
+    borderRadius: '8px',
+    border: '2px solid #00425A',
+    backgroundColor: 'transparent',
+    boxShadow: state.isFocused ? '0 0 0 1px #00425A' : 'none',
+    '&:hover': {
+      borderColor: state.isFocused ? '#00425A' : 'lightgray',
+    },
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: '#00425A',
+  }),
+};
+
 const Form = ({ publication } = null) => {
+  const { currentUser } = useContext(AuthContext);
   const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -43,8 +65,9 @@ const Form = ({ publication } = null) => {
   );
   const [imageFiles, setImageFiles] = useState(null);
   const [labels, setLabels] = useState({
-    location: publication?.location || null,
-    category: publication?.category || { id: null },
+    location: publication?.location || [],
+    category: publication?.category || [],
+    city: publication?.location?.city || [],
   });
   const promptInput = useRef(null);
   const titleInput = useRef(null);
@@ -59,12 +82,28 @@ const Form = ({ publication } = null) => {
   const [currentRegion, setCurrentRegion] = useState(
     publication?.location?.region.id || null
   );
-  const [currentComunas, setCurrentComunas] = useState('');
+  const [currentComunas, setCurrentComunas] = useState([]);
+  const [currentRegionLabel, setCurrentRegionLabel] = useState('');
+
+  const publicationDateInput = useRef(null);
+  const featuredInput = useRef(null);
 
   const loadComunas = () => {
     const index = regiones.findIndex((region) => region.id === currentRegion);
-    const comunas = regiones[index]?.cities;
+    const comunas = regiones[index]?.cities || [];
     setCurrentComunas(comunas);
+    setLabels((oldState) => ({
+      ...oldState,
+      location: {
+        ...oldState.location,
+        city: [],
+      },
+    }));
+  };
+
+  const getComunaLabel = (comunaId) => {
+    const comuna = currentComunas.find((comuna) => comuna.id === comunaId);
+    return comuna ? comuna.name : '';
   };
 
   const getRegiones = async () => {
@@ -90,6 +129,11 @@ const Form = ({ publication } = null) => {
     setCategorias(dataCapitalized);
   };
 
+  const categoriasOptions = categorias.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
   useEffect(() => {
     getCategories();
     getRegiones();
@@ -105,6 +149,15 @@ const Form = ({ publication } = null) => {
     const slug = slugInput.current.value;
     const initialContent = originalText;
     const finalContent = translatedText;
+
+    const inputDate = new Date(
+      publicationDateInput.current.value || new Date()
+    );
+    const selectedPublicationDate = new Date(
+      inputDate.getUTCFullYear(),
+      inputDate.getUTCMonth(),
+      inputDate.getUTCDate()
+    );
 
     if (
       title === '' ||
@@ -127,8 +180,16 @@ const Form = ({ publication } = null) => {
     formData.append('published', isPublished);
     formData.append('location', JSON.stringify(labels.location));
     formData.append('category', JSON.stringify(labels.category));
+    formData.append('fecha_publicacion', selectedPublicationDate);
+    formData.append('featured', featuredInput.current.checked);
 
     formData.append('questions', JSON.stringify(preguntas));
+
+    const userId = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/users/email/${currentUser.email}`
+    );
+
+    formData.append('user', userId.data.id);
 
     if (imageFiles) {
       imageFiles.forEach((image) => {
@@ -325,14 +386,13 @@ const Form = ({ publication } = null) => {
   function handleRemove(index) {
     const newList = preguntas.filter((item) => item.index !== index);
     setPreguntas(newList);
-    // TODO: para que es esto?
-    // if (count < 14) {
-    //   newList.push(QA[count]);
-    //   setCount(count + 1);
-    //   setPreguntas(newList);
-    // } else {
-    //   setPreguntas(newList);
-    // }
+    if (count < 14) {
+      newList.push(QA[count]);
+      setCount(count + 1);
+      setPreguntas(newList);
+    } else {
+      setPreguntas(newList);
+    }
   }
 
   const handleOriginalTextChange = (event) => {
@@ -359,7 +419,7 @@ const Form = ({ publication } = null) => {
   return (
     <>
       <ToastContainer></ToastContainer>
-      <div className='mb-8'>
+      <div className="mb-8">
         <form onSubmit={(event) => event.preventDefault()}>
           <div className="container mx-auto py-6">
             <h2 className="page-title">Traducir noticia</h2>
@@ -475,83 +535,74 @@ const Form = ({ publication } = null) => {
           <div className="grid grid-cols-4 gap-4">
             <div className="w-full text-base font-sora">
               <label className="flex h-5 w-5 mb-4">Region</label>
-              <select
-                className="w-full h-12 rounded-[8px] border-[2px] 
-              border-[#00425A] bg-transparent px-3"
-                name="region"
-                onChange={(event) => {
-                  setCurrentRegion(Number(event.target.value) || null);
+              <Select
+                className="w-full"
+                options={regiones.map((item) => ({
+                  value: item.id,
+                  label: item.name,
+                }))}
+                value={
+                  currentRegion
+                    ? { value: currentRegion, label: currentRegionLabel }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setCurrentRegion(selectedOption?.value || null);
+                  setCurrentRegionLabel(selectedOption?.label || '');
                   updateLocationLabels({
-                    region: { id: Number(event.target.value) || null },
+                    region: {
+                      id: selectedOption?.value || null,
+                      name: selectedOption?.label || '',
+                    },
                   });
                 }}
-              >
-                {publication?.location && (
-                  <option value={publication.location.region.id}>
-                    {publication.location.region.name}
-                  </option>
-                )}
-                <option value={null}>Todas</option>
-                {regiones.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+                placeholder="Seleccione región"
+                styles={customStyles}
+              />
             </div>
             <div className="w-full text-base font-sora">
               <label className="flex h-5 w-5 mb-4">Comuna</label>
-              <select
-                className="w-full h-12 rounded-[8px] border-[2px] 
-              border-[#00425A] bg-transparent px-3"
-                name="comuna"
-                onChange={(event) =>
-                  updateLocationLabels({
-                    city: { id: Number(event.target.value) || null },
-                  })
-                }
-              >
-                {publication?.location?.city && (
-                  <option value={publication.location.city.id}>
-                    {publication.location.city.name}
-                  </option>
+              <Select
+                className="w-full"
+                options={currentComunas}
+                value={currentComunas.filter(
+                  (comuna) =>
+                    labels.location.city &&
+                    labels.location.city.includes(comuna.id)
                 )}
-                <option value={'todas'}>Todas</option>
-                {currentComunas &&
-                  currentComunas.map((item, index) => (
-                    <option key={`cmunnas-${index}`} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-              </select>
+                isMulti
+                getOptionLabel={(option) => getComunaLabel(option.id)} // Agregar esta línea
+                onChange={(selectedOptions) =>
+                  setLabels((oldState) => ({
+                    ...oldState,
+                    location: {
+                      ...oldState.location,
+                      city: selectedOptions.map((option) => option.id),
+                    },
+                  }))
+                }
+                placeholder="Seleccione comunas"
+                styles={customStyles}
+              />
             </div>
             <div className="w-full text-base font-sora">
               <label className="flex h-5 w-5 mb-4">Categoría</label>
-              <select
-                className="w-full h-12 rounded-[8px] border-[2px] 
-              border-[#00425A] bg-transparent px-3"
-                name="category"
-                onChange={(event) =>
-                  setLabels((oldState) => {
-                    return {
-                      ...oldState,
-                      category: { id: Number(event.target.value) || null },
-                    };
-                  })
-                }
-              >
-                {publication?.category && (
-                  <option value={publication.category.id}>
-                    {publication.category.name}
-                  </option>
+              <Select
+                className="w-full"
+                options={categoriasOptions}
+                value={categoriasOptions.filter((option) =>
+                  labels.category.includes(option.value)
                 )}
-                <option value={null}>Seleccione categoria</option>
-                {categorias.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+                isMulti
+                onChange={(selectedOptions) =>
+                  setLabels((oldState) => ({
+                    ...oldState,
+                    category: selectedOptions.map((option) => option.value),
+                  }))
+                }
+                placeholder="Seleccione categorías"
+                styles={customStyles}
+              />
             </div>
             <div className="w-full text-base font-sora">
               <label className="flex h-5 w-5 mb-4">Autor</label>
@@ -560,6 +611,33 @@ const Form = ({ publication } = null) => {
                 name="author"
                 placeholder="Ingrese autor"
               />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="publicationDate" className="mt-2">
+                Fecha de publicacion
+              </label>
+              <input
+                type="date"
+                id="publicationDate"
+                className="appearance-none text-lg border-2 w-full border-[#00425A] px-3 py-2 rounded-lg inline-block"
+                ref={publicationDateInput}
+                defaultValue={
+                  publication
+                    ? publication.publicationDate.split('/').join('-')
+                    : undefined
+                }
+              />
+            </div>
+            <div className="mt-10">
+              <label className="flex items-center gap-2 w-full h-12  px-3 py-2">
+                <input
+                  type="checkbox"
+                  defaultChecked={publication?.featured}
+                  ref={featuredInput}
+                  className="h-9 w-9"
+                />
+                <span className="">Marcar como destacada</span>
+              </label>
             </div>
           </div>
 
@@ -574,30 +652,40 @@ const Form = ({ publication } = null) => {
           <h2 className="mt-6 mb-3 text-[28px] text-primary font-principal">
             Agregar Preguntas
           </h2>
-
-          {isLoadingQA ? (
-            <button
-              className="py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex"
-              type="button"
-            >
-              {' '}
-              Cargando Preguntas
-              <img src={spinnerQA} style={{ width: '20px' }} className="ml-2" />
-            </button>
-          ) : (
-            <button
-              className="py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex"
-              type="button"
-              onClick={() => handleGetPreguntas()}
-            >
-              {' '}
-              Traer Preguntas
-              <FontAwesomeIcon
-                icon={faQuestionCircle}
-                className="ml-2 text-yellow"
-              />
-            </button>
-          )}
+          <section>
+            <div className="group flex items-center">
+              {isLoadingQA ? (
+                <button
+                  className="py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex"
+                  type="button"
+                >
+                  Cargando Preguntas
+                  <img
+                    src={spinnerQA}
+                    style={{ width: '20px' }}
+                    className="ml-2"
+                  />
+                </button>
+              ) : (
+                <button
+                  className="py-4 text-lg px-4 rounded bg-blue-900 text-white items-center flex"
+                  type="button"
+                  onClick={() => handleGetPreguntas()}
+                >
+                  Traer Preguntas
+                  <FontAwesomeIcon
+                    icon={faQuestionCircle}
+                    className="ml-2 text-yellow"
+                  />
+                </button>
+              )}
+              <p className="opacity-0 px-4 text-red-600 group-hover:opacity-80">
+                {' '}
+                Puedes eliminar una pregunta para traer una nueva (hasta 10
+                veces)
+              </p>
+            </div>
+          </section>
 
           <div>
             <ul className="my-3">
