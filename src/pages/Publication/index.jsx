@@ -148,7 +148,7 @@ const Publication = () => {
           </Link>
 
           <h1 className="innova-title pt-5">{publication?.name}</h1>
-          <div className="mt-2 flex justify-between">
+          <div className="mt-2 py-6 flex justify-between">
             <Link to={`/perfil/${publication?.author.username}`}>
               <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
                 <FontAwesomeIcon
@@ -203,7 +203,7 @@ const Publication = () => {
         </div>
 
         <div className="publication-content md:px-14 lg:px-40 relative">
-          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] opacity-40">
+          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40">
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 

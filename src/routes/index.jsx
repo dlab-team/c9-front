@@ -14,6 +14,12 @@ import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
 import Profile from '../pages/Profile';
 import Confirm from '../pages/Admin/Users/Confirm';
+import AdminRegiones from '../pages/Admin/Regiones';
+import AdminComunas from '../pages/Admin/Comunas';
+import Authors from '../pages/Admin/Authors';
+import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
+import AdminAuthorNew from '../pages/Admin/Authors/New';
+
 
 const AppRoutes = () => {
   return (
@@ -127,6 +133,34 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+        <Route
+          exact
+          path="admin/autores"
+          element={
+            <Layout>
+              <Authors />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/autores/new"
+          element={
+            <Layout>
+              <AdminAuthorNew />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/autores/edit/:id"
+          element={
+            <Layout>
+              <AdminAuthorEdit/>
+            </Layout>
+          }
+        />
+
       </Route>
 
       <Route element={<ProtectedRoute requiredAdminRole={true} />}>
@@ -139,6 +173,30 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+      </Route>
+
+      <Route element={<ProtectedRoute requiredAdminRole={true} />}>
+        <Route
+          exact
+          path="admin/regiones"
+          element={
+            <Layout>
+              <AdminRegiones />
+            </Layout>
+          }
+        />   
+
+        <Route
+          exact
+          path="admin/comunas"
+          element={
+            <Layout>
+              <AdminComunas />
+            </Layout>
+          }
+        /> 
+      
+      
       </Route>
     </Routes>
   );
