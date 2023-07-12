@@ -185,7 +185,7 @@ const Publication = () => {
         </div>
 
         <div className="flex mb-3 md:mb-8">
-          {publication?.images.length > 0 && (
+          {publication?.images?.length > 0 && (
             <img
               className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-300"
               src={publication.images[0].url}
