@@ -7,7 +7,6 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
 import { faTag } from '@fortawesome/free-solid-svg-icons';
-import './index.css';
 import bgIzq from '../../assets/images/bg-izq.png';
 import bgDer from '../../assets/images/bg-der.png';
 import { Tab, initTE } from 'tw-elements';

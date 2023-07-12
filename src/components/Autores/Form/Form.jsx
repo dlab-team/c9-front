@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
-
 const AuthorForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -18,27 +17,25 @@ const AuthorForm = () => {
   const nameInput = useRef(null);
   const descriptionInput = useRef(null);
 
-  const endpoint = `${process.env.REACT_APP_BACKEND_URL}/author`
-
+  const endpoint = `${process.env.REACT_APP_BACKEND_URL}/author`;
 
   useEffect(() => {
     if (isEditing) {
       // Obtener los datos del autor para editar
-        axios.get(`${endpoint}/${id}`)
-          .then(response => {
-            const author = response.data;
-            setName(author.name);
-            setEmail(author.email);
-            setDescription(author.description);
-            setPhoto(author.photo);
-          })
-          .catch(error => {
-            console.error('Error al obtener los datos del autor:', error);
-          });
-      }
+      axios
+        .get(`${endpoint}/${id}`)
+        .then((response) => {
+          const author = response.data;
+          setName(author.name);
+          setEmail(author.email);
+          setDescription(author.description);
+          setPhoto(author.photo);
+        })
+        .catch((error) => {
+          console.error('Error al obtener los datos del autor:', error);
+        });
+    }
   }, [id, isEditing]);
-   
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -58,7 +55,6 @@ const AuthorForm = () => {
       return;
     }
 
-
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', email);
@@ -68,55 +64,67 @@ const AuthorForm = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-      }
-    }
+      },
+    };
 
     if (isEditing) {
       axios
-      .put(`${endpoint}/${id}`, formData, config)
-      .then(response => {
-        toast('Autor actualizado correctamente', {
-          type: 'success',
-          autoClose: 3000,
-          onClose: () => {
-            setTimeout(() => {
-              navigate('/admin/autores');
-            }, 3000);
-          },
-        });
-      })
-      .catch(error => {
-        toast('Error al guardar el autor', {
-          type: 'error',
-          autoClose: 3000,
-        });
-      });
-    } else {
-      axios.post(endpoint, formData, config )
-        .then(response => {
-          console.log('Autor creado:', response.data);
-          navigate('/admin/autores');
+        .put(`${endpoint}/${id}`, formData, config)
+        .then((response) => {
+          toast('Autor actualizado correctamente', {
+            type: 'success',
+            autoClose: 3000,
+            onClose: () => {
+              setTimeout(() => {
+                navigate('/admin/autores');
+              }, 3000);
+            },
+          });
         })
-        .catch(error => {
+        .catch((error) => {
+          toast('Error al guardar el autor', {
+            type: 'error',
+            autoClose: 3000,
+          });
+        });
+    } else {
+      axios
+        .post(endpoint, formData, config)
+        .then((response) => {
+          toast('Autor creado correctamente', {
+            type: 'success',
+            autoClose: 3000,
+            onClose: () => {
+              setTimeout(() => {
+                navigate('/admin/autores');
+              }, 3000);
+            },
+          });
+        })
+        .catch((error) => {
           console.error('Error al crear el autor:', error);
         });
-    };
+    }
   };
 
-    const validateEmail = (email) => {
-      // Expresión regular para validar el formato del email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    };  
-  
+  const validateEmail = (email) => {
+    // Expresión regular para validar el formato del email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow-lg text-primary">
       <ToastContainer></ToastContainer>
-      <h1 className="text-2xl mb-6 page-title">{isEditing ? 'Editar Autor' : 'Crear Autor'}</h1>
+      <h1 className="text-2xl mb-6 page-title">
+        {isEditing ? 'Editar Autor' : 'Crear Autor'}
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="nombre" className="block text-gray-700 text-sm font-bold mb-2">
+          <label
+            htmlFor="nombre"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
             Nombre:
           </label>
           <input
@@ -128,7 +136,10 @@ const AuthorForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
+          <label
+            htmlFor="email"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
             Email:
           </label>
           <input
@@ -140,7 +151,10 @@ const AuthorForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="descripcion" className="block text-gray-700 text-sm font-bold mb-2">
+          <label
+            htmlFor="descripcion"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
             Descripción:
           </label>
           <textarea
@@ -151,7 +165,10 @@ const AuthorForm = () => {
           ></textarea>
         </div>
         <div className="mb-4">
-          <label htmlFor="avatar" className="block text-gray-700 text-sm font-bold mb-2">
+          <label
+            htmlFor="avatar"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
             Foto de perfil:
           </label>
           <input
@@ -174,5 +191,3 @@ const AuthorForm = () => {
 };
 
 export default AuthorForm;
-
-
