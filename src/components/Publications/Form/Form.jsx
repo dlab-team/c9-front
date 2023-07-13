@@ -32,7 +32,7 @@ Quill.register(
   },
   true
 );
- 
+
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -64,7 +64,7 @@ const Form = ({ publication } = null) => {
   const [translatedText, setTranslatedText] = useState(
     publication?.finalContent || ''
   );
-  const [ finalContent_en, setFinalContent_en] = useState(
+  const [finalContent_en, setFinalContent_en] = useState(
     publication?.finalContent_en || ''
   );
   const [contentLanguage, setContentLanguage] = useState('es');
@@ -424,7 +424,7 @@ const Form = ({ publication } = null) => {
   };
 
   const traducirTextAInglesGptService = async (callback) => {
-    setIsLoading(true)
+    setIsLoading(true);
     const options = {
       method: 'POST',
       headers: {
@@ -436,8 +436,8 @@ const Form = ({ publication } = null) => {
         temperature: 1,
         max_tokens: 2048,
         //n: 15,
-        prompt: `Traduce en ingles el texto delimitado por ''' ''' manteniendo las estiquetas HTML, estilos y emojis,   
-          '''${translatedText}'''`
+        prompt: `Traduce en ingles el texto delimitado por ''' ''' manteniendo las etiquetas HTML, estilos y emojis,   
+          '''${translatedText}'''`,
       }),
     };
 
@@ -447,22 +447,22 @@ const Form = ({ publication } = null) => {
         options
       );
       const data = await response.json();
-      const dataChoices = data.choices
+      const dataChoices = data.choices;
       setIsLoading(false);
       //sacar el texto en ingles
-      return dataChoices
+      return dataChoices[0].text;
     } catch (error) {
       setIsLoading(false);
     }
-  }
+  };
 
   const handleTabChange = async (language) => {
     setContentLanguage(language);
-    if(language === 'en' && finalContent_en === '') {
-      const text_en = await traducirTextAInglesGptService()
+    if (language === 'en' && finalContent_en === '') {
+      const text_en = await traducirTextAInglesGptService();
       setFinalContent_en(text_en);
     }
-  }
+  };
 
   return (
     <>
@@ -553,7 +553,9 @@ const Form = ({ publication } = null) => {
                   className="rounded"
                 >
                   <ReactQuill
-                    className={`rounded h-[27rem] xl:h-[28.3rem] ${contentLanguage !== 'es' ? 'hidden' : '' }`}
+                    className={`rounded h-[27rem] xl:h-[28.3rem] ${
+                      contentLanguage !== 'es' ? 'hidden' : ''
+                    }`}
                     value={translatedText}
                     onChange={setTranslatedText}
                     modules={{
@@ -574,12 +576,14 @@ const Form = ({ publication } = null) => {
                     }}
                   />
                   {isLoading && contentLanguage === 'en' && (
-                    <div className='flex h-full justify-center items-center'>
-                      <img src={spinner}  className='w-16'/>
+                    <div className="flex h-full justify-center items-center">
+                      <img src={spinner} className="w-16" />
                     </div>
                   )}
                   <ReactQuill
-                    className={`rounded h-[27rem] ${contentLanguage !== 'en' || isLoading ? 'hidden' : '' }`}
+                    className={`rounded h-[27rem] ${
+                      contentLanguage !== 'en' || isLoading ? 'hidden' : ''
+                    }`}
                     value={finalContent_en}
                     onChange={setFinalContent_en}
                     modules={{
@@ -600,12 +604,12 @@ const Form = ({ publication } = null) => {
                     }}
                   />
                 </div>
-                <div className='col-end-3 flex justify-end'>
-									<LanguageTabs 
+                <div className="col-end-3 flex justify-end">
+                  <LanguageTabs
                     onChange={handleTabChange}
-                    isDisabled={ translatedText.length === 0 }
+                    isDisabled={translatedText.length === 0}
                   />
-								</div>
+                </div>
               </div>
             </div>
           </div>
