@@ -23,10 +23,10 @@ function AuthContextProvider(props) {
   };
 
   useEffect(() => {
-    if (currentUser && currentUser.exp * 1000 < Date.now()) {
+    if (currentUser && new Date().getTime() >= currentUser.exp ) {
       setUserLogout();
     }
-  }, [currentUser]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ currentUser, setUserLogin, setUserLogout }}>
