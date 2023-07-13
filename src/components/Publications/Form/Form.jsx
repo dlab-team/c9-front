@@ -21,6 +21,7 @@ import ImagesUploader from './ImagesUploader';
 import ButtonBase from '../../UI/ButtonBase';
 import { AuthContext } from '../../../context/AuthContext/AuthContext.js';
 import Select from 'react-select';
+import LanguageTabs from './LanguageTabs';
 
 Quill.register(
   {
@@ -31,7 +32,7 @@ Quill.register(
   },
   true
 );
-
+ 
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -63,6 +64,11 @@ const Form = ({ publication } = null) => {
   const [translatedText, setTranslatedText] = useState(
     publication?.finalContent || ''
   );
+  const [ finalContent_en, setFinalContent_en] = useState(
+    publication?.finalContent_en || ''
+  );
+  const [contentLanguage, setContentLanguage] = useState('es');
+
   const [imageFiles, setImageFiles] = useState(null);
   const [labels, setLabels] = useState({
     location: publication?.location || [],
@@ -177,6 +183,7 @@ const Form = ({ publication } = null) => {
     formData.append('slug', slug);
     formData.append('initialContent', initialContent);
     formData.append('finalContent', finalContent);
+    formData.append('finalContent_en', finalContent_en);
     formData.append('published', isPublished);
     formData.append('location', JSON.stringify(labels.location));
     formData.append('category', JSON.stringify(labels.category));
@@ -416,6 +423,47 @@ const Form = ({ publication } = null) => {
     });
   };
 
+  const traducirTextAInglesGptService = async (callback) => {
+    setIsLoading(true)
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'text-davinci-003',
+        temperature: 1,
+        max_tokens: 2048,
+        //n: 15,
+        prompt: `Traduce en ingles el texto delimitado por ''' ''' manteniendo las estiquetas HTML, estilos y emojis,   
+          '''${translatedText}'''`
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        'https://api.openai.com/v1/completions',
+        options
+      );
+      const data = await response.json();
+      const dataChoices = data.choices
+      setIsLoading(false);
+      //sacar el texto en ingles
+      return dataChoices
+    } catch (error) {
+      setIsLoading(false);
+    }
+  }
+
+  const handleTabChange = async (language) => {
+    setContentLanguage(language);
+    if(language === 'en' && finalContent_en === '') {
+      const text_en = await traducirTextAInglesGptService()
+      setFinalContent_en(text_en);
+    }
+  }
+
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -505,7 +553,7 @@ const Form = ({ publication } = null) => {
                   className="rounded"
                 >
                   <ReactQuill
-                    className="rounded h-96"
+                    className={`rounded h-[27rem] xl:h-[28.3rem] ${contentLanguage !== 'es' ? 'hidden' : '' }`}
                     value={translatedText}
                     onChange={setTranslatedText}
                     modules={{
@@ -525,7 +573,39 @@ const Form = ({ publication } = null) => {
                       'emoji-shortname': true,
                     }}
                   />
+                  {isLoading && contentLanguage === 'en' && (
+                    <div className='flex h-full justify-center items-center'>
+                      <img src={spinner}  className='w-16'/>
+                    </div>
+                  )}
+                  <ReactQuill
+                    className={`rounded h-[27rem] ${contentLanguage !== 'en' || isLoading ? 'hidden' : '' }`}
+                    value={finalContent_en}
+                    onChange={setFinalContent_en}
+                    modules={{
+                      toolbar: {
+                        container: [
+                          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                          ['bold', 'italic', 'underline', 'strike'],
+                          [{ list: 'ordered' }, { list: 'bullet' }],
+                          ['emoji', 'image'],
+                          [{ color: [] }, { background: [] }],
+                          [{ indent: '-1' }, { indent: '+1' }],
+                          [{ align: [] }],
+                        ],
+                      },
+                      'emoji-toolbar': true,
+                      'emoji-textarea': false,
+                      'emoji-shortname': true,
+                    }}
+                  />
                 </div>
+                <div className='col-end-3 flex justify-end'>
+									<LanguageTabs 
+                    onChange={handleTabChange}
+                    isDisabled={ translatedText.length === 0 }
+                  />
+								</div>
               </div>
             </div>
           </div>
