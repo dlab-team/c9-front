@@ -380,6 +380,7 @@ const Form = ({ publication } = null) => {
       const content = aText[0].trim();
 
       setTranslatedText(content);
+      setFinalContent_en('')
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -423,7 +424,7 @@ const Form = ({ publication } = null) => {
     });
   };
 
-  const traducirTextAInglesGptService = async (callback) => {
+  const translateTextToEnglishGptService = async () => {
     setIsLoading(true);
     const options = {
       method: 'POST',
@@ -436,11 +437,11 @@ const Form = ({ publication } = null) => {
         temperature: 1,
         max_tokens: 2048,
         //n: 15,
-        prompt: `Traduce en ingles el texto delimitado por ''' ''' manteniendo las etiquetas HTML, estilos y emojis,   
-          '''${translatedText}'''`,
+        prompt: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
+          texto: '''${translatedText}'''`,
       }),
     };
-
+    
     try {
       const response = await fetch(
         'https://api.openai.com/v1/completions',
@@ -453,13 +454,17 @@ const Form = ({ publication } = null) => {
       return dataChoices[0].text;
     } catch (error) {
       setIsLoading(false);
+      toast('Error al traducir el texto', {
+        type: 'error',
+        autoClose: 3000,
+      });
     }
   };
 
   const handleTabChange = async (language) => {
     setContentLanguage(language);
-    if (language === 'en' && finalContent_en === '') {
-      const text_en = await traducirTextAInglesGptService();
+    if (language === 'en' && finalContent_en.length < 15) {
+      const text_en = await translateTextToEnglishGptService();
       setFinalContent_en(text_en);
     }
   };
@@ -581,7 +586,7 @@ const Form = ({ publication } = null) => {
                     </div>
                   )}
                   <ReactQuill
-                    className={`rounded h-[27rem] ${
+                    className={`rounded h-[27rem] xl:h-[28.3rem] ${
                       contentLanguage !== 'en' || isLoading ? 'hidden' : ''
                     }`}
                     value={finalContent_en}
@@ -607,7 +612,7 @@ const Form = ({ publication } = null) => {
                 <div className="col-end-3 flex justify-end">
                   <LanguageTabs
                     onChange={handleTabChange}
-                    isDisabled={translatedText.length === 0}
+                    isDisabled={translatedText.length < 15}
                   />
                 </div>
               </div>
