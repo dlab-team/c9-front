@@ -197,8 +197,8 @@ const Gallery = ({ searchValue = '' }) => {
                     onClick={() => navigate(`/noticias/${publication.slug}`)}
                   >
                     {publication.featured && (
-                      <div class="absolute right-0 z-[9999999999999]">
-                        <span class="inline-block bg-blue-500 text-white text-xs font-bold py-1 px-2 me-3 rounded-b">
+                      <div className="absolute right-0 z-[9999999999999]">
+                        <span className="inline-block bg-blue-500 text-white text-xs font-bold py-1 px-2 me-3 rounded-b">
                           <FontAwesomeIcon icon={faStar} />
                         </span>
                       </div>

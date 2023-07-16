@@ -19,14 +19,14 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
 
   const activeClass = 'bg-white';
   return (
-    <div class="w-[50%] mt-[-1px]">
+    <div Name="w-[50%] mt-[-1px]">
       <ul
         className={`h-10 bg-[#116cef4d] border-[#00425a] border-r border-l border-b 
 			flex items-center justify-center list-none flex-wrap rounded-b-lg px-2`}
         data-tabs="tabs"
         role="list"
       >
-        <li class="z-30 flex-auto text-center ">
+        <li className="z-30 flex-auto text-center ">
           <button
             className={`${
               activeTab === 'es' ? activeClass : ''
@@ -37,12 +37,12 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
             aria-selected="true"
             onClick={() => changeLanguage('es')}
           >
-            <span class="ml-1">Español</span>
+            <span className="ml-1">Español</span>
           </button>
         </li>
-        <li class="z-30 flex-auto text-center">
+        <li className="z-30 flex-auto text-center">
           <button
-            class={`${
+            className={`${
               activeTab !== 'es' ? activeClass : ''
             } z-30 h-7 mb-0 text-base
 			    flex w-full cursor-pointer items-center justify-center rounded-lg border-0
@@ -51,7 +51,7 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
             aria-selected="true"
             onClick={() => changeLanguage('en')}
           >
-            <span class="ml-1">Ingles</span>
+            <span className="ml-1">Ingles</span>
           </button>
         </li>
       </ul>
