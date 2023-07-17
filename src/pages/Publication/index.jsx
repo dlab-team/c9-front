@@ -1,18 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
-import { faTag } from '@fortawesome/free-solid-svg-icons';
-import bgIzq from '../../assets/images/bg-izq.png';
-import bgDer from '../../assets/images/bg-der.png';
-import { Tab, initTE } from 'tw-elements';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
+import { faTag } from "@fortawesome/free-solid-svg-icons";
+import bgIzq from "../../assets/images/bg-izq.png";
+import bgDer from "../../assets/images/bg-der.png";
+import { Tab, initTE } from "tw-elements";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
-import { Spinner } from '../../components/UI';
+import { Spinner } from "../../components/UI";
+import TextToSpeech from "../../components/TextToSpeach/TextToSpeach";
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -33,17 +34,17 @@ const Publication = () => {
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
   const setLocation = (location) => {
-    let locationName = '';
+    let locationName = "";
     if (
       location === null ||
       (location?.region === null && location?.city === null)
     ) {
-      locationName = 'Chile';
+      locationName = "Chile";
       return locationName;
     }
 
@@ -61,7 +62,7 @@ const Publication = () => {
   function formatFecha(publicationDate) {
     const fecha = new Date(publicationDate);
     const numeroDia = fecha.getDate();
-    const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
+    const nombreMes = fecha.toLocaleString("es-ES", { month: "long" });
 
     return (
       <div className="bg-gray-200 text-center py-4 md:p-5 rounded">
@@ -87,7 +88,7 @@ const Publication = () => {
     try {
       await axios.post(endpointVisit);
     } catch (error) {
-      console.error('Error al aumentar las visitas:', error);
+      console.error("Error al aumentar las visitas:", error);
     }
   };
 
@@ -104,21 +105,21 @@ const Publication = () => {
       setShowButton(isVisible);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    const divContent = document.getElementById('content-text');
+    const divContent = document.getElementById("content-text");
     divContent.innerHTML = publication?.finalContent;
-    const divContentEN = document.getElementById('content-text_EN');
+    const divContentEN = document.getElementById("content-text_EN");
     divContentEN.innerHTML = publication?.finalContent_EN;
 
     if (carouselRef.current && publication) {
-      const dots = document.querySelectorAll('.control-dots .dot');
+      const dots = document.querySelectorAll(".control-dots .dot");
       dots[0].click();
     }
   }, [publication]);
@@ -129,12 +130,12 @@ const Publication = () => {
 
   return (
     <>
-      <div className={loading ? '' : 'hidden'}>
+      <div className={loading ? "" : "hidden"}>
         <div className="w-full h-[20vh] sm:h-[60vh] flex justify-center items-center">
           <Spinner />
         </div>
       </div>
-      <div className={loading ? 'hidden' : ''}>
+      <div className={loading ? "hidden" : ""}>
         <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96">
           <Link to="/">
             <button
@@ -146,7 +147,10 @@ const Publication = () => {
             </button>
           </Link>
 
-          <h1 className="innova-title pt-5">{publication?.name}</h1>
+          <div>
+            <h1 className="innova-title pt-5">{publication?.name}</h1>
+            <TextToSpeech text={publication?.name} />
+          </div>
           <div className="mt-2 py-6 flex justify-between">
             <Link to={`/perfil/${publication?.author.username}`}>
               <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
@@ -178,7 +182,7 @@ const Publication = () => {
                 <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
                 {publication?.category?.name
                   ? publication.category.name
-                  : 'Sin categoría'}
+                  : "Sin categoría"}
               </a>
             </div>
           </div>
@@ -261,6 +265,8 @@ const Publication = () => {
                     data-te-tab-active
                   >
                     <div id="content-text" className="innova-text"></div>
+                    <TextToSpeech text={publication?.finalContent} />
+                    {/* marca */}
                   </div>
                   <div
                     class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
@@ -287,7 +293,7 @@ const Publication = () => {
                     <div className="p-2">{item.question}</div>
                     <svg
                       className={`w-5 h-5 transition-transform ${
-                        activeIndex === index ? 'transform rotate-180' : ''
+                        activeIndex === index ? "transform rotate-180" : ""
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
