@@ -21,6 +21,7 @@ import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
 import AdminAuthorNew from '../pages/Admin/Authors/New';
 
 
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -195,8 +196,6 @@ const AppRoutes = () => {
             </Layout>
           }
         /> 
-      
-      
       </Route>
     </Routes>
   );
