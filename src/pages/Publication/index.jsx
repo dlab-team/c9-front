@@ -187,7 +187,7 @@ const Publication = () => {
         <div className="flex mb-3 md:mb-8">
           {publication?.images?.length > 0 && (
             <img
-              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-300"
+              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400"
               src={publication.images[0].url}
               alt="Imagen principal"
             />
@@ -200,13 +200,47 @@ const Publication = () => {
             {publication?.author?.name}
           </Link>
         </div>
-
+        <div className='md:ml-32'>
+          <ul
+            className="lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-wrap pl-0 md:mr-14 mr-4"
+            role="tablist"
+            data-te-nav-ref
+          >
+            <li role="presentation" className="flex-grow text-center">
+              <a
+                href="#tabs-home03"
+                className="my-1 block border-x-0 border-b-2 border-t-0 border-transparent px-1 pb-1 pt-1 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-secondary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                data-te-toggle="pill"
+                data-te-target="#tabs-home03"
+                data-te-nav-active
+                role="tab"
+                aria-controls="tabs-home03"
+                aria-selected="true"
+              >
+                Español
+              </a>
+            </li>
+            <li role="presentation" className="flex-grow text-center">
+              <a
+                href="#tabs-profile03"
+                className="focus:border-transparent my-1 block border-x-0 border-b-2 border-t-0 border-transparent px-1 pb-1 pt-1 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-secondary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                data-te-toggle="pill"
+                data-te-target="#tabs-profile03"
+                role="tab"
+                aria-controls="tabs-profile03"
+                aria-selected="false"
+              >
+                Inglés
+              </a>
+            </li>
+          </ul>
+        </div>
         <div className="publication-content md:px-14 lg:px-40 relative">
-          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40">
+          <div className="absolute right-0 w-[38%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40">
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
-          <div className="absolute left-0 bottom-0 w-[55%] md:w-[24%] lg:w-[18%] opacity-40">
+          <div className="absolute left-0 bottom-0 w-[48%] md:w-[24%] lg:w-[18%] opacity-40">
             <img src={bgIzq} alt="Blob Izquierdo" />
           </div>
 
@@ -214,18 +248,19 @@ const Publication = () => {
             <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
               <div className="col-span-1">
                 {formatFecha(publication?.publicationDate)}
-                <div className="sm:inline-block hidden whitespace-nowrap w-full rounded bg-gray-200 text-black p-3 text-center align-baseline text-[0.85em] leading-none mt-4">
-                  Visitas: {publication?.visits}
+                <div className="sm:inline-block rounded-md whitespace-nowrap w-full rounded bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
+                  Visitas: 
+                  <p className='text-green-600 text-lg'>{publication?.visits}</p>
                 </div>
                 <ul
-                  class="mr-4 flex list-none flex-row flex-wrap pl-0"
+                  className="xs:hidden lg:block mr-4 flex list-none flex-row flex-wrap pl-0"
                   role="tablist"
                   data-te-nav-ref
                 >
-                  <li role="presentation" class="flex-grow text-center">
+                  <li role="presentation" className="flex-grow text-center">
                     <a
                       href="#tabs-home03"
-                      className="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                      className="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-6 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
                       data-te-toggle="pill"
                       data-te-target="#tabs-home03"
                       data-te-nav-active
@@ -236,10 +271,10 @@ const Publication = () => {
                       Español
                     </a>
                   </li>
-                  <li role="presentation" class="flex-grow text-center">
+                  <li role="presentation" className="flex-grow text-center">
                     <a
                       href="#tabs-profile03"
-                      className="focus:border-transparen my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                      className="focus:border-transparen my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-6 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
                       data-te-toggle="pill"
                       data-te-target="#tabs-profile03"
                       role="tab"
@@ -252,9 +287,9 @@ const Publication = () => {
                 </ul>
               </div>
               <div className="col-span-6 md:col-span-7">
-                <div class="my-2">
+                <div className="my-2">
                   <div
-                    class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+                    className="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
                     id="tabs-home03"
                     role="tabpanel"
                     aria-labelledby="tabs-home-tab03"
@@ -263,7 +298,7 @@ const Publication = () => {
                     <div id="content-text" className="innova-text"></div>
                   </div>
                   <div
-                    class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+                    className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
                     id="tabs-profile03"
                     role="tabpanel"
                     aria-labelledby="tabs-profile-tab03"
