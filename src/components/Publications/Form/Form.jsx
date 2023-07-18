@@ -443,7 +443,7 @@ const Form = ({ publication } = null) => {
         model: "gpt-4",
         temperature: 0,
         max_tokens: 8000,
-        n: 0.5,
+        n: 1,
         messages: [{"role": "user", "content":  `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
         texto: '''${translatedText}'''`,
                       }],
