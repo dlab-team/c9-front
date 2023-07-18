@@ -24,6 +24,7 @@ import { AuthContext } from "../../../context/AuthContext/AuthContext.js";
 import Select from "react-select";
 import LanguageTabs from "./LanguageTabs";
 import Information from "../../Information/Information";
+import CreatableSelect from 'react-select/creatable';
 
 Quill.register(
   {
@@ -53,6 +54,11 @@ const customStyles = {
     color: "#00425A",
   }),
 };
+
+const createOption = (label) => ({
+  label,
+  value: label,
+});
 
 const Form = ({ publication } = null) => {
   const { currentUser } = useContext(AuthContext);
@@ -92,6 +98,8 @@ const Form = ({ publication } = null) => {
   );
   const [currentComunas, setCurrentComunas] = useState([]);
   const [currentRegionLabel, setCurrentRegionLabel] = useState("");
+  const [keywords, setKeywords] = useState(publication?.keywords || []);
+  const [keywordInputValue, setKeywordInputValue] = useState('');
 
   const publicationDateInput = useRef(null);
   const featuredInput = useRef(null);
@@ -195,6 +203,7 @@ const Form = ({ publication } = null) => {
     formData.append("category", JSON.stringify(labels.category));
     formData.append("fecha_publicacion", selectedPublicationDate);
     formData.append("featured", featuredInput.current.checked);
+    formData.append("keywords", JSON.stringify(keywords.map(item => item.value)));
 
     formData.append("questions", JSON.stringify(preguntas));
 
@@ -483,6 +492,17 @@ const Form = ({ publication } = null) => {
     setIsModalOpen(false);
   };
 
+  const handleKeyDownInKeywordsInput = (event) => {
+    if (!keywordInputValue) return;
+    switch (event.key) {
+      case 'Enter':
+      case 'Tab':
+        setKeywords((prev) => [...prev, createOption(keywordInputValue)]);
+        setKeywordInputValue('');
+        event.preventDefault();
+    }
+  };
+
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -718,8 +738,9 @@ const Form = ({ publication } = null) => {
                 options={currentComunas}
                 value={currentComunas.filter(
                   (comuna) =>
-                    labels.location.city &&
-                    labels.location.city.includes(comuna.id)
+                    false
+                    //labels.location.city &&
+                    //labels.location.city.includes(comuna.id)
                 )}
                 isMulti
                 getOptionLabel={(option) => getComunaLabel(option.id)} // Agregar esta línea
@@ -747,7 +768,8 @@ const Form = ({ publication } = null) => {
                 //   // labels.category.includes(option.value)
                 // )}
                 value={categoriasOptions.filter((option) =>
-                  labels.category.includes(option.value)
+                  true
+                  //labels.category.includes(option.value)
                 )}
                 isMulti
                 onChange={(selectedOptions) =>
@@ -766,6 +788,22 @@ const Form = ({ publication } = null) => {
                 className="w-full h-12 rounded-[8px] border-[2px] border-[#00425A] bg-transparent px-3"
                 name="author"
                 placeholder="Ingrese autor"
+              />
+            </div>
+            <div className="w-full text-base font-sora">
+              <label className="flex h-5 mb-3 mt-2">Palabras clave</label>
+              <CreatableSelect
+                components={{ DropdownIndicator:null}}
+                inputValue={keywordInputValue}
+                isClearable
+                isMulti
+                menuIsOpen={false}
+                onChange={(newValue) => setKeywords(newValue)}
+                onInputChange={(newValue) => setKeywordInputValue(newValue)}
+                onKeyDown={handleKeyDownInKeywordsInput}
+                placeholder="Escribe una y presiona enter..."
+                value={keywords}
+                styles={customStyles}
               />
             </div>
             <div className="flex flex-col gap-2">
