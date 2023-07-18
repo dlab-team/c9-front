@@ -295,26 +295,26 @@ const Form = ({ publication } = null) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "text-davinci-003",
-        temperature: 1,
-        max_tokens: 2048,
-        n: 15,
-        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+        model: "gpt-4",
+        temperature: 0,
+        max_tokens: 8000,
+        n: 1,
+        messages: [{"role": "user", "content":`Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
   
-          '''${translatedText}'''`,
+          '''${translatedText}'''`}],
       }),
     };
 
     try {
       const response = await fetch(
-        "https://api.openai.com/v1/completions",
+        "https://api.openai.com/v1/chat/completions",
         optionsQA
       );
       const data = await response.json();
 
       const dataChoices = data.choices.map((item) => {
-        const aText = item.text.split(";");
+        const aText = item.message.content.split(";");
         // remove palabra Pregunta: y palabra Respuesta:
         const question = aText[0].replace("Pregunta:", "").trim();
         const answer = aText[1].replace("Respuesta:", "").trim();
@@ -363,24 +363,25 @@ const Form = ({ publication } = null) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "text-davinci-003",
+        model: "gpt-4",
         temperature: 0,
-        max_tokens: 2048,
+        max_tokens: 8000,
         n: 1,
-        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+        "messages": [{"role": "user", "content":  `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) ${customPrompt}
           '''${originalText}'''`,
+                      }],
       }),
     };
 
     try {
       const response = await fetch(
-        "https://api.openai.com/v1/completions",
+        "https://api.openai.com/v1/chat/completions",
         options
       );
 
       const resp = await response.json();
-      const text = resp.choices[0].text;
+      const text = resp.choices[0].message.content;
 
       const aText = text.split("------");
       const content = aText[0].trim();
@@ -439,25 +440,27 @@ const Form = ({ publication } = null) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "text-davinci-003",
-        temperature: 1,
-        max_tokens: 2048,
-        //n: 15,
-        prompt: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
-          texto: '''${translatedText}'''`,
+        model: "gpt-4",
+        temperature: 0,
+        max_tokens: 8000,
+        n: 0.5,
+        messages: [{"role": "user", "content":  `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
+        texto: '''${translatedText}'''`,
+                      }],
+        
       }),
     };
 
     try {
       const response = await fetch(
-        "https://api.openai.com/v1/completions",
+        "https://api.openai.com/v1/chat/completions",
         options
       );
       const data = await response.json();
       const dataChoices = data.choices;
       setIsLoading(false);
       //sacar el texto en ingles
-      return dataChoices[0].text;
+      return dataChoices[0].message.content;
     } catch (error) {
       setIsLoading(false);
       toast("Error al traducir el texto", {
