@@ -192,7 +192,7 @@ const Gallery = ({ searchValue = '' }) => {
                   </div>
                 ) : (
                   <div
-                    className={`cursor-pointer block max-h-100 rounded-2xl  border border-gray-200 mb-5 shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/40 relative`}
+                    className={`cursor-pointer block max-h-100 rounded-2xl overflow-hidden border border-gray-200 mb-5 shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/40 relative`}
                     key={publication.id}
                     onClick={() => navigate(`/noticias/${publication.slug}`)}
                   >

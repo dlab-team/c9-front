@@ -22,7 +22,7 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
     <div Name="w-[50%] mt-[-1px]">
       <ul
         className={`h-10 bg-[#116cef4d] border-[#00425a] border-r border-l border-b 
-			flex items-center justify-center list-none flex-wrap rounded-b-lg px-2`}
+			flex items-center justify-center list-none flex-wrap rounded-b-lg px-4`}
         data-tabs="tabs"
         role="list"
       >
@@ -30,7 +30,7 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
           <button
             className={`${
               activeTab === 'es' ? activeClass : ''
-            } z-30 h-7 text-base
+            } z-30 h-7 text-base hover:scale-110
 			  mb-0 flex w-full cursor-pointer items-center justify-center rounded-lg
 			  border-0 bg-inherit px-0 py-1 transition-all ease-in-out`}
             role="tab"
@@ -44,7 +44,7 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
           <button
             className={`${
               activeTab !== 'es' ? activeClass : ''
-            } z-30 h-7 mb-0 text-base
+            } z-30 h-7 mb-0 text-base hover:scale-110
 			    flex w-full cursor-pointer items-center justify-center rounded-lg border-0
 				bg-inherit px-0 py-1 transition-all ease-in-out`}
             role="tab"

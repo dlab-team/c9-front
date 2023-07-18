@@ -1,34 +1,36 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
-import styles from './Form.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState, useRef, useEffect, useContext } from "react";
+import styles from "./Form.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
   faArrowUpFromBracket,
-} from '@fortawesome/free-solid-svg-icons';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { faSave, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import spinner from '../../../assets/images/spinner.gif';
-import spinnerQA from '../../../assets/images/spinner.gif';
-import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
-import ReactQuill, { Quill } from 'react-quill';
-import quillEmoji from 'react-quill-emoji';
-import 'react-quill-emoji/dist/quill-emoji.css';
-import 'react-quill/dist/quill.snow.css';
-import ImagesUploader from './ImagesUploader';
-import ButtonBase from '../../UI/ButtonBase';
-import { AuthContext } from '../../../context/AuthContext/AuthContext.js';
-import Select from 'react-select';
-import LanguageTabs from './LanguageTabs';
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { faSave, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import spinner from "../../../assets/images/spinner.gif";
+import spinnerQA from "../../../assets/images/spinner.gif";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import ReactQuill, { Quill } from "react-quill";
+import quillEmoji from "react-quill-emoji";
+import "react-quill-emoji/dist/quill-emoji.css";
+import "react-quill/dist/quill.snow.css";
+import ImagesUploader from "./ImagesUploader";
+import ButtonBase from "../../UI/ButtonBase";
+import { AuthContext } from "../../../context/AuthContext/AuthContext.js";
+import Select from "react-select";
+import LanguageTabs from "./LanguageTabs";
+import Information from "../../Information/Information";
 
 Quill.register(
   {
-    'formats/emoji': quillEmoji.EmojiBlot,
-    'modules/emoji-toolbar': quillEmoji.ToolbarEmoji,
-    'modules/emoji-textarea': quillEmoji.TextAreaEmoji,
-    'modules/emoji-shortname': quillEmoji.ShortNameEmoji,
+    "formats/emoji": quillEmoji.EmojiBlot,
+    "modules/emoji-toolbar": quillEmoji.ToolbarEmoji,
+    "modules/emoji-textarea": quillEmoji.TextAreaEmoji,
+    "modules/emoji-shortname": quillEmoji.ShortNameEmoji,
   },
   true
 );
@@ -36,19 +38,19 @@ Quill.register(
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    minHeight: '47px', // Establece una altura mínima deseada
-    height: state.selectProps.menuIsOpen ? 'auto' : 'auto', // Ajusta la altura según el estado del menú
-    borderRadius: '8px',
-    border: '2px solid #00425A',
-    backgroundColor: 'transparent',
-    boxShadow: state.isFocused ? '0 0 0 1px #00425A' : 'none',
-    '&:hover': {
-      borderColor: state.isFocused ? '#00425A' : 'lightgray',
+    minHeight: "47px", // Establece una altura mínima deseada
+    height: state.selectProps.menuIsOpen ? "auto" : "auto", // Ajusta la altura según el estado del menú
+    borderRadius: "8px",
+    border: "2px solid #00425A",
+    backgroundColor: "transparent",
+    boxShadow: state.isFocused ? "0 0 0 1px #00425A" : "none",
+    "&:hover": {
+      borderColor: state.isFocused ? "#00425A" : "lightgray",
     },
   }),
   placeholder: (provided) => ({
     ...provided,
-    color: '#00425A',
+    color: "#00425A",
   }),
 };
 
@@ -59,15 +61,15 @@ const Form = ({ publication } = null) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingQA, setIsLoadingQA] = useState(false);
   const [originalText, setOriginalText] = useState(
-    publication?.initialContent || ''
+    publication?.initialContent || ""
   );
   const [translatedText, setTranslatedText] = useState(
-    publication?.finalContent || ''
+    publication?.finalContent || ""
   );
   const [finalContent_en, setFinalContent_en] = useState(
-    publication?.finalContent_en || ''
+    publication?.finalContent_en || ""
   );
-  const [contentLanguage, setContentLanguage] = useState('es');
+  const [contentLanguage, setContentLanguage] = useState("es");
 
   const [imageFiles, setImageFiles] = useState(null);
   const [labels, setLabels] = useState({
@@ -89,10 +91,14 @@ const Form = ({ publication } = null) => {
     publication?.location?.region.id || null
   );
   const [currentComunas, setCurrentComunas] = useState([]);
-  const [currentRegionLabel, setCurrentRegionLabel] = useState('');
+  const [currentRegionLabel, setCurrentRegionLabel] = useState("");
 
   const publicationDateInput = useRef(null);
   const featuredInput = useRef(null);
+
+  const [selectedOption, setSelectedOption] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
 
   const loadComunas = () => {
     const index = regiones.findIndex((region) => region.id === currentRegion);
@@ -109,7 +115,7 @@ const Form = ({ publication } = null) => {
 
   const getComunaLabel = (comunaId) => {
     const comuna = currentComunas.find((comuna) => comuna.id === comunaId);
-    return comuna ? comuna.name : '';
+    return comuna ? comuna.name : "";
   };
 
   const getRegiones = async () => {
@@ -166,41 +172,41 @@ const Form = ({ publication } = null) => {
     );
 
     if (
-      title === '' ||
-      slug === '' ||
-      initialContent === '' ||
-      finalContent === ''
+      title === "" ||
+      slug === "" ||
+      initialContent === "" ||
+      finalContent === ""
     ) {
-      toast('Todos los campos son obligatorios', {
-        type: 'error',
+      toast("Todos los campos son obligatorios", {
+        type: "error",
         autoClose: 3000,
       });
       return;
     }
 
     const formData = new FormData();
-    formData.append('name', title);
-    formData.append('slug', slug);
-    formData.append('initialContent', initialContent);
-    formData.append('finalContent', finalContent);
-    formData.append('finalContent_en', finalContent_en);
-    formData.append('published', isPublished);
-    formData.append('location', JSON.stringify(labels.location));
-    formData.append('category', JSON.stringify(labels.category));
-    formData.append('fecha_publicacion', selectedPublicationDate);
-    formData.append('featured', featuredInput.current.checked);
+    formData.append("name", title);
+    formData.append("slug", slug);
+    formData.append("initialContent", initialContent);
+    formData.append("finalContent", finalContent);
+    formData.append("finalContent_en", finalContent_en);
+    formData.append("published", isPublished);
+    formData.append("location", JSON.stringify(labels.location));
+    formData.append("category", JSON.stringify(labels.category));
+    formData.append("fecha_publicacion", selectedPublicationDate);
+    formData.append("featured", featuredInput.current.checked);
 
-    formData.append('questions', JSON.stringify(preguntas));
+    formData.append("questions", JSON.stringify(preguntas));
 
     const userId = await axios.get(
       `${process.env.REACT_APP_BACKEND_URL}/users/email/${currentUser.email}`
     );
 
-    formData.append('user', userId.data.id);
+    formData.append("user", userId.data.id);
 
     if (imageFiles) {
       imageFiles.forEach((image) => {
-        formData.append('images', image);
+        formData.append("images", image);
       });
     }
 
@@ -211,17 +217,17 @@ const Form = ({ publication } = null) => {
           formData,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+              Authorization: `Bearer ${localStorage.getItem("jwt")}`,
             },
           }
         )
         .then((response) => {
-          toast('Publicación Actualizada correctamente', {
-            type: 'success',
+          toast("Publicación Actualizada correctamente", {
+            type: "success",
             autoClose: 3000,
             onClose: () => {
               setTimeout(() => {
-                navigate('/admin/publications');
+                navigate("/admin/publications");
               }, 3000);
             },
           });
@@ -231,13 +237,13 @@ const Form = ({ publication } = null) => {
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
       })
       .then(
         (response) => {
-          toast('Publicación guardada correctamente', {
-            type: 'success',
+          toast("Publicación guardada correctamente", {
+            type: "success",
             autoClose: 3000,
             // onClose: () => {
             //   setTimeout(() => {
@@ -247,8 +253,8 @@ const Form = ({ publication } = null) => {
           });
         },
         (error) => {
-          toast('Error al guardar la publicación', {
-            type: 'error',
+          toast("Error al guardar la publicación", {
+            type: "error",
             autoClose: 3000,
           });
         }
@@ -261,19 +267,19 @@ const Form = ({ publication } = null) => {
         `${process.env.REACT_APP_BACKEND_URL}/publications/${publicationSlug}`
       )
       .then((response) => {
-        toast('Publicación eliminada correctamente', {
-          type: 'success',
+        toast("Publicación eliminada correctamente", {
+          type: "success",
           autoClose: 3000,
           onClose: () => {
             setTimeout(() => {
-              navigate('/admin/publications');
+              navigate("/admin/publications");
             }, 3000);
           },
         });
       })
       .catch((error) => {
-        toast('Error al eliminar la publicación', {
-          type: 'error',
+        toast("Error al eliminar la publicación", {
+          type: "error",
           autoClose: 3000,
         });
       });
@@ -283,13 +289,13 @@ const Form = ({ publication } = null) => {
     setIsLoadingQA(true);
 
     const optionsQA = {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'text-davinci-003',
+        model: "text-davinci-003",
         temperature: 1,
         max_tokens: 2048,
         n: 15,
@@ -302,16 +308,16 @@ const Form = ({ publication } = null) => {
 
     try {
       const response = await fetch(
-        'https://api.openai.com/v1/completions',
+        "https://api.openai.com/v1/completions",
         optionsQA
       );
       const data = await response.json();
 
       const dataChoices = data.choices.map((item) => {
-        const aText = item.text.split(';');
+        const aText = item.text.split(";");
         // remove palabra Pregunta: y palabra Respuesta:
-        const question = aText[0].replace('Pregunta:', '').trim();
-        const answer = aText[1].replace('Respuesta:', '').trim();
+        const question = aText[0].replace("Pregunta:", "").trim();
+        const answer = aText[1].replace("Respuesta:", "").trim();
         return {
           index: item.index,
           question,
@@ -351,13 +357,13 @@ const Form = ({ publication } = null) => {
     const customPrompt = promptInput.current.value;
 
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'text-davinci-003',
+        model: "text-davinci-003",
         temperature: 0,
         max_tokens: 2048,
         n: 1,
@@ -369,22 +375,23 @@ const Form = ({ publication } = null) => {
 
     try {
       const response = await fetch(
-        'https://api.openai.com/v1/completions',
+        "https://api.openai.com/v1/completions",
         options
       );
 
       const resp = await response.json();
       const text = resp.choices[0].text;
 
-      const aText = text.split('------');
+      const aText = text.split("------");
       const content = aText[0].trim();
 
       setTranslatedText(content);
+      setFinalContent_en("");
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      toast('Error al traducir el texto', {
-        type: 'error',
+      toast("Error al traducir el texto", {
+        type: "error",
         autoClose: 3000,
       });
     }
@@ -409,8 +416,8 @@ const Form = ({ publication } = null) => {
   const createSlug = (title) => {
     const slug = title
       .toLowerCase()
-      .replace(/ /g, '-')
-      .replace(/[^\w-]+/g, '');
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
     slugInput.current.value = slug;
   };
 
@@ -423,27 +430,27 @@ const Form = ({ publication } = null) => {
     });
   };
 
-  const traducirTextAInglesGptService = async (callback) => {
+  const translateTextToEnglishGptService = async () => {
     setIsLoading(true);
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'text-davinci-003',
+        model: "text-davinci-003",
         temperature: 1,
         max_tokens: 2048,
         //n: 15,
-        prompt: `Traduce en ingles el texto delimitado por ''' ''' manteniendo las etiquetas HTML, estilos y emojis,   
-          '''${translatedText}'''`,
+        prompt: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
+          texto: '''${translatedText}'''`,
       }),
     };
 
     try {
       const response = await fetch(
-        'https://api.openai.com/v1/completions',
+        "https://api.openai.com/v1/completions",
         options
       );
       const data = await response.json();
@@ -453,20 +460,35 @@ const Form = ({ publication } = null) => {
       return dataChoices[0].text;
     } catch (error) {
       setIsLoading(false);
+      toast("Error al traducir el texto", {
+        type: "error",
+        autoClose: 3000,
+      });
     }
   };
 
   const handleTabChange = async (language) => {
     setContentLanguage(language);
-    if (language === 'en' && finalContent_en === '') {
-      const text_en = await traducirTextAInglesGptService();
+    if (language === "en" && finalContent_en.length < 15) {
+      const text_en = await translateTextToEnglishGptService();
       setFinalContent_en(text_en);
     }
+  };
+
+  const handleSelectChange = (e) => {
+    setSelectedOption(e.target.value);
+    promptInput.current.value = e.target.value;
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
     <>
       <ToastContainer></ToastContainer>
+      {isModalOpen && (
+        <Information onClose={handleCloseModal}>{modalContent}</Information>
+      )}
       <div className="mb-8">
         <form onSubmit={(event) => event.preventDefault()}>
           <div className="container mx-auto py-6">
@@ -499,7 +521,17 @@ const Form = ({ publication } = null) => {
             </div>
 
             <div className="grid grid-cols-2 gap-2 mt-4">
-              <p className="page-subtitle">Prompt Basico:</p>
+              <p className="page-subtitle">
+                Prompt Basico: {/* ejemplo para implementar informacion 1 */}
+                <FontAwesomeIcon
+                  icon={faInfoCircle}
+                  className="text-blue-500 cursor-pointer"
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setModalContent("El campo promp BASICO sirve para ....");
+                  }}
+                />
+              </p>
               <input
                 className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
                 type="text"
@@ -507,6 +539,41 @@ const Form = ({ publication } = null) => {
                 defaultValue="Convertir la noticia en una publicación para un niño de 6 años"
                 ref={promptInput}
               />
+              <p className="page-subtitle">
+                Prompt Sugeridos: {/* ejemplo para implementar informacion 2 */}
+                <FontAwesomeIcon
+                  icon={faInfoCircle}
+                  className="text-blue-500 cursor-pointer"
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setModalContent("El campo promp SUGERIDO sirve para ....");
+                  }}
+                />
+              </p>
+              <select
+                className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
+                value={selectedOption}
+                onChange={handleSelectChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Convertir la noticia en una publicación para un niño de 8 años">
+                  Convertir la noticia en una publicación para un niño de 8 años
+                </option>
+                <option
+                  value="Convertir la noticia en una publicación para un niño de 10
+                  años"
+                >
+                  Convertir la noticia en una publicación para un niño de 10
+                  años
+                </option>
+                <option
+                  value=" Convertir la noticia en una publicación para un niño de 12
+                  años"
+                >
+                  Convertir la noticia en una publicación para un niño de 12
+                  años
+                </option>
+              </select>
               <div className="grid grid-cols-2 gap-0 col-span-2 mt-2">
                 <div
                   className={`${styles.element2} p-4 col-span-2 col-start-1 rounded flex justify-evenly items-center`}
@@ -517,11 +584,11 @@ const Form = ({ publication } = null) => {
                       className="py-2 px-4 rounded-2xl bg-blue-900 text-white items-center flex"
                       type="button"
                     >
-                      {' '}
+                      {" "}
                       Transformando
                       <img
                         src={spinner}
-                        style={{ width: '20px' }}
+                        style={{ width: "20px" }}
                         className="ml-2"
                       />
                     </button>
@@ -531,7 +598,7 @@ const Form = ({ publication } = null) => {
                       type="button"
                       onClick={transformContent}
                     >
-                      {' '}
+                      {" "}
                       Transformar
                       <FontAwesomeIcon
                         icon={faArrowRight}
@@ -549,12 +616,12 @@ const Form = ({ publication } = null) => {
                   onChange={handleOriginalTextChange}
                 ></textarea>
                 <div
-                  style={{ border: '1px solid #00425a', borderWidth: '1px' }}
+                  style={{ border: "1px solid #00425a", borderWidth: "1px" }}
                   className="rounded"
                 >
                   <ReactQuill
                     className={`rounded h-[27rem] xl:h-[28.3rem] ${
-                      contentLanguage !== 'es' ? 'hidden' : ''
+                      contentLanguage !== "es" ? "hidden" : ""
                     }`}
                     value={translatedText}
                     onChange={setTranslatedText}
@@ -562,27 +629,27 @@ const Form = ({ publication } = null) => {
                       toolbar: {
                         container: [
                           [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                          ['bold', 'italic', 'underline', 'strike'],
-                          [{ list: 'ordered' }, { list: 'bullet' }],
-                          ['emoji', 'image'],
+                          ["bold", "italic", "underline", "strike"],
+                          [{ list: "ordered" }, { list: "bullet" }],
+                          ["emoji", "image"],
                           [{ color: [] }, { background: [] }],
-                          [{ indent: '-1' }, { indent: '+1' }],
+                          [{ indent: "-1" }, { indent: "+1" }],
                           [{ align: [] }],
                         ],
                       },
-                      'emoji-toolbar': true,
-                      'emoji-textarea': false,
-                      'emoji-shortname': true,
+                      "emoji-toolbar": true,
+                      "emoji-textarea": false,
+                      "emoji-shortname": true,
                     }}
                   />
-                  {isLoading && contentLanguage === 'en' && (
+                  {isLoading && contentLanguage === "en" && (
                     <div className="flex h-full justify-center items-center">
                       <img src={spinner} className="w-16" />
                     </div>
                   )}
                   <ReactQuill
-                    className={`rounded h-[27rem] ${
-                      contentLanguage !== 'en' || isLoading ? 'hidden' : ''
+                    className={`rounded h-[27rem] xl:h-[28.3rem] ${
+                      contentLanguage !== "en" || isLoading ? "hidden" : ""
                     }`}
                     value={finalContent_en}
                     onChange={setFinalContent_en}
@@ -590,24 +657,24 @@ const Form = ({ publication } = null) => {
                       toolbar: {
                         container: [
                           [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                          ['bold', 'italic', 'underline', 'strike'],
-                          [{ list: 'ordered' }, { list: 'bullet' }],
-                          ['emoji', 'image'],
+                          ["bold", "italic", "underline", "strike"],
+                          [{ list: "ordered" }, { list: "bullet" }],
+                          ["emoji", "image"],
                           [{ color: [] }, { background: [] }],
-                          [{ indent: '-1' }, { indent: '+1' }],
+                          [{ indent: "-1" }, { indent: "+1" }],
                           [{ align: [] }],
                         ],
                       },
-                      'emoji-toolbar': true,
-                      'emoji-textarea': false,
-                      'emoji-shortname': true,
+                      "emoji-toolbar": true,
+                      "emoji-textarea": false,
+                      "emoji-shortname": true,
                     }}
                   />
                 </div>
                 <div className="col-end-3 flex justify-end">
                   <LanguageTabs
                     onChange={handleTabChange}
-                    isDisabled={translatedText.length === 0}
+                    isDisabled={translatedText.length < 15}
                   />
                 </div>
               </div>
@@ -632,11 +699,11 @@ const Form = ({ publication } = null) => {
                 }
                 onChange={(selectedOption) => {
                   setCurrentRegion(selectedOption?.value || null);
-                  setCurrentRegionLabel(selectedOption?.label || '');
+                  setCurrentRegionLabel(selectedOption?.label || "");
                   updateLocationLabels({
                     region: {
                       id: selectedOption?.value || null,
-                      name: selectedOption?.label || '',
+                      name: selectedOption?.label || "",
                     },
                   });
                 }}
@@ -674,10 +741,13 @@ const Form = ({ publication } = null) => {
               <Select
                 className="w-full"
                 options={categoriasOptions}
-                value={categoriasOptions.filter(
-                  (option) => null
-                  // TODO: fix this!
-                  // labels.category.includes(option.value)
+                // value={categoriasOptions.filter(
+                //   (option) => null
+                //   // TODO: fix this!
+                //   // labels.category.includes(option.value)
+                // )}
+                value={categoriasOptions.filter((option) =>
+                  labels.category.includes(option.value)
                 )}
                 isMulti
                 onChange={(selectedOptions) =>
@@ -709,7 +779,7 @@ const Form = ({ publication } = null) => {
                 ref={publicationDateInput}
                 defaultValue={
                   publication
-                    ? publication.publicationDate.split('/').join('-')
+                    ? publication.publicationDate.split("/").join("-")
                     : undefined
                 }
               />
@@ -748,7 +818,7 @@ const Form = ({ publication } = null) => {
                   Cargando Preguntas
                   <img
                     src={spinnerQA}
-                    style={{ width: '20px' }}
+                    style={{ width: "20px" }}
                     className="ml-2"
                   />
                 </button>
@@ -766,7 +836,7 @@ const Form = ({ publication } = null) => {
                 </button>
               )}
               <p className="opacity-0 px-4 text-red-600 group-hover:opacity-80">
-                {' '}
+                {" "}
                 Puedes eliminar una pregunta para traer una nueva (hasta 10
                 veces)
               </p>
@@ -809,7 +879,7 @@ const Form = ({ publication } = null) => {
           </div>
           <div className="mt-10 mb-4 flex flex-wrap gap-4 h-10">
             <ButtonBase
-              className={'bg-primary text-white px-6'}
+              className={"bg-primary text-white px-6"}
               onClick={(event) => handleSave(event, true)}
               type="button"
             >
@@ -836,7 +906,7 @@ const Form = ({ publication } = null) => {
             {publication && (
               <ButtonBase
                 onClick={() => handleDeletePublication(publication.slug)}
-                type={'button'}
+                type={"button"}
                 className="border border-black px-6 hover:bg-delete-button"
               >
                 <FontAwesomeIcon icon={faTrashCan} className="h-5" />
