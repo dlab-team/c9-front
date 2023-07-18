@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, lazy} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -11,17 +11,17 @@ import bgIzq from '../../assets/images/bg-izq.png';
 import bgDer from '../../assets/images/bg-der.png';
 import { Tab, initTE } from 'tw-elements';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-
 import { Spinner } from '../../components/UI';
+import { Page, Text, Image, Document, StyleSheet, Font, PDFDownloadLink} from "@react-pdf/renderer";
+import { stylesPDF } from '../../components/PDF/pdf';
+
 
 const Publication = () => {
   const [publication, setPublication] = useState();
   const [showButton, setShowButton] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const carouselRef = useRef(null);
   const { slug } = useParams();
-
   const [activeIndex, setActiveIndex] = useState(null);
   const toggleQuestion = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
@@ -126,6 +126,47 @@ const Publication = () => {
   useEffect(() => {
     increaseVisits();
   }, []);
+
+
+  /// PDF  FONTS
+
+  Font.register({
+    family: 'Oswald',
+    src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
+  });
+
+
+  // PDF DOC
+
+  const MyDoc = () => (
+    <Document>
+      <Page style={stylesPDF.body}>
+        <Text style={stylesPDF.header} fixed>
+          ~ InnovaXD - {publication?.author?.name} ~
+        </Text>
+        <Text style={stylesPDF.title}>{publication?.name}</Text>
+        <Text style={stylesPDF.author}>{publication?.author?.name}</Text>
+        <Image
+          style={stylesPDF.image}
+          src={publication?.images[0]?.url}   
+        />
+       
+        <Text style={stylesPDF.text}>
+          {publication?.finalContent}
+        </Text>
+        <Text style={stylesPDF.subtitle} break>
+       Traducción EN
+      </Text>
+        <Text style={stylesPDF.text}>
+         {publication?.finalContent_EN}
+        </Text>
+        <Text style={stylesPDF.pageNumber} render={({ pageNumber, totalPages }) => (
+          `${pageNumber} / ${totalPages}`
+        )} fixed />
+      </Page>
+    </Document>
+  );
+  
 
   return (
     <>
@@ -281,10 +322,19 @@ const Publication = () => {
                       aria-controls="tabs-profile03"
                       aria-selected="false"
                     >
-                      Inglés
+                      Inglés 
                     </a>
                   </li>
                 </ul>
+                <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md">
+                <div>
+                <PDFDownloadLink document={<MyDoc/>} fileName={slug + '.pdf'}>
+                  {({ loading }) =>
+                    loading ? 'Loading document...' : 'PDF'
+                  }
+                </PDFDownloadLink>
+              </div>
+                </div>
               </div>
               <div className="col-span-6 md:col-span-7">
                 <div className="my-2">
