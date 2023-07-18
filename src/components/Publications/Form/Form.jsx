@@ -296,7 +296,7 @@ const Form = ({ publication } = null) => {
       },
       body: JSON.stringify({
         model: "gpt-4",
-        temperature: 0,
+        temperature: 1,
         max_tokens: 8000,
         n: 1,
         messages: [{"role": "user", "content":`Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
