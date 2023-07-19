@@ -1,27 +1,27 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
-import { faTag } from '@fortawesome/free-solid-svg-icons';
-import bgIzq from '../../assets/images/bg-izq.png';
-import bgDer from '../../assets/images/bg-der.png';
-import { Tab, initTE } from 'tw-elements';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-
-import { Spinner } from '../../components/UI';
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
+import { faTag } from "@fortawesome/free-solid-svg-icons";
+import bgIzq from "../../assets/images/bg-izq.png";
+import bgDer from "../../assets/images/bg-der.png";
+import { Tab, initTE } from "tw-elements";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { Spinner } from "../../components/UI";
+import TextToSpeech from "../../components/TextToSpeach/TextToSpeach";
+import { Page, Text, Image, Document, StyleSheet, Font, PDFDownloadLink} from "@react-pdf/renderer";
+import { stylesPDF } from '../../components/PDF/pdf';
 
 const Publication = () => {
   const [publication, setPublication] = useState();
   const [showButton, setShowButton] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const carouselRef = useRef(null);
   const { slug } = useParams();
-
   const [activeIndex, setActiveIndex] = useState(null);
   const toggleQuestion = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
@@ -33,17 +33,17 @@ const Publication = () => {
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
   const setLocation = (location) => {
-    let locationName = '';
+    let locationName = "";
     if (
       location === null ||
       (location?.region === null && location?.city === null)
     ) {
-      locationName = 'Chile';
+      locationName = "Chile";
       return locationName;
     }
 
@@ -61,7 +61,7 @@ const Publication = () => {
   function formatFecha(publicationDate) {
     const fecha = new Date(publicationDate);
     const numeroDia = fecha.getDate();
-    const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
+    const nombreMes = fecha.toLocaleString("es-ES", { month: "long" });
 
     return (
       <div className="bg-gray-200 text-center py-4 md:p-5 rounded">
@@ -87,7 +87,7 @@ const Publication = () => {
     try {
       await axios.post(endpointVisit);
     } catch (error) {
-      console.error('Error al aumentar las visitas:', error);
+      console.error("Error al aumentar las visitas:", error);
     }
   };
 
@@ -104,21 +104,21 @@ const Publication = () => {
       setShowButton(isVisible);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    const divContent = document.getElementById('content-text');
+    const divContent = document.getElementById("content-text");
     divContent.innerHTML = publication?.finalContent;
-    const divContentEN = document.getElementById('content-text_EN');
+    const divContentEN = document.getElementById("content-text_EN");
     divContentEN.innerHTML = publication?.finalContent_EN;
 
     if (carouselRef.current && publication) {
-      const dots = document.querySelectorAll('.control-dots .dot');
+      const dots = document.querySelectorAll(".control-dots .dot");
       dots[0].click();
     }
   }, [publication]);
@@ -127,14 +127,55 @@ const Publication = () => {
     increaseVisits();
   }, []);
 
+
+  /// PDF  FONTS
+
+  Font.register({
+    family: 'Oswald',
+    src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
+  });
+
+
+  // PDF DOC
+
+  const MyDoc = () => (
+    <Document>
+      <Page style={stylesPDF.body}>
+        <Text style={stylesPDF.header} fixed>
+          ~ InnovaXD - {publication?.author?.name} ~
+        </Text>
+        <Text style={stylesPDF.title}>{publication?.name}</Text>
+        <Text style={stylesPDF.author}>{publication?.author?.name}</Text>
+        <Image
+          style={stylesPDF.image}
+          src={publication?.images[0]?.url}   
+        />
+       
+        <Text style={stylesPDF.text}>
+          {publication?.finalContent}
+        </Text>
+        <Text style={stylesPDF.subtitle} break>
+       Traducción EN
+      </Text>
+        <Text style={stylesPDF.text}>
+         {publication?.finalContent_EN}
+        </Text>
+        <Text style={stylesPDF.pageNumber} render={({ pageNumber, totalPages }) => (
+          `${pageNumber} / ${totalPages}`
+        )} fixed />
+      </Page>
+    </Document>
+  );
+  
+
   return (
     <>
-      <div className={loading ? '' : 'hidden'}>
+      <div className={loading ? "" : "hidden"}>
         <div className="w-full h-[20vh] sm:h-[60vh] flex justify-center items-center">
           <Spinner />
         </div>
       </div>
-      <div className={loading ? 'hidden' : ''}>
+      <div className={loading ? "hidden" : ""}>
         <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96">
           <Link to="/">
             <button
@@ -146,7 +187,10 @@ const Publication = () => {
             </button>
           </Link>
 
-          <h1 className="innova-title pt-5">{publication?.name}</h1>
+          <div>
+            <h1 className="innova-title pt-5">{publication?.name}</h1>
+            <TextToSpeech text={publication?.name} />
+          </div>
           <div className="mt-2 py-6 flex justify-between">
             <Link to={`/perfil/${publication?.author.username}`}>
               <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
@@ -178,7 +222,7 @@ const Publication = () => {
                 <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
                 {publication?.category?.name
                   ? publication.category.name
-                  : 'Sin categoría'}
+                  : "Sin categoría"}
               </a>
             </div>
           </div>
@@ -187,7 +231,7 @@ const Publication = () => {
         <div className="flex mb-3 md:mb-8">
           {publication?.images?.length > 0 && (
             <img
-              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-300"
+              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400"
               src={publication.images[0].url}
               alt="Imagen principal"
             />
@@ -200,13 +244,47 @@ const Publication = () => {
             {publication?.author?.name}
           </Link>
         </div>
-
+        <div className='md:ml-32'>
+          <ul
+            className="lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-wrap pl-0 md:mr-14 mr-4"
+            role="tablist"
+            data-te-nav-ref
+          >
+            <li role="presentation" className="flex-grow text-center">
+              <a
+                href="#tabs-home03"
+                className="my-1 block border-x-0 border-b-2 border-t-0 border-transparent px-1 pb-1 pt-1 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-secondary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                data-te-toggle="pill"
+                data-te-target="#tabs-home03"
+                data-te-nav-active
+                role="tab"
+                aria-controls="tabs-home03"
+                aria-selected="true"
+              >
+                Español
+              </a>
+            </li>
+            <li role="presentation" className="flex-grow text-center">
+              <a
+                href="#tabs-profile03"
+                className="focus:border-transparent my-1 block border-x-0 border-b-2 border-t-0 border-transparent px-1 pb-1 pt-1 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-secondary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                data-te-toggle="pill"
+                data-te-target="#tabs-profile03"
+                role="tab"
+                aria-controls="tabs-profile03"
+                aria-selected="false"
+              >
+                Inglés
+              </a>
+            </li>
+          </ul>
+        </div>
         <div className="publication-content md:px-14 lg:px-40 relative">
-          <div className="absolute right-0 w-[40%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40">
+          <div className="absolute right-0 w-[38%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40">
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
-          <div className="absolute left-0 bottom-0 w-[55%] md:w-[24%] lg:w-[18%] opacity-40">
+          <div className="absolute left-0 bottom-0 w-[48%] md:w-[24%] lg:w-[18%] opacity-40">
             <img src={bgIzq} alt="Blob Izquierdo" />
           </div>
 
@@ -214,18 +292,19 @@ const Publication = () => {
             <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
               <div className="col-span-1">
                 {formatFecha(publication?.publicationDate)}
-                <div className="sm:inline-block hidden whitespace-nowrap w-full rounded bg-gray-200 text-black p-3 text-center align-baseline text-[0.85em] leading-none mt-4">
-                  Visitas: {publication?.visits}
+                <div className="sm:inline-block rounded-md whitespace-nowrap w-full rounded bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
+                  Visitas: 
+                  <p className='text-green-600 text-lg'>{publication?.visits}</p>
                 </div>
                 <ul
-                  class="mr-4 flex list-none flex-row flex-wrap pl-0"
+                  className="xs:hidden lg:block mr-4 flex list-none flex-row flex-wrap pl-0"
                   role="tablist"
                   data-te-nav-ref
                 >
-                  <li role="presentation" class="flex-grow text-center">
+                  <li role="presentation" className="flex-grow text-center">
                     <a
                       href="#tabs-home03"
-                      className="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                      className="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-6 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
                       data-te-toggle="pill"
                       data-te-target="#tabs-home03"
                       data-te-nav-active
@@ -236,34 +315,45 @@ const Publication = () => {
                       Español
                     </a>
                   </li>
-                  <li role="presentation" class="flex-grow text-center">
+                  <li role="presentation" className="flex-grow text-center">
                     <a
                       href="#tabs-profile03"
-                      className="focus:border-transparen my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                      className="focus:border-transparen my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-6 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
                       data-te-toggle="pill"
                       data-te-target="#tabs-profile03"
                       role="tab"
                       aria-controls="tabs-profile03"
                       aria-selected="false"
                     >
-                      Inglés
+                      Inglés 
                     </a>
                   </li>
                 </ul>
+                <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md">
+                <div>
+                <PDFDownloadLink document={<MyDoc/>} fileName={slug + '.pdf'}>
+                  {({ loading }) =>
+                    loading ? 'Loading document...' : 'PDF'
+                  }
+                </PDFDownloadLink>
+              </div>
+                </div>
               </div>
               <div className="col-span-6 md:col-span-7">
-                <div class="my-2">
+                <div className="my-2">
                   <div
-                    class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+                    className="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
                     id="tabs-home03"
                     role="tabpanel"
                     aria-labelledby="tabs-home-tab03"
                     data-te-tab-active
                   >
                     <div id="content-text" className="innova-text"></div>
+                    <TextToSpeech text={publication?.finalContent} />
+                    {/* marca */}
                   </div>
                   <div
-                    class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+                    className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
                     id="tabs-profile03"
                     role="tabpanel"
                     aria-labelledby="tabs-profile-tab03"
@@ -287,7 +377,7 @@ const Publication = () => {
                     <div className="p-2">{item.question}</div>
                     <svg
                       className={`w-5 h-5 transition-transform ${
-                        activeIndex === index ? 'transform rotate-180' : ''
+                        activeIndex === index ? "transform rotate-180" : ""
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

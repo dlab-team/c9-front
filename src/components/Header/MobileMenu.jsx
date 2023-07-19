@@ -55,7 +55,7 @@ export const MobileMenu = () => {
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 flex items-center w-full justify-end 
+          className="fixed inset-0 z-40 flex items-center w-full justify-end
           "
         >
           <div className="bg-black h-full w-[30%] opacity-60"></div>
