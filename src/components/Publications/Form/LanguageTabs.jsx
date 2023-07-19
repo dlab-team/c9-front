@@ -9,7 +9,7 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
       return toast.warning(
         'Transforma la noticia para poder traducir al inglés',
         {
-          autoClose: 3000
+          autoClose: 3000,
         }
       );
     }
@@ -37,7 +37,7 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
             aria-selected="true"
             onClick={() => changeLanguage('es')}
           >
-            <span className="ml-1">Español</span>
+            <span className="ml-1 px-3">Español</span>
           </button>
         </li>
         <li className="z-30 flex-auto text-center">
@@ -51,7 +51,7 @@ const LanguageTabs = ({ onChange, isDisabled }) => {
             aria-selected="true"
             onClick={() => changeLanguage('en')}
           >
-            <span className="ml-1">Ingles</span>
+            <span className="ml-1 px-3">Ingles</span>
           </button>
         </li>
       </ul>
