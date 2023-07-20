@@ -155,7 +155,7 @@ const Admin = () => {
 					<div className='h-full flex items-center pl-0 absolute'>
 						<Link to='/'>
 							<img
-								className='w-64 h-auto'
+								className='w-64 2xl:w-80 h-auto'
 								src={logoBlue}
 								alt='Una imagen del Logo de Innova'
 							/>
@@ -166,7 +166,7 @@ const Admin = () => {
 					<div className='flex flex-col justify-center h-full md:shrink-0'>
 						<div>
 							<h2
-								className="text-4xl md:text-5xl lg:text-4xl mt-8 font-bold text-center 
+								className="text-4xl md:text-5xl lg:text-4xl 2xl:text-5xl mt-8 font-bold text-center 
             text-primary font-['Caveat_Brush'] leading-3 tracking-widest font-normal uppercase"
 							>
 								Bienvenido!
@@ -178,7 +178,7 @@ const Admin = () => {
 							)}
 							<form
 								onSubmit={handleSubmit}
-								className='mt-10 mx-12 md:mx-auto lg:mx-28'
+								className='mt-10 mx-12 md:mx-auto lg:mx-28 2xl:mx-56'
 								noValidate
 							>
 								<div className='relative mb-1'>
@@ -194,7 +194,7 @@ const Admin = () => {
 											errors.email
 												? 'border-b-red-600 focus:border-red-600'
 												: ''
-										} focus:border-blue-500 focus:outline-none bg-gray-200 px-3 py-[0.20rem] leading-[1.6]`}
+										} focus:border-blue-500 focus:outline-none bg-gray-200 px-3 py-[0.20rem] 2xl:py-[0.50rem] leading-[1.6]`}
 										id='inputEmail'
 										name='inputEmail'
 										aria-describedby='email'
@@ -220,7 +220,7 @@ const Admin = () => {
 											errors.password
 												? 'border-b-red-600 focus:border-red-600'
 												: ''
-										} border-gray-200 focus:border-blue-500 focus:outline-none bg-gray-200 px-3 py-[0.20rem] leading-[1.6] focus:placeholder:opacity-100`}
+										} border-gray-200 focus:border-blue-500 focus:outline-none bg-gray-200 px-3 py-[0.20rem] 2xl:py-[0.50rem] leading-[1.6] focus:placeholder:opacity-100`}
 										id='passwordInput'
 										name='passwordInput'
 										placeholder='Contraseña'
@@ -285,7 +285,7 @@ const Admin = () => {
 								</section>
 							</form>
 						</div>
-						<section className='logos flex justify-between items-center md:shrink-0 mx-14 md:mx-3 lg:mx-28'>
+						<section className='logos flex justify-between items-center md:shrink-0 mx-14 md:mx-3 lg:mx-28 2xl:mx-56'>
 							<img
 								className='h-6 w-24 md:w-36 md:h-8 lg:w-28 lg:h-6'
 								src={logoMicrosoft}
