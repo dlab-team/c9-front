@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
 import bgIzq from "../../assets/images/bg-izq.png";
@@ -333,13 +333,16 @@ const Publication = () => {
                     </a>
                   </li>
                 </ul>
-                <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md mt-3">
+                <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md mt-2">
                   <div>
                   <Tooltip title="Descargar noticia" position="bottom" arrow={true}>
                     <PDFDownloadLink document={<MyDoc/>} fileName={slug + '.pdf'}>
-                      {({ loading }) =>
-                        loading ? 'Loading document...' : 'PDF'
-                      }
+                    {({ loading }) => (
+                      <span className="flex items-center text-sm">
+                        <FontAwesomeIcon icon={faDownload} className="mr-2 hidden md:block" />
+                        {loading ? 'Loading document...' : 'PDF'}
+                      </span>
+                    )}
                     </PDFDownloadLink>
                   </Tooltip>
                   </div>
