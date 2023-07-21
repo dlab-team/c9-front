@@ -207,7 +207,7 @@ const Publication = () => {
             <div className="flex gap-1 mr-4">
               <a
                 href="/"
-                className="inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
+                className="inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
               >
                 <FontAwesomeIcon
                   icon={faGlobeAmericas}
@@ -217,7 +217,7 @@ const Publication = () => {
               </a>
               <a
                 href="/"
-                className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
+                className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
               >
                 <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
                 {publication?.category?.name
@@ -231,7 +231,7 @@ const Publication = () => {
         <div className="flex mb-3 md:mb-8">
           {publication?.images?.length > 0 && (
             <img
-              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400"
+              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[47%] rounded-md shadow-lg shadow-gray-400"
               src={publication.images[0].url}
               alt="Imagen principal"
             />
@@ -244,9 +244,9 @@ const Publication = () => {
             {publication?.author?.name}
           </Link>
         </div>
-        <div className='md:ml-32'>
+        <div>
           <ul
-            className="lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-wrap pl-0 md:mr-14 mr-4"
+            className="lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-nowrap md:flex-wrap pl-0 md:mr-14 mr-4"
             role="tablist"
             data-te-nav-ref
           >
