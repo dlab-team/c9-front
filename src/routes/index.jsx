@@ -19,12 +19,22 @@ import AdminComunas from '../pages/Admin/Comunas';
 import Authors from '../pages/Admin/Authors';
 import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
 import AdminAuthorNew from '../pages/Admin/Authors/New';
+import SplashScreen from '../components/SplashScreen/SplashScreen';
 
 
 
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route
+      exact
+      path="/splash"
+      element={
+        <Layout>
+          <SplashScreen />
+        </Layout>
+        }
+      />
       <Route
         exact
         path="/"

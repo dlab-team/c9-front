@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/AuthContext/AuthContext';
 import Searching from '../../components/Searching/Searching';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
   const [showButton, setShowButton] = useState(false);
