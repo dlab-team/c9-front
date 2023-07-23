@@ -37,7 +37,7 @@ const Busqueda = () => {
 	return (
 		<div className='container mx-auto'>
 			<main>
-				<Gallery searchValue={searchTerm} />
+				<Gallery searchValue={searchTerm} keyword={''} />
 			</main>
 			{showButton && (
 				<button

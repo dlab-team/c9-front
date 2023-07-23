@@ -5,9 +5,11 @@ import { AuthContext } from '../../context/AuthContext/AuthContext';
 import Searching from '../../components/Searching/Searching';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from 'react-router-dom';
 const ByKeyword = () => {
 	const { currentUser } = useContext(AuthContext);
 	const [showButton, setShowButton] = useState(false);
+	const { param } = useParams();
 
 	const handleScrollToTop = () => {
 		window.scrollTo({
@@ -33,7 +35,7 @@ const ByKeyword = () => {
 	return (
 		<div className='container mx-auto'>
 			<main className='md:px-5'>
-				<Gallery searchValue={'Keyword'} />
+				<Gallery searchValue={''} keyword={'keyword'} />
 			</main>
 			{showButton && (
 				<button

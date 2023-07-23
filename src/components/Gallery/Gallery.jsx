@@ -27,27 +27,27 @@ function normalizeName(name) {
   return normalizeSync(name.toLowerCase());
 }
 
-// const filterPublicationsBySearh = (publications, searchValue) => {
-// 	const searchValueNormalized = normalizeName(searchValue);
-// 	const filteredPublications = publications.filter((pub) => {
-// 		const publicationNameNormalized = normalizeName(pub.name);
-// 		return publicationNameNormalized.includes(searchValueNormalized);
-// 	});
-// 	return filteredPublications;
-// };
-
 const filterPublicationsBySearh = (publications, searchValue) => {
-  const searchValueNormalized = normalizeName(searchValue);
-  const filteredPublications = publications.filter((pub) => {
-    return pub.keywords.some((keyword) => {
-      const keywordNormalized = normalizeName(keyword);
-      return keywordNormalized.includes(searchValueNormalized);
-    });
-  });
-  return filteredPublications;
+	const searchValueNormalized = normalizeName(searchValue);
+	const filteredPublications = publications.filter((pub) => {
+		const publicationNameNormalized = normalizeName(pub.name);
+		return publicationNameNormalized.includes(searchValueNormalized);
+	});
+	return filteredPublications;
 };
 
-const Gallery = ({ searchValue = '' }) => {
+const filterPublicationsByKeyword = (publications, searchValue) => {
+	const searchValueNormalized = normalizeName(searchValue);
+	const filteredPublications = publications.filter((pub) => {
+		return pub.keywords.some((keyword) => {
+			const keywordNormalized = normalizeName(keyword);
+			return keywordNormalized.includes(searchValueNormalized);
+		});
+	});
+	return filteredPublications;
+};
+
+const Gallery = ({ searchValue = '', keyword = '' }) => {
   const [page, setPage] = useState(1);
   const [publications, setPublications] = useState([]);
   const [filteredPublications, setFilteredPublications] = useState(null);
@@ -61,7 +61,6 @@ const Gallery = ({ searchValue = '' }) => {
     try {
       const response = await axios.get(`${endpoint}?page=${page}`);
       const { publications } = response.data;
-
       setPublications((prevPublications) => {
         const existingIds = prevPublications.map((pub) => pub.id);
         const filteredPublications = publications.filter(
@@ -110,10 +109,12 @@ const Gallery = ({ searchValue = '' }) => {
       ? filterPublicationsBySearh(publications, searchValue)
       : publications;
 
-  const publicationsToRender =
-    filteredPublications && searchValue === ''
-      ? filteredPublications
-      : filteredPublicationsBySearch;
+	const publicationsToRender =
+		filteredPublications && searchValue === ''
+			? filteredPublications
+			: keyword && keyword.length > 0
+			? filterPublicationsByKeyword(publications, keyword)
+			: filteredPublicationsBySearch;
 
   // Variable para almacenar el número total de publicaciones existentes
   const totalPublications = publications.length;
