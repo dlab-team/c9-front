@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
 import bgIzq from "../../assets/images/bg-izq.png";
@@ -15,6 +15,8 @@ import { Spinner } from "../../components/UI";
 import TextToSpeech from "../../components/TextToSpeach/TextToSpeach";
 import { Page, Text, Image, Document, StyleSheet, Font, PDFDownloadLink} from "@react-pdf/renderer";
 import { stylesPDF } from '../../components/PDF/pdf';
+import { Tooltip } from 'react-tippy';
+import 'react-tippy/dist/tippy.css';
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -150,15 +152,15 @@ const Publication = () => {
           style={stylesPDF.image}
           src={publication?.images[0]?.url}   
         />
-       
+      
         <Text style={stylesPDF.text}>
           {publication?.finalContent}
         </Text>
         <Text style={stylesPDF.subtitle} break>
-       Traducción EN
+      Traducción EN
       </Text>
         <Text style={stylesPDF.text}>
-         {publication?.finalContent_EN}
+          {publication?.finalContent_EN}
         </Text>
         <Text style={stylesPDF.pageNumber} render={({ pageNumber, totalPages }) => (
           `${pageNumber} / ${totalPages}`
@@ -176,7 +178,7 @@ const Publication = () => {
         </div>
       </div>
       <div className={loading ? "hidden" : ""}>
-        <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96">
+        <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-[42rem] 3xl:px-[57rem]">
           <Link to="/">
             <button
               type="button"
@@ -189,7 +191,9 @@ const Publication = () => {
 
           <div>
             <h1 className="innova-title pt-5">{publication?.name}</h1>
-            <TextToSpeech text={publication?.name} />
+            <Tooltip title="Escuchar titular" position="bottom" arrow={true}>
+                <TextToSpeech text={publication?.name} />
+            </Tooltip>
           </div>
           <div className="mt-2 py-6 flex justify-between">
             <Link to={`/perfil/${publication?.author.username}`}>
@@ -231,7 +235,7 @@ const Publication = () => {
         <div className="flex mb-3 md:mb-8">
           {publication?.images?.length > 0 && (
             <img
-              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[47%] rounded-md shadow-lg shadow-gray-400"
+              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[47%] 3xl:max-w-[40%] rounded-md shadow-lg shadow-gray-400"
               src={publication.images[0].url}
               alt="Imagen principal"
             />
@@ -284,7 +288,7 @@ const Publication = () => {
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
-          <div className="absolute left-0 bottom-0 w-[48%] md:w-[24%] lg:w-[18%] opacity-40">
+          <div className="absolute left-0 bottom-0 w-[48%] md:w-[24%] lg:w-[18%] 3xl:w-[14%] opacity-40">
             <img src={bgIzq} alt="Blob Izquierdo" />
           </div>
 
@@ -329,14 +333,19 @@ const Publication = () => {
                     </a>
                   </li>
                 </ul>
-                <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md">
-                <div>
-                <PDFDownloadLink document={<MyDoc/>} fileName={slug + '.pdf'}>
-                  {({ loading }) =>
-                    loading ? 'Loading document...' : 'PDF'
-                  }
-                </PDFDownloadLink>
-              </div>
+                <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md mt-2">
+                  <div>
+                  <Tooltip title="Descargar noticia" position="bottom" arrow={true}>
+                    <PDFDownloadLink document={<MyDoc/>} fileName={slug + '.pdf'}>
+                    {({ loading }) => (
+                      <span className="flex items-center text-sm">
+                        <FontAwesomeIcon icon={faDownload} className="mr-2 hidden md:block" />
+                        {loading ? 'Loading document...' : 'PDF'}
+                      </span>
+                    )}
+                    </PDFDownloadLink>
+                  </Tooltip>
+                  </div>
                 </div>
               </div>
               <div className="col-span-6 md:col-span-7">
@@ -349,7 +358,9 @@ const Publication = () => {
                     data-te-tab-active
                   >
                     <div id="content-text" className="innova-text"></div>
-                    <TextToSpeech text={publication?.finalContent} />
+                    <Tooltip title="Escuchar noticia" position="bottom" arrow={true}>
+                      <TextToSpeech text={publication?.finalContent} />
+                    </Tooltip>    
                     {/* marca */}
                   </div>
                   <div

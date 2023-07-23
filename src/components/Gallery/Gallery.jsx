@@ -216,7 +216,7 @@ const Gallery = ({ searchValue = '' }) => {
                       alt={publication.name}
                     />
                     <div className={`px-4 py-2 text-left`}>
-                      <h1 className={`text-base sm:text-xl leading-[1.2]`}>
+                      <h1 className={`text-sm md:text-xl leading-[1.3]`}>
                         {publication.name}
                       </h1>
                       {!isSmallScreen && ( // Condición para mostrar la fecha solo en pantallas grandes
@@ -238,7 +238,7 @@ const Gallery = ({ searchValue = '' }) => {
                       )}
                     </div>
                     <div className={`px-4 py-4`}>
-                      <p className={`text-xs`}>
+                      <p className={`text-[0.625rem]`}>
                         @{publication.author.username}
                       </p>
                     </div>
