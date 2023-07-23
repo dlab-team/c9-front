@@ -25,7 +25,6 @@ const ByKeyword = () => {
 		};
 
 		window.addEventListener('scroll', handleScroll);
-
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
@@ -34,7 +33,7 @@ const ByKeyword = () => {
 	return (
 		<div className='container mx-auto'>
 			<main className='md:px-5'>
-				<Gallery />
+				<Gallery searchValue={'Keyword'} />
 			</main>
 			{showButton && (
 				<button

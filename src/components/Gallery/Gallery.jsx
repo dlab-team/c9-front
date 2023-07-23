@@ -27,11 +27,22 @@ function normalizeName(name) {
   return normalizeSync(name.toLowerCase());
 }
 
+// const filterPublicationsBySearh = (publications, searchValue) => {
+// 	const searchValueNormalized = normalizeName(searchValue);
+// 	const filteredPublications = publications.filter((pub) => {
+// 		const publicationNameNormalized = normalizeName(pub.name);
+// 		return publicationNameNormalized.includes(searchValueNormalized);
+// 	});
+// 	return filteredPublications;
+// };
+
 const filterPublicationsBySearh = (publications, searchValue) => {
   const searchValueNormalized = normalizeName(searchValue);
   const filteredPublications = publications.filter((pub) => {
-    const publicationNameNormalized = normalizeName(pub.name);
-    return publicationNameNormalized.includes(searchValueNormalized);
+    return pub.keywords.some((keyword) => {
+      const keywordNormalized = normalizeName(keyword);
+      return keywordNormalized.includes(searchValueNormalized);
+    });
   });
   return filteredPublications;
 };
