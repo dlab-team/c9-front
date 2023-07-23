@@ -28,23 +28,23 @@ function normalizeName(name) {
 }
 
 const filterPublicationsBySearh = (publications, searchValue) => {
-	const searchValueNormalized = normalizeName(searchValue);
-	const filteredPublications = publications.filter((pub) => {
-		const publicationNameNormalized = normalizeName(pub.name);
-		return publicationNameNormalized.includes(searchValueNormalized);
-	});
-	return filteredPublications;
+  const searchValueNormalized = normalizeName(searchValue);
+  const filteredPublications = publications.filter((pub) => {
+    const publicationNameNormalized = normalizeName(pub.name);
+    return publicationNameNormalized.includes(searchValueNormalized);
+  });
+  return filteredPublications;
 };
 
 const filterPublicationsByKeyword = (publications, searchValue) => {
-	const searchValueNormalized = normalizeName(searchValue);
-	const filteredPublications = publications.filter((pub) => {
-		return pub.keywords.some((keyword) => {
-			const keywordNormalized = normalizeName(keyword);
-			return keywordNormalized.includes(searchValueNormalized);
-		});
-	});
-	return filteredPublications;
+  const searchValueNormalized = normalizeName(searchValue);
+  const filteredPublications = publications.filter((pub) => {
+    return pub.keywords.some((keyword) => {
+      const keywordNormalized = normalizeName(keyword);
+      return keywordNormalized.includes(searchValueNormalized);
+    });
+  });
+  return filteredPublications;
 };
 
 const Gallery = ({ searchValue = '', keyword = '' }) => {
@@ -109,19 +109,18 @@ const Gallery = ({ searchValue = '', keyword = '' }) => {
       ? filterPublicationsBySearh(publications, searchValue)
       : publications;
 
-	const publicationsToRender =
-		filteredPublications && searchValue === ''
-			? filteredPublications
-			: keyword && keyword.length > 0
-			? filterPublicationsByKeyword(publications, keyword)
-			: filteredPublicationsBySearch;
+  const publicationsToRender =
+    filteredPublications && searchValue === ''
+      ? filteredPublications
+      : keyword && keyword.length > 0
+      ? filterPublicationsByKeyword(publications, keyword)
+      : filteredPublicationsBySearch;
 
   // Variable para almacenar el número total de publicaciones existentes
   const totalPublications = publications.length;
 
   // Variable para almacenar el número de elementos encontrados en la búsqueda
   const numResults = publicationsToRender.length;
-
   return (
     <>
       {isloading && (
@@ -131,7 +130,7 @@ const Gallery = ({ searchValue = '', keyword = '' }) => {
       )}
       {!isloading && (
         <div>
-          {searchValue || searchValue !== '' ? (
+          {searchValue || searchValue !== '' || keyword ? (
             <>
               <h1 className="innova-heading text-center text-3xl font-bold text-blue-800 my-5">
                 {filteredPublicationsBySearch.length > 0

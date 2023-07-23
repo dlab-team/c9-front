@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 const ByKeyword = () => {
 	const { currentUser } = useContext(AuthContext);
 	const [showButton, setShowButton] = useState(false);
-	const { param } = useParams();
+	const params = useParams();
 
 	const handleScrollToTop = () => {
 		window.scrollTo({
@@ -35,7 +35,7 @@ const ByKeyword = () => {
 	return (
 		<div className='container mx-auto'>
 			<main className='md:px-5'>
-				<Gallery searchValue={''} keyword={'keyword'} />
+				<Gallery searchValue={''} keyword={params.keyword} />
 			</main>
 			{showButton && (
 				<button
