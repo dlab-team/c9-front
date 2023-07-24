@@ -238,8 +238,8 @@ const Gallery = ({ searchValue = '' }) => {
                       )}
                     </div>
                     <div className={`px-4 py-4`}>
-                      <p className={`text-[0.625rem]`}>
-                        @{publication.author.username}
+                      <p className={`text-xs`}>
+                        Por @{publication.author.username}, adaptada por 🤖 IA
                       </p>
                     </div>
                   </div>

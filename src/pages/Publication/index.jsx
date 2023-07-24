@@ -181,6 +181,11 @@ const Publication = () => {
                 />
                 {publication?.author?.name}
               </div>
+              <Link to={`/acerca-de`}>
+                <div className="ml-2 sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+                  🤖 IA
+                </div>
+              </Link>
             </Link>
 
             {/* Etiquetas de publicaciones  */}
@@ -273,9 +278,11 @@ const Publication = () => {
             <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
               <div data-html2canvas-ignore="true" className="col-span-1">
                 {formatFecha(publication?.publicationDate)}
-                <div className="sm:inline-block rounded-md whitespace-nowrap w-full  bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
-                  Visitas: 
-                  <p className='text-green-600 text-lg'>{publication?.visits}</p>
+                <div className="sm:inline-block rounded-md whitespace-nowrap w-full rounded bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
+                  Visitas:
+                  <p className="text-green-600 text-lg"> 
+                    {publication?.visits}
+                  </p>
                 </div>
                 <ul
                   className="xs:hidden lg:block mr-4 flex list-none flex-row flex-wrap pl-0"
@@ -306,7 +313,7 @@ const Publication = () => {
                       aria-controls="tabs-profile03"
                       aria-selected="false"
                     >
-                      Inglés 
+                      Inglés
                     </a>
                   </li>
                 </ul>
