@@ -417,7 +417,7 @@ const Publication = () => {
           </div>
 
           <div className="relative innova-text container w-5/5 mx-auto py-5">
-            <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
+            <h2 className="pt-8 page-title">PREGUNTAS RELACIONADAS</h2>
             <div className="innova-text">
               {publication?.questions.map((item, index) => (
                 <div key={index} className="p-2">
