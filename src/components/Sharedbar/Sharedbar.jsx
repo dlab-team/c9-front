@@ -10,7 +10,7 @@ const Sharedbar = () => {
   const toggleIcons = () => {
     setShowIcons(!showIcons);
   };
-  const description = 'InnovaXD del diario "El Mercurio"';
+  const description = 'InnovaXD ';
   const url = window.location.href;
 
   return (
