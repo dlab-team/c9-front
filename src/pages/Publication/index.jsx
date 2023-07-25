@@ -16,6 +16,7 @@ import TextToSpeech from "../../components/TextToSpeach/TextToSpeach";
 import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
 import html2pdf from "html2pdf.js";
+import { getElementError } from "@testing-library/react";
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -138,6 +139,12 @@ const Publication = () => {
     jsPDF:        { unit: 'in', format: 'a2', orientation: 'portrait' }
   };
 
+  function changeMetaTags(publication) {
+    const imgTagTwitter = document.getElementById("meta-tag-img-twitter").setAttribute('content', publication?.images[0]?.url);
+    const imgTagFace = document.getElementById("meta-tag-img-face").setAttribute('content', publication?.images[0]?.url);
+    const titleTagFace = document.getElementById("meta-tittle-face").setAttribute('content', publication?.name);
+    const titleTagtitter = document.getElementById("meta-tittle-twitter").setAttribute('content', publication?.name);
+  }
 
   return (
     <>
@@ -160,6 +167,7 @@ const Publication = () => {
 
           <div>
             <h1 className="innova-title pt-5">{publication?.name}</h1>
+            {changeMetaTags(publication)}
             <Tooltip title="Escuchar titular" position="bottom" arrow={true}>
                 <TextToSpeech text={publication?.name} />
             </Tooltip>
