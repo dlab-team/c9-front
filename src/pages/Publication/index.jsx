@@ -166,7 +166,8 @@ const Publication = () => {
         </div>
       </div>
       <div id="pdf" className={loading ? 'hidden' : ''}>
-        <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-[42rem] 3xl:px-[57rem]">
+        {/* <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-[42rem] 3xl:px-[57rem]"> */}
+        <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96">
           <Link to="/">
             <button
               type="button"
@@ -180,8 +181,18 @@ const Publication = () => {
           <div>
             <h1 className="innova-title pt-5">{publication?.name}</h1>
             {changeMetaTags(publication)}
-            <Tooltip title="Escuchar titular" position="bottom" arrow={true}>
-              <TextToSpeech text={publication?.name} />
+            <Tooltip
+              title="Escuchar titular"
+              position="bottom"
+              arrow={true}
+              data-html2canvas-ignore="true"
+            >
+              <div data-html2canvas-ignore="true">
+                <TextToSpeech
+                  text={publication?.name}
+                  data-html2canvas-ignore="true"
+                />
+              </div>
             </Tooltip>
           </div>
           <div className="mt-2 py-6 flex justify-between">
@@ -196,7 +207,7 @@ const Publication = () => {
                 />
                 {publication?.author?.name}
               </div>
-              <Link to={`/acerca-de`}>
+              <Link to={`/acerca-de`} data-html2canvas-ignore="true">
                 <div className="ml-2 sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
                   🤖 IA
                 </div>
@@ -231,7 +242,8 @@ const Publication = () => {
         <div className="flex mb-3 md:mb-8">
           {publication?.images?.length > 0 && (
             <img
-              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[47%] 3xl:max-w-[40%] rounded-md shadow-lg shadow-gray-400"
+              className="
+              imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400"
               src={publication.images[0].url}
               alt="Imagen principal"
             />
@@ -368,6 +380,20 @@ const Publication = () => {
                       id="content-text"
                       className="innova-text"
                     ></article>
+                    <div
+                      data-html2canvas-ignore="true"
+                      className="text-end mt-2"
+                    >
+                      {publication?.keywords.map((item, index) => (
+                        <a
+                          href={`/publications/keyword/${item}`}
+                          className="inline-block whitespace-nowrap rounded bg-gray-200 p-2 ml-1 my-3 text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-gray-500 hover:shadow-lg ease-in-out hover:scale-110"
+                          key={index}
+                        >
+                          #{item}
+                        </a>
+                      ))}
+                    </div>
                     <Tooltip
                       title="Escuchar noticia"
                       position="bottom"
