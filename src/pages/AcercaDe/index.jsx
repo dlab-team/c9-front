@@ -25,6 +25,16 @@ const teamMembers = [
     image: sebastian,
   },
   {
+    name: 'Santiago Cisneros',
+    role: 'Back-End',
+    image: santiago,
+  },
+  {
+    name: 'René Donaire',
+    role: 'Back-End',
+    image: rene,
+  },
+  {
     name: 'Javier Figueroa',
     role: 'Front-End',
     image: javier,
@@ -45,24 +55,9 @@ const teamMembers = [
     image: alfreddo,
   },
   {
-    name: 'René Donaire',
-    role: 'Back-End',
-    image: rene,
-  },
-  {
-    name: 'Santiago Cisneros',
-    role: 'Back-End',
-    image: santiago,
-  },
-  {
     name: 'Agustín Zapata',
     role: 'Back-End',
     image: agustin,
-  },
-  {
-    name: 'Sebastián Vidal',
-    role: 'Tech Lead',
-    image: sebavidal,
   },
 ];
 
@@ -126,7 +121,7 @@ const AcercaDe = () => {
       <h1 className="my-3 breadcrumb-title">Bienvenid@s a Innova XD</h1>
       <Breadcrumb />
 
-      <div className="my-20">
+      <div className="my-20 text-zinc-600">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <p>
@@ -163,7 +158,7 @@ const AcercaDe = () => {
               alumnos, de una manera simple y didáctica.
             </p>
             <p className="mt-4">
-              <b className='text-warning-600'>¡Bienvenid@s a Innova XD!</b> Una alianza entre Innovación de
+              <b className="text-warning-500  text-[1.4rem] font-['Caveat_Brush']">¡Bienvenid@s a Innova XD!</b> Una alianza entre Innovación de
               El Mercurio, Microsoft, Desafío Latam y Fundación Kodea, que apunta
               a ampliar los horizontes de nuestros estudiantes y motivarlos a ser
               líderes que mejoren su entorno.
@@ -202,6 +197,32 @@ const AcercaDe = () => {
           ))}
         </Slider>
         
+      </div>
+
+      {/* Nueva sección sin fotos para mostrar a los miembros del equipo */}
+      <div className="my-24">
+        <h2 className="text-2xl text-primary pb-8 mb-4 mx-auto text-center">
+          Team desarrollo técnico - Incubadora Desafío Latam
+        </h2>
+        <div className="flex justify-center">
+          <div className="w-full md:w-1/8">
+            <h3 className="text-xl font-['Caveat_Brush'] text-gray-600 mt-4 text-center">
+              Sebastián Vidal
+            </h3>
+            <p className="text-sm text-warning-500 text-center">Tech Lead</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 justify-center md:px-44 lg:px-96">
+          {teamMembers.map((member, index) => (
+            <div
+            key={index}
+            className="team-member text-center flex flex-col mx-2 mb-4"
+          >
+              <h3 className="text-xl font-['Caveat_Brush'] text-gray-600 mt-4">{member.name}</h3>
+              <p className="text-sm text-warning-500">{member.role}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
