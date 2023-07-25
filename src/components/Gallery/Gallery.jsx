@@ -36,7 +36,18 @@ const filterPublicationsBySearh = (publications, searchValue) => {
   return filteredPublications;
 };
 
-const Gallery = ({ searchValue = '' }) => {
+const filterPublicationsByKeyword = (publications, searchValue) => {
+  const searchValueNormalized = normalizeName(searchValue);
+  const filteredPublications = publications.filter((pub) => {
+    return pub.keywords.some((keyword) => {
+      const keywordNormalized = normalizeName(keyword);
+      return keywordNormalized.includes(searchValueNormalized);
+    });
+  });
+  return filteredPublications;
+};
+
+const Gallery = ({ searchValue = '', keyword = '' }) => {
   const [page, setPage] = useState(1);
   const [publications, setPublications] = useState([]);
   const [filteredPublications, setFilteredPublications] = useState(null);
@@ -50,7 +61,6 @@ const Gallery = ({ searchValue = '' }) => {
     try {
       const response = await axios.get(`${endpoint}?page=${page}`);
       const { publications } = response.data;
-
       setPublications((prevPublications) => {
         const existingIds = prevPublications.map((pub) => pub.id);
         const filteredPublications = publications.filter(
@@ -102,6 +112,8 @@ const Gallery = ({ searchValue = '' }) => {
   const publicationsToRender =
     filteredPublications && searchValue === ''
       ? filteredPublications
+      : keyword && keyword.length > 0
+      ? filterPublicationsByKeyword(publications, keyword)
       : filteredPublicationsBySearch;
 
   // Variable para almacenar el número total de publicaciones existentes
@@ -109,7 +121,6 @@ const Gallery = ({ searchValue = '' }) => {
 
   // Variable para almacenar el número de elementos encontrados en la búsqueda
   const numResults = publicationsToRender.length;
-
   return (
     <>
       {isloading && (
@@ -119,7 +130,7 @@ const Gallery = ({ searchValue = '' }) => {
       )}
       {!isloading && (
         <div>
-          {searchValue || searchValue !== '' ? (
+          {searchValue || searchValue !== '' || keyword ? (
             <>
               <h1 className="innova-heading text-center text-3xl font-bold text-blue-800 my-5">
                 {filteredPublicationsBySearch.length > 0
