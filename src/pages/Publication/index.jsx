@@ -1,22 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faArrowUp, faDownload } from "@fortawesome/free-solid-svg-icons";
-import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
-import { faTag } from "@fortawesome/free-solid-svg-icons";
-import bgIzq from "../../assets/images/bg-izq.png";
-import bgDer from "../../assets/images/bg-der.png";
-import { Tab, initTE } from "tw-elements";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { Spinner } from "../../components/UI";
-import TextToSpeech from "../../components/TextToSpeach/TextToSpeach";
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
+import { faTag } from '@fortawesome/free-solid-svg-icons';
+import bgIzq from '../../assets/images/bg-izq.png';
+import bgDer from '../../assets/images/bg-der.png';
+import { Tab, initTE } from 'tw-elements';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { Spinner } from '../../components/UI';
+import TextToSpeech from '../../components/TextToSpeach/TextToSpeach';
 import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
-import html2pdf from "html2pdf.js";
-import { getElementError } from "@testing-library/react";
+import html2pdf from 'html2pdf.js';
+import { getElementError } from '@testing-library/react';
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -35,17 +35,17 @@ const Publication = () => {
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
 
   const setLocation = (location) => {
-    let locationName = "";
+    let locationName = '';
     if (
       location === null ||
       (location?.region === null && location?.city === null)
     ) {
-      locationName = "Chile";
+      locationName = 'Chile';
       return locationName;
     }
 
@@ -63,7 +63,7 @@ const Publication = () => {
   function formatFecha(publicationDate) {
     const fecha = new Date(publicationDate);
     const numeroDia = fecha.getDate();
-    const nombreMes = fecha.toLocaleString("es-ES", { month: "long" });
+    const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
 
     return (
       <div className="bg-gray-200 text-center py-4 md:p-5 rounded">
@@ -89,7 +89,7 @@ const Publication = () => {
     try {
       await axios.post(endpointVisit);
     } catch (error) {
-      console.error("Error al aumentar las visitas:", error);
+      console.error('Error al aumentar las visitas:', error);
     }
   };
 
@@ -106,21 +106,21 @@ const Publication = () => {
       setShowButton(isVisible);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    const divContent = document.getElementById("content-text");
+    const divContent = document.getElementById('content-text');
     divContent.innerHTML = publication?.finalContent;
-    const divContentEN = document.getElementById("content-text_EN");
+    const divContentEN = document.getElementById('content-text_EN');
     divContentEN.innerHTML = publication?.finalContent_EN;
 
     if (carouselRef.current && publication) {
-      const dots = document.querySelectorAll(".control-dots .dot");
+      const dots = document.querySelectorAll('.control-dots .dot');
       dots[0].click();
     }
   }, [publication]);
@@ -131,31 +131,43 @@ const Publication = () => {
 
   var newsToPdf = document.getElementById('pdf');
   var opt = {
-    margin:       0.6,
-    pagebreak:      { after: 'article'},
-    filename:      publication?.slug,
-    image:        { type: 'jpeg', quality: 1 },
-    html2canvas:  { scale:window.devicePixelRatio ,  allowTaint: true, useCORS: true, },
-    jsPDF:        { unit: 'in', format: 'a2', orientation: 'portrait' }
+    margin: 0.6,
+    pagebreak: { after: 'article' },
+    filename: publication?.slug,
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: {
+      scale: window.devicePixelRatio,
+      allowTaint: true,
+      useCORS: true,
+    },
+    jsPDF: { unit: 'in', format: 'a2', orientation: 'portrait' },
   };
 
   function changeMetaTags(publication) {
-    const imgTagTwitter = document.getElementById("meta-tag-img-twitter").setAttribute('content', publication?.images[0]?.url);
-    const imgTagFace = document.getElementById("meta-tag-img-face").setAttribute('content', publication?.images[0]?.url);
-    const titleTagFace = document.getElementById("meta-tittle-face").setAttribute('content', publication?.name);
-    const titleTagtitter = document.getElementById("meta-tittle-twitter").setAttribute('content', publication?.name);
+    const imgTagTwitter = document
+      .getElementById('meta-tag-img-twitter')
+      .setAttribute('content', publication?.images[0]?.url);
+    const imgTagFace = document
+      .getElementById('meta-tag-img-face')
+      .setAttribute('content', publication?.images[0]?.url);
+    const titleTagFace = document
+      .getElementById('meta-tittle-face')
+      .setAttribute('content', publication?.name);
+    const titleTagtitter = document
+      .getElementById('meta-tittle-twitter')
+      .setAttribute('content', publication?.name);
   }
 
   return (
     <>
-      <div className={loading ? "" : "hidden"}>
+      <div className={loading ? '' : 'hidden'}>
         <div className="w-full h-[20vh] sm:h-[60vh] flex justify-center items-center">
           <Spinner />
         </div>
       </div>
-      <div id="pdf" className={loading ? "hidden" : ""}>
+      <div id="pdf" className={loading ? 'hidden' : ''}>
         <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-[42rem] 3xl:px-[57rem]">
-          <Link  to="/">
+          <Link to="/">
             <button
               type="button"
               className="btn_back text-blue-800 text-sm py-2.5 text-center inline-flex items-center"
@@ -169,18 +181,26 @@ const Publication = () => {
             <h1 className="innova-title pt-5">{publication?.name}</h1>
             {changeMetaTags(publication)}
             <Tooltip title="Escuchar titular" position="bottom" arrow={true}>
-                <TextToSpeech text={publication?.name} />
+              <TextToSpeech text={publication?.name} />
             </Tooltip>
           </div>
           <div className="mt-2 py-6 flex justify-between">
             <Link to={`/perfil/${publication?.author.username}`}>
-              <div data-html2canvas-ignore="true" className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+              <div
+                data-html2canvas-ignore="true"
+                className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110"
+              >
                 <FontAwesomeIcon
                   icon={faCircleUser}
                   className="pe-2 text-white "
                 />
                 {publication?.author?.name}
               </div>
+              <Link to={`/acerca-de`}>
+                <div className="ml-2 sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+                  🤖 IA
+                </div>
+              </Link>
             </Link>
 
             {/* Etiquetas de publicaciones  */}
@@ -203,13 +223,12 @@ const Publication = () => {
                 <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
                 {publication?.category?.name
                   ? publication.category.name
-                  : "Sin categoría"}
+                  : 'Sin categoría'}
               </a>
             </div>
           </div>
         </div>
-
-        <div   className="flex mb-3 md:mb-8">
+        <div className="flex mb-3 md:mb-8">
           {publication?.images?.length > 0 && (
             <img
               className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[47%] 3xl:max-w-[40%] rounded-md shadow-lg shadow-gray-400"
@@ -218,13 +237,18 @@ const Publication = () => {
             />
           )}
         </div>
-
         <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
           <Link to={`/perfil/${publication?.author.username}`}>
             <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-white" />
             {publication?.author?.name}
           </Link>
         </div>
+        <Link to={`/acerca-de`}>
+          <div className="md:hidden inline-block whitespace-nowrap ml-2 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+            🤖 IA
+          </div>
+        </Link>
+
         <div>
           <ul
             className="lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-nowrap md:flex-wrap pl-0 md:mr-14 mr-4"
@@ -269,13 +293,15 @@ const Publication = () => {
             <img src={bgIzq} alt="Blob Izquierdo" />
           </div>
 
-          <div  className="relative container mx-auto whitespace-normal">
+          <div className="relative container mx-auto whitespace-normal">
             <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
               <div data-html2canvas-ignore="true" className="col-span-1">
                 {formatFecha(publication?.publicationDate)}
-                <div className="sm:inline-block rounded-md whitespace-nowrap w-full  bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
-                  Visitas: 
-                  <p className='text-green-600 text-lg'>{publication?.visits}</p>
+                <div className="sm:inline-block rounded-md whitespace-nowrap w-full rounded bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
+                  Visitas:
+                  <p className="text-green-600 text-lg">
+                    {publication?.visits}
+                  </p>
                 </div>
                 <ul
                   className="xs:hidden lg:block mr-4 flex list-none flex-row flex-wrap pl-0"
@@ -306,16 +332,26 @@ const Publication = () => {
                       aria-controls="tabs-profile03"
                       aria-selected="false"
                     >
-                      Inglés 
+                      Inglés
                     </a>
                   </li>
                 </ul>
                 <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md mt-2">
                   <div>
-                  <Tooltip title="Descargar noticia" position="bottom" arrow={true}>
-                    <button onClick={() => {
-                  html2pdf().set(opt).from(newsToPdf).save()}}> Pdf</button>
-                  </Tooltip>
+                    <Tooltip
+                      title="Descargar noticia"
+                      position="bottom"
+                      arrow={true}
+                    >
+                      <button
+                        onClick={() => {
+                          html2pdf().set(opt).from(newsToPdf).save();
+                        }}
+                      >
+                        {' '}
+                        Pdf
+                      </button>
+                    </Tooltip>
                   </div>
                 </div>
               </div>
@@ -328,8 +364,15 @@ const Publication = () => {
                     aria-labelledby="tabs-home-tab03"
                     data-te-tab-active
                   >
-                    <article id="content-text" className="innova-text"></article>
-                    <Tooltip title="Escuchar noticia" position="bottom" arrow={true}>
+                    <article
+                      id="content-text"
+                      className="innova-text"
+                    ></article>
+                    <Tooltip
+                      title="Escuchar noticia"
+                      position="bottom"
+                      arrow={true}
+                    >
                       <TextToSpeech text={publication?.finalContent} />
                     </Tooltip>
                     {/* marca */}
@@ -348,7 +391,7 @@ const Publication = () => {
           </div>
 
           <div className="relative innova-text container w-5/5 mx-auto py-5">
-            <h2 className="pt-8" >PREGUNTAS RELACIONADAS</h2>
+            <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
             <div className="innova-text">
               {publication?.questions.map((item, index) => (
                 <div key={index} className="p-2">
@@ -359,7 +402,7 @@ const Publication = () => {
                     <div className="p-2">{item.question}</div>
                     <svg
                       className={`w-5 h-5 transition-transform ${
-                        activeIndex === index ? "transform rotate-180" : ""
+                        activeIndex === index ? 'transform rotate-180' : ''
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
