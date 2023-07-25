@@ -59,6 +59,11 @@ const teamMembers = [
     role: 'Back-End',
     image: agustin,
   },
+  {
+    name: 'Sebastián Vidal',
+    role: 'Tech Lead',
+    image: sebavidal,
+  },
 ];
 
 const AcercaDe = () => {
@@ -117,7 +122,6 @@ const AcercaDe = () => {
 
 
   return (
-    <>
     <div className="container mx-auto">
       <h1 className="my-3 breadcrumb-title">Bienvenid@s a Innova XD</h1>
       <Breadcrumb />
@@ -198,39 +202,7 @@ const AcercaDe = () => {
         </Slider>
         
       </div>
-      </div>
-      {/* Nueva sección sin fotos para mostrar a los miembros del equipo */}
-      <div className="py-24 mt-24 bg-blue-50">
-      <h2 className="text-2xl pb-8 mb-4 mx-auto text-center text-primary flex flex-col items-center justify-center">
-        <span className="bg-[#FF8552] text-white inline-block mr-4 p-4 -rotate-[4deg]">
-          Team desarrollo técnico
-        </span>
-        <span className="bg-amber-200 text-white rotate-[6deg] p-4 mt-4">
-          Incubadora Desafío Latam
-        </span>
-      </h2>
-
-        <div className="flex justify-center">
-          <div className="w-full md:w-1/2">
-            <h3 className="text-xl font-['Caveat_Brush'] text-primary mt-4 text-center">
-              Sebastián Vidal
-            </h3>
-            <p className="text-sm text-gray-500 text-center">Tech Lead</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 justify-center md:px-44 gap-0 lg:px-96 2xl:px-[65rem] 3xl:px-[80rem]">
-          {teamMembers.map((member, index) => (
-            <div
-            key={index}
-            className="team-member text-center flex flex-col mx-2 mb-4"
-          >
-              <h3 className="text-xl font-['Caveat_Brush'] text-primary mt-4">{member.name}</h3>
-              <p className="text-sm text-gray-500">{member.role}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
+    </div>
   );
 };
 
