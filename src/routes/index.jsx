@@ -22,7 +22,7 @@ import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
 import AdminAuthorNew from '../pages/Admin/Authors/New';
 import SplashScreen from '../components/SplashScreen/SplashScreen';
 import ByKeyword from '../pages/ByKeyword/byKeyword';
-
+import EditUserView from '../pages/Admin/EditUser';
 
 const AppRoutes = () => {
   return (
@@ -146,6 +146,8 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+      </Route>
+      <Route element={<ProtectedRoute requiredAdminRole={true} />}>
         <Route
           exact
           path="admin/autores"
@@ -175,50 +177,59 @@ const AppRoutes = () => {
         />
       </Route>
 
-			<Route element={<ProtectedRoute requiredAdminRole={true} />}>
-				<Route
-					exact
-					path='admin/users'
-					element={
-						<Layout>
-							<AdminUsers />
-						</Layout>
-					}
-				/>
-			</Route>
+      <Route element={<ProtectedRoute requiredAdminRole={true} />}>
+        <Route
+          exact
+          path="admin/users"
+          element={
+            <Layout>
+              <AdminUsers />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/users/edit/:id"
+          element={
+            <Layout>
+              <EditUserView />
+            </Layout>
+          }
+        />
+      </Route>
 
-			<Route element={<ProtectedRoute requiredAdminRole={true} />}>
-				<Route
-					exact
-					path='admin/regiones'
-					element={
-						<Layout>
-							<AdminRegiones />
-						</Layout>
-					}
-				/>
-				<Route
-					exact
-					path='admin/comunas'
-					element={
-						<Layout>
-							<AdminComunas />
-						</Layout>
-					}
-				/>
-			</Route>
+      <Route element={<ProtectedRoute requiredAdminRole={true} />}>
+        <Route
+          exact
+          path="admin/regiones"
+          element={
+            <Layout>
+              <AdminRegiones />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/comunas"
+          element={
+            <Layout>
+              <AdminComunas />
+            </Layout>
+          }
+        />
+      </Route>
 
-			<Route
-				exact
-				path='/publications/keyword/:keyword'
-				element={
-					<Layout>
-						<ByKeyword />
-					</Layout>
-				}
-			/>
-		</Routes>
-	);
+      <Route
+        exact
+        path="/publications/keyword/:keyword"
+        element={
+          <Layout>
+            <ByKeyword />
+          </Layout>
+        }
+      />
+    </Routes>
+  );
 };
 
 export default AppRoutes;
