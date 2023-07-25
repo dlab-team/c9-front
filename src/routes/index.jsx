@@ -12,6 +12,7 @@ import NotFound from '../pages/NotFound';
 import Publication from '../pages/Publication';
 import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
+import LoginLinkedin from '../pages/LoginLinkedin';
 import Profile from '../pages/Profile';
 import Confirm from '../pages/Admin/Users/Confirm';
 import AdminRegiones from '../pages/Admin/Regiones';
@@ -21,18 +22,16 @@ import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
 import AdminAuthorNew from '../pages/Admin/Authors/New';
 import SplashScreen from '../components/SplashScreen/SplashScreen';
 
-
-
 const AppRoutes = () => {
   return (
     <Routes>
       <Route
-      exact
-      path="/splash"
-      element={
-        <Layout>
-          <SplashScreen />
-        </Layout>
+        exact
+        path="/splash"
+        element={
+          <Layout>
+            <SplashScreen />
+          </Layout>
         }
       />
       <Route
@@ -54,6 +53,7 @@ const AppRoutes = () => {
         }
       />
       <Route exact path="/acceso" element={<Acceso />} />
+      <Route exact path="/loginLinkedin/:token" element={<LoginLinkedin />} />
       <Route
         exact
         path="/busqueda/:searchValue"
@@ -167,11 +167,10 @@ const AppRoutes = () => {
           path="admin/autores/edit/:id"
           element={
             <Layout>
-              <AdminAuthorEdit/>
+              <AdminAuthorEdit />
             </Layout>
           }
         />
-
       </Route>
 
       <Route element={<ProtectedRoute requiredAdminRole={true} />}>
@@ -195,7 +194,7 @@ const AppRoutes = () => {
               <AdminRegiones />
             </Layout>
           }
-        />   
+        />
 
         <Route
           exact
@@ -205,7 +204,7 @@ const AppRoutes = () => {
               <AdminComunas />
             </Layout>
           }
-        /> 
+        />
       </Route>
     </Routes>
   );
