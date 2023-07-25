@@ -110,7 +110,7 @@ const Form = ({ publication } = null) => {
     publication ? publication.location?.region.id : null
   );
   const [currentComuna, setCurrentComuna] = useState(
-    publication
+    publication && publication.location?.city
       ? {
           value: publication.location?.city.id,
           label: publication.location?.city.name,
