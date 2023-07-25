@@ -13,10 +13,9 @@ import { Tab, initTE } from "tw-elements";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { Spinner } from "../../components/UI";
 import TextToSpeech from "../../components/TextToSpeach/TextToSpeach";
-import { Page, Text, Image, Document, StyleSheet, Font, PDFDownloadLink} from "@react-pdf/renderer";
-import { stylesPDF } from '../../components/PDF/pdf';
 import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
+import html2pdf from "html2pdf.js";
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -129,46 +128,16 @@ const Publication = () => {
     increaseVisits();
   }, []);
 
+  var newsToPdf = document.getElementById('pdf');
+  var opt = {
+    margin:       0.6,
+    pagebreak:      { after: 'article'},
+    filename:      publication?.slug,
+    image:        { type: 'jpeg', quality: 1 },
+    html2canvas:  { scale:window.devicePixelRatio ,  allowTaint: true, useCORS: true, },
+    jsPDF:        { unit: 'in', format: 'a2', orientation: 'portrait' }
+  };
 
-  /// PDF  FONTS
-
-  Font.register({
-    family: 'Oswald',
-    src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
-  });
-
-
-  // PDF DOC
-
-  const MyDoc = () => (
-    <Document>
-      <Page style={stylesPDF.body}>
-        <Text style={stylesPDF.header} fixed>
-          ~ InnovaXD - {publication?.author?.name} ~
-        </Text>
-        <Text style={stylesPDF.title}>{publication?.name}</Text>
-        <Text style={stylesPDF.author}>{publication?.author?.name}</Text>
-        <Image
-          style={stylesPDF.image}
-          src={publication?.images[0]?.url}   
-        />
-      
-        <Text style={stylesPDF.text}>
-          {publication?.finalContent}
-        </Text>
-        <Text style={stylesPDF.subtitle} break>
-      Traducción EN
-      </Text>
-        <Text style={stylesPDF.text}>
-          {publication?.finalContent_EN}
-        </Text>
-        <Text style={stylesPDF.pageNumber} render={({ pageNumber, totalPages }) => (
-          `${pageNumber} / ${totalPages}`
-        )} fixed />
-      </Page>
-    </Document>
-  );
-  
 
   return (
     <>
@@ -177,9 +146,9 @@ const Publication = () => {
           <Spinner />
         </div>
       </div>
-      <div className={loading ? "hidden" : ""}>
+      <div id="pdf" className={loading ? "hidden" : ""}>
         <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-[42rem] 3xl:px-[57rem]">
-          <Link to="/">
+          <Link  to="/">
             <button
               type="button"
               className="btn_back text-blue-800 text-sm py-2.5 text-center inline-flex items-center"
@@ -197,7 +166,7 @@ const Publication = () => {
           </div>
           <div className="mt-2 py-6 flex justify-between">
             <Link to={`/perfil/${publication?.author.username}`}>
-              <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+              <div data-html2canvas-ignore="true" className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
                 <FontAwesomeIcon
                   icon={faCircleUser}
                   className="pe-2 text-white "
@@ -208,7 +177,7 @@ const Publication = () => {
 
             {/* Etiquetas de publicaciones  */}
 
-            <div className="flex gap-1 mr-4">
+            <div data-html2canvas-ignore="true" className="flex gap-1 mr-4">
               <a
                 href="/"
                 className="inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
@@ -232,7 +201,7 @@ const Publication = () => {
           </div>
         </div>
 
-        <div className="flex mb-3 md:mb-8">
+        <div   className="flex mb-3 md:mb-8">
           {publication?.images?.length > 0 && (
             <img
               className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[47%] 3xl:max-w-[40%] rounded-md shadow-lg shadow-gray-400"
@@ -292,11 +261,11 @@ const Publication = () => {
             <img src={bgIzq} alt="Blob Izquierdo" />
           </div>
 
-          <div className="relative container mx-auto whitespace-normal">
+          <div  className="relative container mx-auto whitespace-normal">
             <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
-              <div className="col-span-1">
+              <div data-html2canvas-ignore="true" className="col-span-1">
                 {formatFecha(publication?.publicationDate)}
-                <div className="sm:inline-block rounded-md whitespace-nowrap w-full rounded bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
+                <div className="sm:inline-block rounded-md whitespace-nowrap w-full  bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
                   Visitas: 
                   <p className='text-green-600 text-lg'>{publication?.visits}</p>
                 </div>
@@ -336,14 +305,8 @@ const Publication = () => {
                 <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md mt-2">
                   <div>
                   <Tooltip title="Descargar noticia" position="bottom" arrow={true}>
-                    <PDFDownloadLink document={<MyDoc/>} fileName={slug + '.pdf'}>
-                    {({ loading }) => (
-                      <span className="flex items-center text-sm">
-                        <FontAwesomeIcon icon={faDownload} className="mr-2 hidden md:block" />
-                        {loading ? 'Loading document...' : 'PDF'}
-                      </span>
-                    )}
-                    </PDFDownloadLink>
+                    <button onClick={() => {
+                  html2pdf().set(opt).from(newsToPdf).save()}}> Pdf</button>
                   </Tooltip>
                   </div>
                 </div>
@@ -357,10 +320,10 @@ const Publication = () => {
                     aria-labelledby="tabs-home-tab03"
                     data-te-tab-active
                   >
-                    <div id="content-text" className="innova-text"></div>
+                    <article id="content-text" className="innova-text"></article>
                     <Tooltip title="Escuchar noticia" position="bottom" arrow={true}>
                       <TextToSpeech text={publication?.finalContent} />
-                    </Tooltip>    
+                    </Tooltip>
                     {/* marca */}
                   </div>
                   <div
@@ -377,7 +340,7 @@ const Publication = () => {
           </div>
 
           <div className="relative innova-text container w-5/5 mx-auto py-5">
-            <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
+            <h2 className="pt-8" >PREGUNTAS RELACIONADAS</h2>
             <div className="innova-text">
               {publication?.questions.map((item, index) => (
                 <div key={index} className="p-2">
