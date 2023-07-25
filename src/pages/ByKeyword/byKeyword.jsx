@@ -5,12 +5,11 @@ import { AuthContext } from '../../context/AuthContext/AuthContext';
 import Searching from '../../components/Searching/Searching';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { SearchContext } from '../../context/SearchContext/SearchContext';
-
-const Busqueda = () => {
+import { useParams } from 'react-router-dom';
+const ByKeyword = () => {
 	const { currentUser } = useContext(AuthContext);
 	const [showButton, setShowButton] = useState(false);
-	const { searchTerm } = useContext(SearchContext);
+	const params = useParams();
 
 	const handleScrollToTop = () => {
 		window.scrollTo({
@@ -28,7 +27,6 @@ const Busqueda = () => {
 		};
 
 		window.addEventListener('scroll', handleScroll);
-
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
@@ -36,8 +34,8 @@ const Busqueda = () => {
 
 	return (
 		<div className='container mx-auto'>
-			<main>
-				<Gallery searchValue={searchTerm} keyword={''} />
+			<main className='md:px-5'>
+				<Gallery searchValue={''} keyword={params.keyword} />
 			</main>
 			{showButton && (
 				<button
@@ -51,4 +49,4 @@ const Busqueda = () => {
 	);
 };
 
-export default Busqueda;
+export default ByKeyword;

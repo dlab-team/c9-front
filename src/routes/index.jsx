@@ -12,6 +12,7 @@ import NotFound from '../pages/NotFound';
 import Publication from '../pages/Publication';
 import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
+import LoginLinkedin from '../pages/LoginLinkedin';
 import Profile from '../pages/Profile';
 import Confirm from '../pages/Admin/Users/Confirm';
 import AdminRegiones from '../pages/Admin/Regiones';
@@ -19,12 +20,22 @@ import AdminComunas from '../pages/Admin/Comunas';
 import Authors from '../pages/Admin/Authors';
 import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
 import AdminAuthorNew from '../pages/Admin/Authors/New';
-
-
+import SplashScreen from '../components/SplashScreen/SplashScreen';
+import ByKeyword from '../pages/ByKeyword/byKeyword';
+import EditUserView from '../pages/Admin/EditUser';
 
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route
+        exact
+        path="/splash"
+        element={
+          <Layout>
+            <SplashScreen />
+          </Layout>
+        }
+      />
       <Route
         exact
         path="/"
@@ -44,6 +55,7 @@ const AppRoutes = () => {
         }
       />
       <Route exact path="/acceso" element={<Acceso />} />
+      <Route exact path="/loginLinkedin/:token" element={<LoginLinkedin />} />
       <Route
         exact
         path="/busqueda/:searchValue"
@@ -134,6 +146,8 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+      </Route>
+      <Route element={<ProtectedRoute requiredAdminRole={true} />}>
         <Route
           exact
           path="admin/autores"
@@ -157,11 +171,10 @@ const AppRoutes = () => {
           path="admin/autores/edit/:id"
           element={
             <Layout>
-              <AdminAuthorEdit/>
+              <AdminAuthorEdit />
             </Layout>
           }
         />
-
       </Route>
 
       <Route element={<ProtectedRoute requiredAdminRole={true} />}>
@@ -171,6 +184,15 @@ const AppRoutes = () => {
           element={
             <Layout>
               <AdminUsers />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/users/edit/:id"
+          element={
+            <Layout>
+              <EditUserView />
             </Layout>
           }
         />
@@ -185,8 +207,7 @@ const AppRoutes = () => {
               <AdminRegiones />
             </Layout>
           }
-        />   
-
+        />
         <Route
           exact
           path="admin/comunas"
@@ -195,8 +216,18 @@ const AppRoutes = () => {
               <AdminComunas />
             </Layout>
           }
-        /> 
+        />
       </Route>
+
+      <Route
+        exact
+        path="/publications/keyword/:keyword"
+        element={
+          <Layout>
+            <ByKeyword />
+          </Layout>
+        }
+      />
     </Routes>
   );
 };

@@ -1,20 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
-import { faTag } from "@fortawesome/free-solid-svg-icons";
-import bgIzq from "../../assets/images/bg-izq.png";
-import bgDer from "../../assets/images/bg-der.png";
-import { Tab, initTE } from "tw-elements";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { Spinner } from "../../components/UI";
-import TextToSpeech from "../../components/TextToSpeach/TextToSpeach";
-import { Page, Text, Image, Document, StyleSheet, Font, PDFDownloadLink} from "@react-pdf/renderer";
-import { stylesPDF } from '../../components/PDF/pdf';
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
+import { faTag } from '@fortawesome/free-solid-svg-icons';
+import bgIzq from '../../assets/images/bg-izq.png';
+import bgDer from '../../assets/images/bg-der.png';
+import { Tab, initTE } from 'tw-elements';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { Spinner } from '../../components/UI';
+import TextToSpeech from '../../components/TextToSpeach/TextToSpeach';
+import { Tooltip } from 'react-tippy';
+import 'react-tippy/dist/tippy.css';
+import html2pdf from 'html2pdf.js';
+import { getElementError } from '@testing-library/react';
 
 const Publication = () => {
   const [publication, setPublication] = useState();
@@ -33,17 +35,17 @@ const Publication = () => {
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
 
   const setLocation = (location) => {
-    let locationName = "";
+    let locationName = '';
     if (
       location === null ||
       (location?.region === null && location?.city === null)
     ) {
-      locationName = "Chile";
+      locationName = 'Chile';
       return locationName;
     }
 
@@ -61,7 +63,7 @@ const Publication = () => {
   function formatFecha(publicationDate) {
     const fecha = new Date(publicationDate);
     const numeroDia = fecha.getDate();
-    const nombreMes = fecha.toLocaleString("es-ES", { month: "long" });
+    const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
 
     return (
       <div className="bg-gray-200 text-center py-4 md:p-5 rounded">
@@ -87,7 +89,7 @@ const Publication = () => {
     try {
       await axios.post(endpointVisit);
     } catch (error) {
-      console.error("Error al aumentar las visitas:", error);
+      console.error('Error al aumentar las visitas:', error);
     }
   };
 
@@ -104,21 +106,21 @@ const Publication = () => {
       setShowButton(isVisible);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    const divContent = document.getElementById("content-text");
+    const divContent = document.getElementById('content-text');
     divContent.innerHTML = publication?.finalContent;
-    const divContentEN = document.getElementById("content-text_EN");
+    const divContentEN = document.getElementById('content-text_EN');
     divContentEN.innerHTML = publication?.finalContent_EN;
 
     if (carouselRef.current && publication) {
-      const dots = document.querySelectorAll(".control-dots .dot");
+      const dots = document.querySelectorAll('.control-dots .dot');
       dots[0].click();
     }
   }, [publication]);
@@ -127,55 +129,44 @@ const Publication = () => {
     increaseVisits();
   }, []);
 
+  var newsToPdf = document.getElementById('pdf');
+  var opt = {
+    margin: 0.6,
+    pagebreak: { after: 'article' },
+    filename: publication?.slug,
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: {
+      scale: window.devicePixelRatio,
+      allowTaint: true,
+      useCORS: true,
+    },
+    jsPDF: { unit: 'in', format: 'a2', orientation: 'portrait' },
+  };
 
-  /// PDF  FONTS
-
-  Font.register({
-    family: 'Oswald',
-    src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
-  });
-
-
-  // PDF DOC
-
-  const MyDoc = () => (
-    <Document>
-      <Page style={stylesPDF.body}>
-        <Text style={stylesPDF.header} fixed>
-          ~ InnovaXD - {publication?.author?.name} ~
-        </Text>
-        <Text style={stylesPDF.title}>{publication?.name}</Text>
-        <Text style={stylesPDF.author}>{publication?.author?.name}</Text>
-        <Image
-          style={stylesPDF.image}
-          src={publication?.images[0]?.url}   
-        />
-       
-        <Text style={stylesPDF.text}>
-          {publication?.finalContent}
-        </Text>
-        <Text style={stylesPDF.subtitle} break>
-       Traducción EN
-      </Text>
-        <Text style={stylesPDF.text}>
-         {publication?.finalContent_EN}
-        </Text>
-        <Text style={stylesPDF.pageNumber} render={({ pageNumber, totalPages }) => (
-          `${pageNumber} / ${totalPages}`
-        )} fixed />
-      </Page>
-    </Document>
-  );
-  
+  function changeMetaTags(publication) {
+    const imgTagTwitter = document
+      .getElementById('meta-tag-img-twitter')
+      .setAttribute('content', publication?.images[0]?.url);
+    const imgTagFace = document
+      .getElementById('meta-tag-img-face')
+      .setAttribute('content', publication?.images[0]?.url);
+    const titleTagFace = document
+      .getElementById('meta-tittle-face')
+      .setAttribute('content', publication?.name);
+    const titleTagtitter = document
+      .getElementById('meta-tittle-twitter')
+      .setAttribute('content', publication?.name);
+  }
 
   return (
     <>
-      <div className={loading ? "" : "hidden"}>
+      <div className={loading ? '' : 'hidden'}>
         <div className="w-full h-[20vh] sm:h-[60vh] flex justify-center items-center">
           <Spinner />
         </div>
       </div>
-      <div className={loading ? "hidden" : ""}>
+      <div id="pdf" className={loading ? 'hidden' : ''}>
+        {/* <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-[42rem] 3xl:px-[57rem]"> */}
         <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96">
           <Link to="/">
             <button
@@ -189,25 +180,46 @@ const Publication = () => {
 
           <div>
             <h1 className="innova-title pt-5">{publication?.name}</h1>
-            <TextToSpeech text={publication?.name} />
+            {changeMetaTags(publication)}
+            <Tooltip
+              title="Escuchar titular"
+              position="bottom"
+              arrow={true}
+              data-html2canvas-ignore="true"
+            >
+              <div data-html2canvas-ignore="true">
+                <TextToSpeech
+                  text={publication?.name}
+                  data-html2canvas-ignore="true"
+                />
+              </div>
+            </Tooltip>
           </div>
           <div className="mt-2 py-6 flex justify-between">
             <Link to={`/perfil/${publication?.author.username}`}>
-              <div className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+              <div
+                data-html2canvas-ignore="true"
+                className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110"
+              >
                 <FontAwesomeIcon
                   icon={faCircleUser}
                   className="pe-2 text-white "
                 />
                 {publication?.author?.name}
               </div>
+              <Link to={`/acerca-de`} data-html2canvas-ignore="true">
+                <div className="ml-2 sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+                  🤖 IA
+                </div>
+              </Link>
             </Link>
 
             {/* Etiquetas de publicaciones  */}
 
-            <div className="flex gap-1 mr-4">
+            <div data-html2canvas-ignore="true" className="flex gap-1 mr-4">
               <a
                 href="/"
-                className="inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
+                className="inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
               >
                 <FontAwesomeIcon
                   icon={faGlobeAmericas}
@@ -217,36 +229,41 @@ const Publication = () => {
               </a>
               <a
                 href="/"
-                className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
+                className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
               >
                 <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
                 {publication?.category?.name
                   ? publication.category.name
-                  : "Sin categoría"}
+                  : 'Sin categoría'}
               </a>
             </div>
           </div>
         </div>
-
         <div className="flex mb-3 md:mb-8">
           {publication?.images?.length > 0 && (
             <img
-              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400"
+              className="
+              imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400"
               src={publication.images[0].url}
               alt="Imagen principal"
             />
           )}
         </div>
-
         <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
           <Link to={`/perfil/${publication?.author.username}`}>
             <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-white" />
             {publication?.author?.name}
           </Link>
         </div>
-        <div className='md:ml-32'>
+        <Link to={`/acerca-de`}>
+          <div className="md:hidden inline-block whitespace-nowrap ml-2 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+            🤖 IA
+          </div>
+        </Link>
+
+        <div>
           <ul
-            className="lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-wrap pl-0 md:mr-14 mr-4"
+            className="lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-nowrap md:flex-wrap pl-0 md:mr-14 mr-4"
             role="tablist"
             data-te-nav-ref
           >
@@ -284,17 +301,19 @@ const Publication = () => {
             <img src={bgDer} alt="Blob Derecho" />
           </div>
 
-          <div className="absolute left-0 bottom-0 w-[48%] md:w-[24%] lg:w-[18%] opacity-40">
+          <div className="absolute left-0 bottom-0 w-[48%] md:w-[24%] lg:w-[18%] 3xl:w-[14%] opacity-40">
             <img src={bgIzq} alt="Blob Izquierdo" />
           </div>
 
           <div className="relative container mx-auto whitespace-normal">
             <div className="grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4">
-              <div className="col-span-1">
+              <div data-html2canvas-ignore="true" className="col-span-1">
                 {formatFecha(publication?.publicationDate)}
                 <div className="sm:inline-block rounded-md whitespace-nowrap w-full rounded bg-blue-50 text-primary p-2 text-center align-baseline text-[0.58em] md:text-[0.70em] leading-none mt-4">
-                  Visitas: 
-                  <p className='text-green-600 text-lg'>{publication?.visits}</p>
+                  Visitas:
+                  <p className="text-green-600 text-lg">
+                    {publication?.visits}
+                  </p>
                 </div>
                 <ul
                   className="xs:hidden lg:block mr-4 flex list-none flex-row flex-wrap pl-0"
@@ -325,18 +344,27 @@ const Publication = () => {
                       aria-controls="tabs-profile03"
                       aria-selected="false"
                     >
-                      Inglés 
+                      Inglés
                     </a>
                   </li>
                 </ul>
-                <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md">
-                <div>
-                <PDFDownloadLink document={<MyDoc/>} fileName={slug + '.pdf'}>
-                  {({ loading }) =>
-                    loading ? 'Loading document...' : 'PDF'
-                  }
-                </PDFDownloadLink>
-              </div>
+                <div className="flex flex-row items-center justify-center bg-gray-200 rounded-md mt-2">
+                  <div>
+                    <Tooltip
+                      title="Descargar noticia"
+                      position="bottom"
+                      arrow={true}
+                    >
+                      <button
+                        onClick={() => {
+                          html2pdf().set(opt).from(newsToPdf).save();
+                        }}
+                      >
+                        {' '}
+                        Pdf
+                      </button>
+                    </Tooltip>
+                  </div>
                 </div>
               </div>
               <div className="col-span-6 md:col-span-7">
@@ -348,8 +376,31 @@ const Publication = () => {
                     aria-labelledby="tabs-home-tab03"
                     data-te-tab-active
                   >
-                    <div id="content-text" className="innova-text"></div>
-                    <TextToSpeech text={publication?.finalContent} />
+                    <article
+                      id="content-text"
+                      className="innova-text"
+                    ></article>
+                    <div
+                      data-html2canvas-ignore="true"
+                      className="text-end mt-2"
+                    >
+                      {publication?.keywords.map((item, index) => (
+                        <a
+                          href={`/publications/keyword/${item}`}
+                          className="inline-block whitespace-nowrap rounded bg-gray-200 p-2 ml-1 my-3 text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-gray-500 hover:shadow-lg ease-in-out hover:scale-110"
+                          key={index}
+                        >
+                          #{item}
+                        </a>
+                      ))}
+                    </div>
+                    <Tooltip
+                      title="Escuchar noticia"
+                      position="bottom"
+                      arrow={true}
+                    >
+                      <TextToSpeech text={publication?.finalContent} />
+                    </Tooltip>
                     {/* marca */}
                   </div>
                   <div
@@ -366,7 +417,7 @@ const Publication = () => {
           </div>
 
           <div className="relative innova-text container w-5/5 mx-auto py-5">
-            <h2 className="pt-8">PREGUNTAS RELACIONADAS</h2>
+            <h2 className="pt-8 page-title">PREGUNTAS RELACIONADAS</h2>
             <div className="innova-text">
               {publication?.questions.map((item, index) => (
                 <div key={index} className="p-2">
@@ -377,7 +428,7 @@ const Publication = () => {
                     <div className="p-2">{item.question}</div>
                     <svg
                       className={`w-5 h-5 transition-transform ${
-                        activeIndex === index ? "transform rotate-180" : ""
+                        activeIndex === index ? 'transform rotate-180' : ''
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
