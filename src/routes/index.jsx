@@ -146,55 +146,56 @@ const AppRoutes = () => {
             </Layout>
           }
         />
-        <Route element={<ProtectedRoute requiredAdminRole={true} />}>
-          <Route
-            exact
-            path="admin/autores"
-            element={
-              <Layout>
-                <Authors />
-              </Layout>
-            }
-          />
-          <Route
-            exact
-            path="admin/autores/new"
-            element={
-              <Layout>
-                <AdminAuthorNew />
-              </Layout>
-            }
-          />
-          <Route
-            exact
-            path="admin/autores/edit/:id"
-            element={
-              <Layout>
-                <AdminAuthorEdit />
-              </Layout>
-            }
-          />
-        </Route>
+      </Route>
+      <Route element={<ProtectedRoute requiredAdminRole={true} />}>
+        <Route
+          exact
+          path="admin/autores"
+          element={
+            <Layout>
+              <Authors />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/autores/new"
+          element={
+            <Layout>
+              <AdminAuthorNew />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/autores/edit/:id"
+          element={
+            <Layout>
+              <AdminAuthorEdit />
+            </Layout>
+          }
+        />
+      </Route>
 
-        <Route element={<ProtectedRoute requiredAdminRole={true} />}>
-          <Route
-            exact
-            path="admin/users"
-            element={
-              <Layout>
-                <AdminUsers />
-              </Layout>
-            }
-          />
-          <Route
-            exact
-            path="admin/users/edit/:id"
-            element={
-              <Layout>
-                <EditUserView />
-              </Layout>
-            }
-          />
+      <Route element={<ProtectedRoute requiredAdminRole={true} />}>
+        <Route
+          exact
+          path="admin/users"
+          element={
+            <Layout>
+              <AdminUsers />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/users/edit/:id"
+          element={
+            <Layout>
+              <EditUserView />
+            </Layout>
+          }
+        />
       </Route>
 
       <Route element={<ProtectedRoute requiredAdminRole={true} />}>
