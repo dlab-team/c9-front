@@ -51,7 +51,7 @@ const Footer = () => {
             <img
               src={LogoGob}
               alt="Logo de Ministerio de Educación"
-              className="w-18 md:w-24 ml-3 p-10"
+              className="w-18 md:w-24 ml-3 p-[10px]"
             />
           </Link>
         </div>
