@@ -5,46 +5,54 @@ import LogoMercurio from '../../assets/images/innovacion_blanco.png';
 import LogoMicrosoft from '../../assets/images/microsoft_blanco.png';
 import LogoAdl from '../../assets/images/desafio_blanco.png';
 import LogoKodea from '../../assets/images/kodea_blanco.png';
+import LogoGob from '../../assets/images/logo_gob.png';
 
 const Footer = () => {
   return (
-    <footer className='px-4 lg:text-left py-8 bg-secondary '>
-      <div className='container gap-2 mx-auto flex flex-col md:flex-row md:justify-between'>
-        <div className='flex justify-center md:justify-start'>
-          <Link to='/' className=''>
+    <footer className="px-4 lg:text-left py-8 bg-secondary ">
+      <div className="container gap-2 mx-auto flex flex-col md:flex-row md:justify-between">
+        <div className="flex justify-center md:justify-start">
+          <Link to="/" className="">
             <img
               src={LogoYellow}
-              alt='LogoYellow'
-              className='h-16 md:h-20 rounded-lg'
+              alt="LogoYellow"
+              className="h-16 md:h-20 rounded-lg"
             />
           </Link>
         </div>
-        <div className='flex md:w-[50%] justify-end place-items-center place-self-center gap-2 md:gap-2'>
+        <div className="flex md:w-[50%] justify-end place-items-center place-self-center gap-2 md:gap-2">
           <Link
-            to='https://www.instagram.com/innovacion_elmercurio/?hl=es'
-            target='_blank'
+            to="https://www.instagram.com/innovacion_elmercurio/?hl=es"
+            target="_blank"
           >
             <img
               src={LogoMercurio}
-              alt='Logo Innovacion'
-              className='w-18 md:w-36'
+              alt="Logo Innovacion"
+              className="w-18 md:w-36"
             />
           </Link>
           <Link
-            to='https://www.linkedin.com/company/microsoft/'
-            target='_blank'
+            to="https://www.linkedin.com/company/microsoft/"
+            target="_blank"
           >
             <img
               src={LogoMicrosoft}
-              alt='Logo Microsoft'
-              className='w-18 md:w-40'
+              alt="Logo Microsoft"
+              className="w-18 md:w-40"
             />
           </Link>
-          <Link to='https://desafiolatam.com' target='blank'>
-            <img src={LogoAdl} alt='Logo ADL' className='w-18 md:w-28' />
+          <Link to="https://desafiolatam.com" target="blank">
+            <img src={LogoAdl} alt="Logo ADL" className="w-18 md:w-28" />
           </Link>
-          <Link to='https://kodea.org' target='_blank'>
-            <img src={LogoKodea} alt='Logo de Kodea' className='w-18 md:w-24' />
+          <Link to="https://kodea.org" target="_blank">
+            <img src={LogoKodea} alt="Logo de Kodea" className="w-18 md:w-24" />
+          </Link>
+          <Link to="https://mineduc.cl" target="_blank">
+            <img
+              src={LogoGob}
+              alt="Logo de Ministerio de Educación"
+              className="w-18 md:w-24 ml-3 p-10"
+            />
           </Link>
         </div>
       </div>
