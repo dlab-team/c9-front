@@ -1,4 +1,5 @@
-import { Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import AcercaDe from '../pages/AcercaDe';
 import Admin from '../pages/Admin';
@@ -22,20 +23,37 @@ import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
 import AdminAuthorNew from '../pages/Admin/Authors/New';
 import SplashScreen from '../components/SplashScreen/SplashScreen';
 import ByKeyword from '../pages/ByKeyword/byKeyword';
+import { useLoading } from '../context/LoadingContext'; 
 import EditUserView from '../pages/Admin/EditUser';
 
 const AppRoutes = () => {
+  const { isLoading, setIsLoading } = useLoading(); // Usamos el contexto para acceder a isLoading
+  const [showSplash, setShowSplash] = useState(true);
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
+  useEffect(() => {
+    setShowSplash(isLoading);
+  }, [isLoading]);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+    setIsLoading(false); // Actualizamos el estado de isLoading cuando se oculta el SplashScreen
+  };
+
+
   return (
     <Routes>
-      <Route
-        exact
-        path="/splash"
-        element={
-          <Layout>
-            <SplashScreen />
-          </Layout>
-        }
-      />
+      {showSplash && isHome && (
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <SplashScreen onComplete={handleSplashComplete} />
+            </Layout>
+          }
+        />
+      )}
       <Route
         exact
         path="/"
