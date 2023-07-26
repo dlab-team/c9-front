@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthContextProvider, FiltersContextProvider } from './context';
+import { AuthContextProvider, FiltersContextProvider} from './context';
 import axiosInterceptor from './interceptor/axiosInterceptor';
 import AppRoutes from './routes';
 import { ToastContainer } from 'react-toastify';
 import './App.css';
 import SplashScreen from './components/SplashScreen/SplashScreen';
+import { LoadingProvider } from './context/LoadingContext';
 
 
 const App = () => {
@@ -27,11 +28,14 @@ const App = () => {
         <FiltersContextProvider>
           <BrowserRouter>
             <ToastContainer />
-            {isLoading ? <SplashScreen /> : <AppRoutes />}
+              <LoadingProvider>
+                <AppRoutes/>
+              </LoadingProvider>
           </BrowserRouter>
         </FiltersContextProvider>
       </AuthContextProvider>
     </div>
   );
 };
+
 export default App;
