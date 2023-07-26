@@ -6,7 +6,7 @@ Frontend para C9 InnovaXD
 
 Nuestro proyecto, en colaboración con Microsoft y el diario El Mercurio, consiste en desarrollar una aplicación web que permitirá a los administradores y editores del diario transformar noticias para que sean aptas para niños. A través de nuestra herramienta, podrán copiar y pegar una noticia en su formato original, y la aplicación se encargará de adaptarla a una versión adecuada para la lectura infantil. Esta asociación con Microsoft y El Mercurio garantiza la utilización de tecnología de vanguardia y la experiencia periodística de renombre para ofrecer una experiencia segura y enriquecedora, manteniendo a los niños informados de manera apropiada para su edad y fomentando su interés por la lectura.
 
-![Logo del proyecto](../assets/images/logo_innova_blue.png)
+![Logo del proyecto](../assets/images/logo_innova_blue.jpg)
 
 ## Dependencias
 
@@ -56,10 +56,9 @@ la variable de entorno tiene que estar asi, de otro modo no traera las publicaci
 
 Este proyecto utiliza Google Fonts para la fuente de la interfaz de usuario y Font Awesome para los iconos. Los enlaces para la carga de estos recursos se encuentran en el archivo index.html en la carpeta public.
 
-
 Fonts:
 
-- Caveat Brush 
+- Caveat Brush
 - Sora
 
 Links google fonts
@@ -74,6 +73,7 @@ Links google fonts
       rel="stylesheet"
 />
 ```
+
 Diseño Figma del proyecto
 
 - [Link](https://www.figma.com/file/VnhCQuQqPkpG91cMHEJMIG/Edición-Proyecto?type=design&node-id=4-596&t=nuNz0b38I35khcBI-0)
