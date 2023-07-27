@@ -27,7 +27,7 @@ function normalizeName(name) {
   return normalizeSync(name.toLowerCase());
 }
 
-const filterPublicationsBySearh = (publications, searchValue) => {
+export const filterPublicationsBySearh = (publications, searchValue) => {
   const searchValueNormalized = normalizeName(searchValue);
   const filteredPublications = publications.filter((pub) => {
     const publicationNameNormalized = normalizeName(pub.name);
