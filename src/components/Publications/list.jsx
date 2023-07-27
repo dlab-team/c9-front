@@ -1,8 +1,8 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { faArrowUpFromBracket, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpFromBracket, faCirclePlus, faClose, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,12 +10,15 @@ import { ButtonBase, ButtonConfirmationModal, Spinner } from '../UI';
 import ListDesktop from './ListDesktop';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import ListMobile from './ListMobile';
+import { filterPublicationsBySearh } from '../Gallery/Gallery';
 
 const PublicationsTable = ({ publications, updatePublications }) => {
   const { currentUser } = useContext(AuthContext);
   const [itemsSelected, setItemsSelected] = useState([]);
   const [clearSelectionInDesktopList, setClearSelectionInDesktopList] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const searchInputRef = useRef(null)
 
   const hasSelectedPublications = itemsSelected.length > 0;
 
@@ -133,8 +136,16 @@ const PublicationsTable = ({ publications, updatePublications }) => {
     });
   };
 
+  const handleSearch = searchValue => {
+    setSearchValue(searchValue);
+  }
+
+  const publicationsToRender = searchValue !== '' 
+    ? filterPublicationsBySearh(publications, searchValue) 
+    : publications;
+
   return (
-    <div className="">
+    <div className="mb-4">
       <ToastContainer />
 
       {isLoading && (
@@ -186,6 +197,29 @@ const PublicationsTable = ({ publications, updatePublications }) => {
               </div>
             </button>
           </Link>
+          <div className={` ${searchValue !== '' ? 'border-secondary border-3': ''}
+              max-md:w-full w-80 mx-4 h-10 flex items-center overflow-hidden px-4 border-2 
+              border-gray-500 rounded-lg focus:border-secondary focus:outline-double
+              hover:border-secondary`
+            }
+          >
+            <input type="text" className=" w-full h-full  outline-none" placeholder="Buscar"
+              ref={searchInputRef}
+              onKeyUp={(event) => {
+                if(event.key !== 'Enter') return
+                handleSearch(event.target.value);
+              }}
+            />
+            <FontAwesomeIcon icon={faClose} className={`mx-2 h-5 pr-2 border-r-2 text-gray-500 cursor-pointer`} 
+              onClick={() => {
+                setSearchValue('')
+                searchInputRef.current.value = ''
+              }}
+            />
+            <FontAwesomeIcon icon={faSearch} className="h-5 text-primary cursor-pointer" 
+              onClick={() => handleSearch(searchInputRef.current.value)}
+            />
+          </div>
           <Link to="/admin/publications/new" className='max-md:hidden'>
             <button className="flex gap-4 rounded bg-secondary text-white items-center max-w-fit h-10 px-4">
               <div className="grid place-content-center bg-white rounded-full w-5 h-5">
@@ -197,14 +231,14 @@ const PublicationsTable = ({ publications, updatePublications }) => {
         </div>
         <div className='hidden lg:block'>
           <ListDesktop
-            publications={publications}
+            publications={publicationsToRender}
             onSelectedRowsChange={handleSelectedItems}
             handleDeletePublication={handleDeletePublication}
             clearSelectedRows={clearSelectionInDesktopList}
           />
         </div>
         <div className='lg:hidden'>
-          <ListMobile publications={publications} setSelectedItems={setItemsSelected} clearSelection={clearSelectionInDesktopList} />
+          <ListMobile publications={publicationsToRender} setSelectedItems={setItemsSelected} clearSelection={clearSelectionInDesktopList} />
         </div>
       </div>
     </div>
