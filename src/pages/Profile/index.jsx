@@ -9,54 +9,27 @@ import {
 	faGithub,
 } from '@fortawesome/free-brands-svg-icons';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-// import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import { Link } from 'react-router-dom';
 
 const Profile = () => {
 	let { username } = useParams();
 	const [currentProfile, setCurrentProfile] = useState({});
 
-	const getProfile = async () => {
-		if (username === undefined) {
-			username = currentUser.username;
-		}
+	const { currentUser } = useContext(AuthContext);
 
-		const endpoint = `${process.env.REACT_APP_BACKEND_URL}/users/${username}`;
+	const getProfile = async () => {
+		username = currentUser.username;
+		const endpoint = `${process.env.REACT_APP_BACKEND_URL}/users/profile/${username}`;
 		const response = await axios.get(endpoint);
 		setCurrentProfile(response.data);
 	};
 
-	// TODO: leer publicaciones desde el backend
-	const publicaciones = [
-		{
-			date: 'Ene 1',
-			content:
-				'Descubrimiento en el bosque encantado: hadas y duendes se reúnen para celebrar',
-		},
-		{
-			date: 'May 3',
-			content: 'El valiente perro Max salva el día en la playa',
-		},
-		{
-			date: 'May 6',
-			content:
-				'Increíble hallazgo arqueológico: dinosaurios regresan a la vida en el museo',
-		},
-		{
-			date: 'Jun 2',
-			content:
-				'El astronauta Amelia explora el espacio y encuentra nuevos planetas',
-		},
-		{
-			date: 'Jun 7',
-			content:
-				'Los animales de la granja preparan una fiesta sorpresa para el granjero Juan',
-		},
-	];
-
 	useEffect(() => {
 		getProfile();
 	}, []);
+
+	const publicaciones = currentProfile.publications;
 
 	return (
 		<div className='container mx-auto'>
@@ -68,16 +41,15 @@ const Profile = () => {
 				/>
 			</div>
 			<h1 className='my-3 breadcrumb-title'>{currentProfile.name}</h1>
-			{/* <Breadcrumb /> */}
-
-			{/* <div className="mt-5">
-        <Link
-          to="/mi-perfil"
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Editar Perfil
-        </Link>
-      </div> */}
+			{/* <Breadcrumb />
+			<div className="mt-5">
+				<Link
+					to="/mi-perfil"
+					className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+				>
+					Editar Perfil
+				</Link>
+			</div> */}
 
 			<h2 className='mt-5 text-2xl font-bold'>¿Quién soy?</h2>
 			<p
@@ -87,12 +59,19 @@ const Profile = () => {
 
 			<h2 className='text-2xl font-bold mb-2'>Mis publicaciones</h2>
 			<ul className='list-disc ml-6'>
-				{publicaciones.map((publicacion) => (
-					<li key={publicacion} className='mb-2'>
-						<FontAwesomeIcon icon={faCalendarAlt} className='mr-2' />
-						{publicacion.date} - {publicacion.content}
-					</li>
-				))}
+				{publicaciones ? (
+					publicaciones.map((publicacion, index) => (
+						<li key={index} className='mb-2'>
+							<FontAwesomeIcon icon={faCalendarAlt} className='mr-2' />
+							{new Date(publicacion.fecha_publicacion).toLocaleDateString(
+								'en-GB'
+							)}{' '}
+							- {publicacion.name}
+						</li>
+					))
+				) : (
+					<p>Aún sin publicaciones</p>
+				)}
 			</ul>
 		</div>
 	);
