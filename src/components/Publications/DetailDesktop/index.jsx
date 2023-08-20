@@ -1,12 +1,12 @@
 import React from 'react';
 import { Tooltip } from 'react-tippy';
 import TextToSpeech from '../../TextToSpeach/TextToSpeach';
+import html2pdf from 'html2pdf.js';
 
 function formatFecha(publicationDate) {
 	const fecha = new Date(publicationDate);
 	const numeroDia = fecha.getDate();
 	const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
-
 	return (
 		<div className='bg-gray-200 text-center py-4 md:p-5 rounded'>
 			<p className='text-sm md:text-4xl font-bolder'>{numeroDia}</p>
@@ -16,6 +16,20 @@ function formatFecha(publicationDate) {
 }
 
 const DetailDesktop = ({ publication }) => {
+	var newsToPdf = document.getElementById('pdf');
+	var opt = {
+		margin: 0.6,
+		pagebreak: { after: 'article' },
+		filename: publication?.slug,
+		image: { type: 'jpeg', quality: 1 },
+		html2canvas: {
+			scale: window.devicePixelRatio,
+			allowTaint: true,
+			useCORS: true,
+		},
+		jsPDF: { unit: 'in', format: 'a2', orientation: 'portrait' },
+	};
+
 	return (
 		<div className='relative container mx-auto whitespace-normal'>
 			<div className='grid grid-cols-7 md:grid-cols-8 gap-2 md:gap-4'>

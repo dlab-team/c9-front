@@ -15,9 +15,9 @@ import { Spinner } from '../../components/UI';
 import TextToSpeech from '../../components/TextToSpeach/TextToSpeach';
 import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
-import html2pdf from 'html2pdf.js';
 import { getElementError } from '@testing-library/react';
 import DetailDesktop from '../../components/Publications/DetailDesktop';
+import DetailMobile from '../../components/Publications/DetailMobile';
 
 const Publication = () => {
 	const [publication, setPublication] = useState();
@@ -29,6 +29,7 @@ const Publication = () => {
 	const toggleQuestion = (index) => {
 		setActiveIndex(index === activeIndex ? null : index);
 	};
+	const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
 
 	const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications/${slug}`;
 	const endpointVisit = `${process.env.REACT_APP_BACKEND_URL}/publication/${slug}/visit`;
@@ -117,19 +118,17 @@ const Publication = () => {
 		increaseVisits();
 	}, []);
 
-	var newsToPdf = document.getElementById('pdf');
-	var opt = {
-		margin: 0.6,
-		pagebreak: { after: 'article' },
-		filename: publication?.slug,
-		image: { type: 'jpeg', quality: 1 },
-		html2canvas: {
-			scale: window.devicePixelRatio,
-			allowTaint: true,
-			useCORS: true,
-		},
-		jsPDF: { unit: 'in', format: 'a2', orientation: 'portrait' },
-	};
+	useEffect(() => {
+		const handleResize = () => {
+			setWindowWidth(window.innerWidth);
+		};
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
+
+	const mobileBreakpoint = 640;
 
 	function changeMetaTags(publication) {
 		const imgTagTwitter = document
@@ -154,7 +153,6 @@ const Publication = () => {
 				</div>
 			</div>
 			<div id='pdf' className={loading ? 'hidden' : ''}>
-				{/* <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-[42rem] 3xl:px-[57rem]"> */}
 				<div className='pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96'>
 					<Link to='/'>
 						<button
@@ -230,8 +228,7 @@ const Publication = () => {
 				<div className='flex mb-3 md:mb-8'>
 					{publication?.images?.length > 0 && (
 						<img
-							className='
-              imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400'
+							className='imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400'
 							src={publication.images[0].url}
 							alt='Imagen principal'
 						/>
@@ -293,7 +290,14 @@ const Publication = () => {
 						<img src={bgIzq} alt='Blob Izquierdo' />
 					</div>
 
-					<DetailDesktop publication={publication} />
+					<div>
+						{windowWidth > mobileBreakpoint && (
+							<DetailDesktop publication={publication} />
+						)}
+						{windowWidth <= mobileBreakpoint && (
+							<DetailMobile publication={publication} />
+						)}
+					</div>
 
 					<div className='relative innova-text container w-5/5 mx-auto py-5'>
 						<h2 className='pt-8 page-title'>PREGUNTAS RELACIONADAS</h2>
