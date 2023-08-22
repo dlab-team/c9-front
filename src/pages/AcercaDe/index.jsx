@@ -15,10 +15,16 @@ import rene from '../../assets/images/rene.jpeg';
 import santiago from '../../assets/images/cisneros.jpg';
 import agustin from '../../assets/images/agustin.jpeg';
 import sebavidal from '../../assets/images/sebavidal.jpg';
+import alejandro from '../../assets/images/alejandro.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const teamMembers = [
+  {
+    name: 'Alejandro González',
+    role: 'Back-end',
+    image: alejandro,
+  },
   {
     name: 'Sebastián Arellano',
     role: 'Front-End',
