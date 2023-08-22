@@ -28,18 +28,18 @@ const Chatbox = () => {
       <div className={`flex gap-1 flex-col items-center`}>
         {isChatboxOpen ? (
           <div
-            className={`flex flex-col space-y-1 border rounded-lg`}
+            className={`flex flex-col space-y-1 bg-secondary`}
             style={{
               marginTop: "-210px",
               width: "100vw",
               maxWidth: isMaximized ? "80vw" : "360px",
-              background: "#00235c",
-              maxHeight: "80vh",
+              minHeight: "48px",
+              borderRadius: "15px"
             }}
           >
             <div className="flex items-center justify-between w-full p-2">
               <div className="flex items-center">
-                <img src={logoInnova} alt="una imagen" className="w-10" />
+                <img src={logoInnova} alt="logo de innovaXD" className="w-10" />
                 <span className="ml-2 text-l text-white">Innova XD</span>
               </div>
               <div className="flex gap-1">
@@ -75,7 +75,7 @@ const Chatbox = () => {
         {isChatboxOpen && (
           <div
             className={`flex flex-col space-y-1 border rounded-lg`}
-            style={{border: "2px solid #00235c", width: "100vw",
+            style={{ width: "100vw",
             maxWidth: isMaximized ? "80vw" : "360px", }}
           >
             <div className="bg-white p-4 rounded-lg shadow-md">
@@ -93,9 +93,9 @@ const Chatbox = () => {
                   <input
                     type="text"
                     placeholder="Escribe tu mensaje..."
-                    className="border border-gray-300 p-2 rounded-md w-4/5 mr-2"
+                    className="border border-gray-300 p-2 rounded-xl w-4/5 mr-2"
                   />
-                  <button className="bg-primary text-white p-2 rounded-md shadow-md hover:opacity-75 w-1/5">
+                  <button className="bg-secondary text-white p-2 rounded-xl shadow-md hover:opacity-75 w-1/5">
                   ▲
                   </button>
               </div>
