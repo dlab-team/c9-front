@@ -1,26 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
 import { Filters } from '../../components';
 import axios from 'axios';
 import { normalizeSync } from 'normalize-diacritics';
 import { Spinner } from '../UI';
 import { FiltersContext } from '../../context/FiltersContext';
-
-// font awesome star
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-
-function formatoFecha(fecha) {
-  const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
-  const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', opciones);
-
-  const partesFecha = fechaFormateada.split(' de ');
-  const dia = partesFecha[0];
-  const mesYAnio = partesFecha[1] + ' ' + partesFecha[2];
-
-  return dia + ' ' + mesYAnio;
-}
+import PublicationCard from './PublicationCard';
+import PublicationCardForSearch from './PublicationCardForSearch';
 
 function normalizeName(name) {
   //Remove accents
@@ -53,10 +38,9 @@ const Gallery = ({ searchValue = '', keyword = '' }) => {
   const [filteredPublications, setFilteredPublications] = useState(null);
   const [isloading, setIsloading] = useState(true);
   const { filterPublications } = useContext(FiltersContext);
-  const navigate = useNavigate();
+
   const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications`;
-  // Define el ancho máximo para considerar la pantalla como pequeña
-  const isSmallScreen = useMediaQuery({ maxWidth: 640 });
+
   const getPublicationsData = async () => {
     try {
       const response = await axios.get(`${endpoint}?page=${page}`);
@@ -167,101 +151,29 @@ const Gallery = ({ searchValue = '', keyword = '' }) => {
               searchValue !== ''
                 ? 'gap-6 container mx-auto'
                 : 'grid grid-cols-3 gap-6'
-            }`}
+            } `}
           >
-            {publicationsToRender.slice(0, 2).map((publication) => (
-              <React.Fragment key={publication.id}>
-                {searchValue !== '' ? (
-                  <div
+            {publicationsToRender.slice(0, 2).map((publication, index) => {
+              if (searchValue !== '') {
+                return (
+                  <PublicationCardForSearch
+                    publication={publication}
                     key={publication.id}
-                    className="bg-gray-100 border p-3 my-3 rounded-lg shadow-lg flex cursor-pointer hover:shadow-xl hover:shadow-black/20 duration-300"
-                    onClick={() => navigate(`/noticias/${publication.slug}`)}
-                  >
-                    <img
-                      className={`object-cover object-center rounded-lg w-[200px] transition duration-300 ease-in-out hover:opacity-60`}
-                      src={
-                        (publication?.images && publication?.images[0]?.url) ||
-                        `https://picsum.photos/1200/800?random=${
-                          Math.floor(Math.random() * 1000) + 1
-                        }`
-                      }
-                      alt={publication.name}
-                    />
-                    <div className="ms-5">
-                      <div>{formatoFecha(publication.publicationDate)}</div>
-                      <h1 className="text-xl font-bold">{publication.name}</h1>
-                      <div
-                        className="text-sm"
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            publication.finalContent
-                              .split(' ')
-                              .slice(0, 15)
-                              .join(' ') + '...',
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    className={`${
-                      publication.featured
-                        ? 'col-span-3 lg:col-span-2'
-                        : 'col-span-3 lg:col-span-1'
-                    } cursor-pointer block max-h-100 rounded-2xl overflow-hidden border border-gray-200 mb-5 shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/40 relative`}
-                    key={publication.id}
-                    onClick={() => navigate(`/noticias/${publication.slug}`)}
-                  >
-                    {publication.featured && (
-                      <div className="absolute right-0 z-[2]">
-                        <span className="inline-block bg-blue-500 text-white text-xs font-bold py-1 px-2 me-3 rounded-b">
-                          <FontAwesomeIcon icon={faStar} />
-                        </span>
-                      </div>
-                    )}
-                    <img
-                      className={`w-full ${
-                        isSmallScreen ? 'h-48' : 'max-h-96'
-                      } object-cover object-center rounded-t-lg transition duration-300 ease-in-out hover:opacity-60`}
-                      src={
-                        (publication?.images && publication?.images[0]?.url) ||
-                        `https://picsum.photos/1200/800?random=${
-                          Math.floor(Math.random() * 1000) + 1
-                        }`
-                      }
-                      alt={publication.name}
-                    />
-                    <div className={`px-4 py-2 text-left`}>
-                      <h1 className={`text-sm md:text-xl leading-[1.3]`}>
-                        {publication.name}
-                      </h1>
-                      {!isSmallScreen && ( // Condición para mostrar la fecha solo en pantallas grandes
-                        <p className={`card-date font-thin text-xs py-4`}>
-                          Creado el {formatoFecha(publication.publicationDate)}
-                        </p>
-                      )}
-                      {!isSmallScreen && ( // Condición para mostrar el contenido solo en pantallas grandes
-                        <p
-                          className={`text-[0.85rem] font-thin`}
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              publication.finalContent
-                                .split(' ')
-                                .slice(0, 15)
-                                .join(' ') + '...',
-                          }}
-                        ></p>
-                      )}
-                    </div>
-                    <div className={`px-4 py-4`}>
-                      <p className={`text-xs`}>
-                        Por @{publication.author.username}, adaptada por 🤖 IA
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
+                  />
+                );
+              }
+              return (
+                <PublicationCard
+                  key={publication.id}
+                  publication={publication}
+                  className={`${
+                    index === 0
+                      ? 'col-span-3 lg:col-span-2'
+                      : 'lg:col-span-1 max-lg:hidden'
+                  }`}
+                />
+              );
+            })}
           </div>
 
           <div
@@ -271,95 +183,23 @@ const Gallery = ({ searchValue = '', keyword = '' }) => {
                 : 'columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto mb-10'
             }`}
           >
-            {publicationsToRender.slice(2).map((publication) => (
-              <React.Fragment key={publication.id}>
-                {searchValue !== '' ? (
-                  <div
+            {publicationsToRender
+              .slice(1)
+              .map((publication, index) =>
+                searchValue !== '' ? (
+                  <PublicationCardForSearch
                     key={publication.id}
-                    className="bg-gray-100 border p-3 my-3 rounded-lg shadow-lg flex cursor-pointer hover:shadow-xl hover:shadow-black/20 duration-300"
-                    onClick={() => navigate(`/noticias/${publication.slug}`)}
-                  >
-                    <img
-                      className={`object-cover object-center rounded-lg w-[200px] transition duration-300 ease-in-out hover:opacity-60`}
-                      src={
-                        (publication?.images && publication?.images[0]?.url) ||
-                        `https://picsum.photos/1200/800?random=${
-                          Math.floor(Math.random() * 1000) + 1
-                        }`
-                      }
-                      alt={publication.name}
-                    />
-                    <div className="ms-5">
-                      <div>{formatoFecha(publication.publicationDate)}</div>
-                      <h1 className="text-xl font-bold">{publication.name}</h1>
-                      <div
-                        className="text-sm"
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            publication.finalContent
-                              .split(' ')
-                              .slice(0, 15)
-                              .join(' ') + '...',
-                        }}
-                      ></div>
-                    </div>
-                  </div>
+                    publication={publication}
+                    className={`${index === 0 ? 'hidden' : ''}`}
+                  />
                 ) : (
-                  <div
-                    className={`cursor-pointer block max-h-100 rounded-2xl overflow-hidden border border-gray-200 mb-5 shadow-gray-200 shadow-xl duration-300 hover:shadow-xl hover:shadow-black/40 relative`}
+                  <PublicationCard
                     key={publication.id}
-                    onClick={() => navigate(`/noticias/${publication.slug}`)}
-                  >
-                    {publication.featured && (
-                      <div className="absolute right-0 z-[2]">
-                        <span className="inline-block bg-blue-500 text-white text-xs font-bold py-1 px-2 me-3 rounded-b">
-                          <FontAwesomeIcon icon={faStar} />
-                        </span>
-                      </div>
-                    )}
-                    <img
-                      className={`w-full ${
-                        isSmallScreen ? 'h-48' : 'max-h-96'
-                      } object-cover object-center rounded-t-lg transition duration-300 ease-in-out hover:opacity-60`}
-                      src={
-                        (publication?.images && publication?.images[0]?.url) ||
-                        `https://picsum.photos/1200/800?random=${
-                          Math.floor(Math.random() * 1000) + 1
-                        }`
-                      }
-                      alt={publication.name}
-                    />
-                    <div className={`px-4 py-2 text-left`}>
-                      <h1 className={`text-sm md:text-xl leading-[1.3]`}>
-                        {publication.name}
-                      </h1>
-                      {!isSmallScreen && ( // Condición para mostrar la fecha solo en pantallas grandes
-                        <p className={`card-date font-thin text-xs py-4`}>
-                          Creado el {formatoFecha(publication.publicationDate)}
-                        </p>
-                      )}
-                      {!isSmallScreen && ( // Condición para mostrar el contenido solo en pantallas grandes
-                        <p
-                          className={`text-[0.85rem] font-thin`}
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              publication.finalContent
-                                .split(' ')
-                                .slice(0, 15)
-                                .join(' ') + '...',
-                          }}
-                        ></p>
-                      )}
-                    </div>
-                    <div className={`px-4 py-4`}>
-                      <p className={`text-xs`}>
-                        Por @{publication.author.username}, adaptada por 🤖 IA
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
+                    publication={publication}
+                    className={`${index === 0 ? 'lg:hidden' : ''}`}
+                  />
+                )
+              )}
           </div>
         </div>
       )}
