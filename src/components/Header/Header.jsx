@@ -11,6 +11,8 @@ import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
 import Dropdown from '../Dropdown/Dropdown';
 import MobileMenu from './MobileMenu';
+import { useColor } from '../../context/ColorContext/ColorContext';
+
 
 const Header = ({ isAdmin }) => {
   const { currentUser } = useContext(AuthContext);
@@ -21,11 +23,13 @@ const Header = ({ isAdmin }) => {
   const [inputSearchValue, setInputSearchValue] = useState('');
   const [showSearchBar, setShowSearchBar] = useState(false);
 
+  const bgUserColor = useColor(); 
+
   // Renderizar estructura de header para la página de inicio
   const renderHomeHeader = () => (
     <nav
       style={{
-        background: 'linear-gradient(to right, white 50%, #00235c 50%)',
+        background: `linear-gradient(to right, white 50%, ${bgUserColor} 50%)`
       }}
     >
       <div className="relative z-10 header-container container mx-auto flex">
@@ -36,7 +40,10 @@ const Header = ({ isAdmin }) => {
             alt="Una imagen del Logo de Innova"
           />
         </a>
-        <div className="flex-1 bg-innova-blue nav-rounded flex justify-end">
+        <div className={`flex-1 nav-rounded flex justify-end`}
+        style={{
+          background: `${bgUserColor}`
+        }}>
           <div className="relative flex items-center">
             <div className="absolute left-4 top-1/2 mt-[0.125rem] transform -translate-y-1/2 text-gray-400">
               <FontAwesomeIcon icon={faSearch} className="text-blue-800" />
