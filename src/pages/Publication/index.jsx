@@ -18,6 +18,7 @@ import 'react-tippy/dist/tippy.css';
 import { getElementError } from '@testing-library/react';
 import DetailDesktop from '../../components/Publications/DetailDesktop';
 import DetailMobile from '../../components/Publications/DetailMobile';
+import { Chatbox } from '../../components';
 
 const Publication = () => {
 	const [publication, setPublication] = useState();
@@ -147,6 +148,7 @@ const Publication = () => {
 
 	return (
 		<>
+			<Chatbox publicationContent={publication?.finalContent}  />
 			<div className={loading ? '' : 'hidden'}>
 				<div className='w-full h-[20vh] sm:h-[60vh] flex justify-center items-center'>
 					<Spinner />
