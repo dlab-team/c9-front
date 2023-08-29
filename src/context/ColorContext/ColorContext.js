@@ -12,7 +12,7 @@ export function useColor() {
 export function ColorProvider({ children }) {
   const { currentUser } = useContext(AuthContext);
 
-  const bgUserColor = currentUser ? '#FF8000' : '#00235c';
+  const bgUserColor = currentUser ? '#FF8552' : '#00235c';
 
   return (
     <ColorContext.Provider value={bgUserColor}>
