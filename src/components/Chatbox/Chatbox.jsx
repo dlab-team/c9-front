@@ -4,7 +4,9 @@ import {
   faWindowMinimize,
   faWindowMaximize,
   faTimes,
-  faRobot
+  faRobot,
+  faExpand,
+  faCompress
 } from '@fortawesome/free-solid-svg-icons';
 import logoInnova from '../../assets/images/logo_innova_yellow_s.png';
 
@@ -78,39 +80,34 @@ const Chatbox = ({ publicationContent = '' }) => {
 
   return (
     <div
-      className={`fixed right-0 top-1/2 transform -translate-y-1/5 mr-2 mt-10`}
+      className={`right-0 mr-0.5 z-50 overflow-hidden ${window.innerWidth >= 768 ? 'w-30' : 'w-full'}`}
+      style={{position:'fixed', top:'15%'}}
+
     >
       <div className={`flex gap-1 flex-col items-center`}>
         {isChatboxOpen ? (
           <div
-            className={`flex flex-col space-y-1 bg-secondary`}
-            style={{
-              marginTop: '-210px',
-              width: '100vw',
-              maxWidth: isMaximized ? '80vw' : '360px',
-              minHeight: '48px',
-              borderRadius: '15px'
-            }}
+             className={`flex flex-col space-y-1 bg-secondary ${isMaximized ? 'w-full' : 'max-w-[360px]'} w-full min-h-[48px] rounded-[15px]`}
           >
             <div className="flex items-center justify-between w-full p-2">
               <div className="flex items-center">
-                <img src={logoInnova} alt="logo de innovaXD" className="w-10" />
+                <img src={logoInnova} alt="logo de Innova XD" className="w-10" />
                 <span className="ml-2 text-l text-white">Innova XD</span>
               </div>
               <div className="flex gap-1">
                 <button
                   onClick={toggleMaximize}
-                  className={`p-1 rounded-full bg-orange-500 text-white w-12 h-12 flex items-center justify-center shadow-md hover:opacity-75`}
+                  className={`p-1 rounded-full bg-orange-300 text-white w-10 h-10 flex items-center justify-center shadow-md hover:opacity-75`}
                 >
                   {isMaximized ? (
-                    <FontAwesomeIcon icon={faWindowMinimize} />
+                    <FontAwesomeIcon icon={faCompress} />
                   ) : (
-                    <FontAwesomeIcon icon={faWindowMaximize} />
+                    <FontAwesomeIcon icon={faExpand} />
                   )}
                 </button>
                 <button
                   onClick={toggleChatbox}
-                  className={`p-1 rounded-full bg-orange-500 text-white w-12 h-12 flex items-center justify-center shadow-md hover:opacity-75`}
+                  className={`p-1 rounded-full bg-orange-500 text-white w-10 h-10 flex items-center justify-center shadow-md hover:opacity-75`}
                 >
                   <FontAwesomeIcon icon={faTimes} />
                 </button>
@@ -120,17 +117,15 @@ const Chatbox = ({ publicationContent = '' }) => {
         ) : (
           <button
             onClick={toggleChatbox}
-            className={`p-1 rounded-full bg-secondary text-white w-12 h-12 flex flex-col items-center justify-center shadow-md hover:opacity-75`}
+            className={`p-1 rounded-full bg-secondary text-white w-12 h-12 flex flex-col items-center justify-center shadow-md hover:opacity-75 fixed right-2 top-1/2 mt-10`}
           >
             <FontAwesomeIcon icon={faRobot} />
             <span className="mt-1 text-xs">IA</span>
           </button>
         )}
-
         {isChatboxOpen && (
           <div
-            className={`flex flex-col space-y-1 border rounded-lg`}
-            style={{ width: '100vw', maxWidth: isMaximized ? '80vw' : '360px' }}
+            className={`flex flex-col border rounded-lg ${isMaximized ? 'w-full' : 'max-w-[360px]'}`}
           >
             <div className="bg-white p-4 rounded-lg shadow-md ">
               <div className="mb-2 flex flex-col gap-2 overflow-y-scroll scroll-smooth h-96 py-2">
@@ -167,7 +162,6 @@ const Chatbox = ({ publicationContent = '' }) => {
                     message.role === role.assistant
                       ? 'max-w-[90%] w-fit mb-1 bg-white shadow-md border-t border-x-2 p-2 rounded-md text-left text-primary whitespace-pre-line'
                       : 'max-w-[90%] w-fit mb-1 bg-blue-100 p-2 rounded-md self-end text-primary whitespace-pre-line';
-
                   return (
                     <p
                       key={`msg-${message.role + index}`}
@@ -213,6 +207,7 @@ const Chatbox = ({ publicationContent = '' }) => {
       </div>
     </div>
   );
+  
 };
 
 export default Chatbox;

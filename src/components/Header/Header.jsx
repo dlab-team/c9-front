@@ -42,7 +42,7 @@ const Header = ({ isAdmin }) => {
         </a>
         <div className={`flex-1 nav-rounded flex justify-end`}
         style={{
-          background: `${bgUserColor}`
+          background: isMobile ? 'white' : bgUserColor
         }}>
           <div className="relative flex items-center">
             <div className="absolute left-4 top-1/2 mt-[0.125rem] transform -translate-y-1/2 text-gray-400">
