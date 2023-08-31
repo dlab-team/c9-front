@@ -1,12 +1,12 @@
-import React from "react";
-import { Tooltip } from "react-tippy";
-import TextToSpeech from "../../TextToSpeach/TextToSpeach";
-import html2pdf from "html2pdf.js";
+import React from 'react';
+import { Tooltip } from 'react-tippy';
+import TextToSpeech from '../../TextToSpeach/TextToSpeach';
+import html2pdf from 'html2pdf.js';
 
 function formatFecha(publicationDate) {
   const fecha = new Date(publicationDate);
   const numeroDia = fecha.getDate();
-  const nombreMes = fecha.toLocaleString("es-ES", { month: "long" });
+  const nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
   return (
     <div className="bg-gray-200 text-center p-1 rounded-lg">
       <p className="text-sm font-bolder">{numeroDia}</p>
@@ -16,18 +16,18 @@ function formatFecha(publicationDate) {
 }
 
 const DetailMobile = ({ publication }) => {
-  var newsToPdf = document.getElementById("pdf");
+  var newsToPdf = document.getElementById('pdf');
   var opt = {
     margin: 0.6,
-    pagebreak: { after: "article" },
+    pagebreak: { after: 'article' },
     filename: publication?.slug,
-    image: { type: "jpeg", quality: 1 },
+    image: { type: 'jpeg', quality: 1 },
     html2canvas: {
       scale: window.devicePixelRatio,
       allowTaint: true,
       useCORS: true,
     },
-    jsPDF: { unit: "in", format: "a2", orientation: "portrait" },
+    jsPDF: { unit: 'in', format: 'a2', orientation: 'portrait' },
   };
 
   return (
@@ -47,7 +47,7 @@ const DetailMobile = ({ publication }) => {
               <p className="text-green-600 text-lg">{publication?.visits}</p>
             </div>
             <Tooltip
-              className="w-1/4 bg-gray-200 text-center align-center p-2 rounded-lg"
+              className="w-1/4 bg-gray-200 text-center align-center p-2 rounded-lg mr-3"
               title="Descargar noticia"
               position="bottom"
               arrow={true}
@@ -57,7 +57,7 @@ const DetailMobile = ({ publication }) => {
                   html2pdf().set(opt).from(newsToPdf).save();
                 }}
               >
-                {" "}
+                {' '}
                 PDF
               </button>
             </Tooltip>
@@ -146,6 +146,3 @@ const DetailMobile = ({ publication }) => {
 };
 
 export default DetailMobile;
-
-
-

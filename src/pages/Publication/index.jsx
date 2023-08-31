@@ -21,234 +21,234 @@ import DetailMobile from '../../components/Publications/DetailMobile';
 import { Chatbox } from '../../components';
 
 const Publication = () => {
-	const [publication, setPublication] = useState();
-	const [showButton, setShowButton] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const carouselRef = useRef(null);
-	const { slug } = useParams();
-	const [activeIndex, setActiveIndex] = useState(null);
-	const toggleQuestion = (index) => {
-		setActiveIndex(index === activeIndex ? null : index);
-	};
-	const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
+  const [publication, setPublication] = useState();
+  const [showButton, setShowButton] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const carouselRef = useRef(null);
+  const { slug } = useParams();
+  const [activeIndex, setActiveIndex] = useState(null);
+  const toggleQuestion = (index) => {
+    setActiveIndex(index === activeIndex ? null : index);
+  };
+  const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
 
-	const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications/${slug}`;
-	const endpointVisit = `${process.env.REACT_APP_BACKEND_URL}/publication/${slug}/visit`;
+  const endpoint = `${process.env.REACT_APP_BACKEND_URL}/publications/${slug}`;
+  const endpointVisit = `${process.env.REACT_APP_BACKEND_URL}/publication/${slug}/visit`;
 
-	const handleScrollToTop = () => {
-		window.scrollTo({
-			top: 0,
-			behavior: 'smooth',
-		});
-	};
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
-	const setLocation = (location) => {
-		let locationName = '';
-		if (
-			location === null ||
-			(location?.region === null && location?.city === null)
-		) {
-			locationName = 'Chile';
-			return locationName;
-		}
+  const setLocation = (location) => {
+    let locationName = '';
+    if (
+      location === null ||
+      (location?.region === null && location?.city === null)
+    ) {
+      locationName = 'Chile';
+      return locationName;
+    }
 
-		if (location?.region?.name) {
-			locationName = location.region.name;
-		}
+    if (location?.region?.name) {
+      locationName = location.region.name;
+    }
 
-		if (location?.city) {
-			locationName = `${locationName} / ${location.city.name}`;
-		}
+    if (location?.city) {
+      locationName = `${locationName} / ${location.city.name}`;
+    }
 
-		return locationName;
-	};
+    return locationName;
+  };
 
-	const getPublicationData = async () => {
-		try {
-			const response = await axios.get(endpoint);
-			const { publication } = response.data;
-			setPublication(publication);
+  const getPublicationData = async () => {
+    try {
+      const response = await axios.get(endpoint);
+      const { publication } = response.data;
+      setPublication(publication);
 
-			setLoading(false);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-	const increaseVisits = async () => {
-		try {
-			await axios.post(endpointVisit);
-		} catch (error) {
-			console.error('Error al aumentar las visitas:', error);
-		}
-	};
+  const increaseVisits = async () => {
+    try {
+      await axios.post(endpointVisit);
+    } catch (error) {
+      console.error('Error al aumentar las visitas:', error);
+    }
+  };
 
-	useEffect(() => {
-		getPublicationData();
-		initTE({ Tab });
-	}, []);
+  useEffect(() => {
+    getPublicationData();
+    initTE({ Tab });
+  }, []);
 
-	useEffect(() => {
-		const handleScroll = () => {
-			const scrollTop =
-				window.pageYOffset || document.documentElement.scrollTop;
-			const isVisible = scrollTop > 100;
-			setShowButton(isVisible);
-		};
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const isVisible = scrollTop > 100;
+      setShowButton(isVisible);
+    };
 
-		window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
-	}, []);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
-	useEffect(() => {
-		const divContent = document.getElementById('content-text');
-		divContent.innerHTML = publication?.finalContent;
-		const divContentEN = document.getElementById('content-text_EN');
-		divContentEN.innerHTML = publication?.finalContent_EN;
+  useEffect(() => {
+    const divContent = document.getElementById('content-text');
+    divContent.innerHTML = publication?.finalContent;
+    const divContentEN = document.getElementById('content-text_EN');
+    divContentEN.innerHTML = publication?.finalContent_EN;
 
-		if (carouselRef.current && publication) {
-			const dots = document.querySelectorAll('.control-dots .dot');
-			dots[0].click();
-		}
-	}, [publication]);
+    if (carouselRef.current && publication) {
+      const dots = document.querySelectorAll('.control-dots .dot');
+      dots[0].click();
+    }
+  }, [publication, windowWidth]);
 
-	useEffect(() => {
-		increaseVisits();
-	}, []);
+  useEffect(() => {
+    increaseVisits();
+  }, []);
 
-	useEffect(() => {
-		const handleResize = () => {
-			setWindowWidth(window.innerWidth);
-		};
-		window.addEventListener('resize', handleResize);
-		return () => {
-			window.removeEventListener('resize', handleResize);
-		};
-	}, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
-	const mobileBreakpoint = 640;
+  const mobileBreakpoint = 640;
 
-	function changeMetaTags(publication) {
-		const imgTagTwitter = document
-			.getElementById('meta-tag-img-twitter')
-			.setAttribute('content', publication?.images[0]?.url);
-		const imgTagFace = document
-			.getElementById('meta-tag-img-face')
-			.setAttribute('content', publication?.images[0]?.url);
-		const titleTagFace = document
-			.getElementById('meta-tittle-face')
-			.setAttribute('content', publication?.name);
-		const titleTagtitter = document
-			.getElementById('meta-tittle-twitter')
-			.setAttribute('content', publication?.name);
-	}
+  function changeMetaTags(publication) {
+    const imgTagTwitter = document
+      .getElementById('meta-tag-img-twitter')
+      .setAttribute('content', publication?.images[0]?.url);
+    const imgTagFace = document
+      .getElementById('meta-tag-img-face')
+      .setAttribute('content', publication?.images[0]?.url);
+    const titleTagFace = document
+      .getElementById('meta-tittle-face')
+      .setAttribute('content', publication?.name);
+    const titleTagtitter = document
+      .getElementById('meta-tittle-twitter')
+      .setAttribute('content', publication?.name);
+  }
 
-	return (
-		<>
-			<Chatbox publicationContent={publication?.finalContent}  />
-			<div className={loading ? '' : 'hidden'}>
-				<div className='w-full h-[20vh] sm:h-[60vh] flex justify-center items-center'>
-					<Spinner />
-				</div>
-			</div>
-			<div id='pdf' className={loading ? 'hidden' : ''}>
-				<div className='pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96'>
-					<Link to='/'>
-						<button
-							type='button'
-							className='btn_back text-blue-800 text-sm py-2.5 text-center inline-flex items-center'
-						>
-							<FontAwesomeIcon icon={faChevronLeft} className='mr-2' />
-							Volver
-						</button>
-					</Link>
+  return (
+    <>
+      <Chatbox publicationContent={publication?.finalContent} />
+      <div className={loading ? '' : 'hidden'}>
+        <div className="w-full h-[20vh] sm:h-[60vh] flex justify-center items-center">
+          <Spinner />
+        </div>
+      </div>
+      <div id="pdf" className={loading ? 'hidden' : ''}>
+        <div className="pb-5 pt-10 px-3 md:px-12 lg:px-40 2xl:px-96">
+          <Link to="/">
+            <button
+              type="button"
+              className="btn_back text-blue-800 text-sm py-2.5 text-center inline-flex items-center"
+            >
+              <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
+              Volver
+            </button>
+          </Link>
 
-					<div>
-						<h1 className='innova-title pt-5'>{publication?.name}</h1>
-						{changeMetaTags(publication)}
-						<Tooltip
-							title='Escuchar titular'
-							position='bottom'
-							arrow={true}
-							data-html2canvas-ignore='true'
-						>
-							<div data-html2canvas-ignore='true'>
-								<TextToSpeech
-									text={publication?.name}
-									data-html2canvas-ignore='true'
-								/>
-							</div>
-						</Tooltip>
-					</div>
-					<div className='mt-2 py-6 flex justify-between'>
-						<Link to={`/perfil/${publication?.author.username}`}>
-							<div
-								data-html2canvas-ignore='true'
-								className='sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110'
-							>
-								<FontAwesomeIcon
-									icon={faCircleUser}
-									className='pe-2 text-white '
-								/>
-								{publication?.author?.name}
-							</div>
-							<Link to={`/acerca-de`} data-html2canvas-ignore='true'>
-								<div className='ml-2 sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110'>
-									🤖 IA
-								</div>
-							</Link>
-						</Link>
+          <div>
+            <h1 className="innova-title pt-5">{publication?.name}</h1>
+            {changeMetaTags(publication)}
+            <Tooltip
+              title="Escuchar titular"
+              position="bottom"
+              arrow={true}
+              data-html2canvas-ignore="true"
+            >
+              <div data-html2canvas-ignore="true">
+                <TextToSpeech
+                  text={publication?.name}
+                  data-html2canvas-ignore="true"
+                />
+              </div>
+            </Tooltip>
+          </div>
+          <div className="mt-2 py-6 flex justify-between">
+            <Link to={`/perfil/${publication?.author.username}`}>
+              <div
+                data-html2canvas-ignore="true"
+                className="sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110"
+              >
+                <FontAwesomeIcon
+                  icon={faCircleUser}
+                  className="pe-2 text-white "
+                />
+                {publication?.author?.name}
+              </div>
+              <Link to={`/acerca-de`} data-html2canvas-ignore="true">
+                <div className="ml-2 sm:inline-block hidden whitespace-nowrap rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+                  🤖 IA
+                </div>
+              </Link>
+            </Link>
 
-						{/* Etiquetas de publicaciones  */}
+            {/* Etiquetas de publicaciones  */}
 
-						<div data-html2canvas-ignore='true' className='flex gap-1 mr-4'>
-							<a
-								href='/'
-								className='inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110'
-							>
-								<FontAwesomeIcon
-									icon={faGlobeAmericas}
-									className='pe-2 text-gray-500 '
-								/>
-								{setLocation(publication?.location)}
-							</a>
-							<a
-								href='/'
-								className='inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110'
-							>
-								<FontAwesomeIcon icon={faTag} className='pe-2 text-gray-500 ' />
-								{publication?.category?.name
-									? publication.category.name
-									: 'Sin categoría'}
-							</a>
-						</div>
-					</div>
-				</div>
-				<div className='flex mb-3 md:mb-8'>
-					{publication?.images?.length > 0 && (
-						<img
-							className='imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400'
-							src={publication.images[0].url}
-							alt='Imagen principal'
-						/>
-					)}
-				</div>
-				<div className='md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110'>
-					<Link to={`/perfil/${publication?.author.username}`}>
-						<FontAwesomeIcon icon={faCircleUser} className='pe-2 text-white' />
-						{publication?.author?.name}
-					</Link>
-				</div>
-				<Link to={`/acerca-de`}>
-					<div className='md:hidden inline-block whitespace-nowrap ml-2 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110'>
-						🤖 IA
-					</div>
-				</Link>
+            <div data-html2canvas-ignore="true" className="flex gap-1 mr-4">
+              <a
+                href="/"
+                className="inline-block whitespace-nowrap rounded-full bg-neutral-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-warning-800 hover:shadow-lg ease-in-out hover:scale-110"
+              >
+                <FontAwesomeIcon
+                  icon={faGlobeAmericas}
+                  className="pe-2 text-gray-500 "
+                />
+                {setLocation(publication?.location)}
+              </a>
+              <a
+                href="/"
+                className="inline-block whitespace-nowrap rounded-full bg-green-50 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.7em] md:text-[0.85em] font-bold leading-none text-neutral-600 hover:shadow-lg ease-in-out hover:scale-110"
+              >
+                <FontAwesomeIcon icon={faTag} className="pe-2 text-gray-500 " />
+                {publication?.category?.name
+                  ? publication.category.name
+                  : 'Sin categoría'}
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="flex mb-3 md:mb-8">
+          {publication?.images?.length > 0 && (
+            <img
+              className="imgSingle mx-auto w-[98%] md:max-w-[87%] lg:max-w-[75%] 2xl:max-w-[60%] rounded-md shadow-lg shadow-gray-400"
+              src={publication.images[0].url}
+              alt="Imagen principal"
+            />
+          )}
+        </div>
+        <div className="md:hidden inline-block whitespace-nowrap ml-3 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+          <Link to={`/perfil/${publication?.author.username}`}>
+            <FontAwesomeIcon icon={faCircleUser} className="pe-2 text-white" />
+            {publication?.author?.name}
+          </Link>
+        </div>
+        <Link to={`/acerca-de`}>
+          <div className="md:hidden inline-block whitespace-nowrap ml-2 mb-4 rounded-full bg-secondary px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.85em] font-bold leading-none text-white hover:shadow-lg ease-in-out hover:scale-110">
+            🤖 IA
+          </div>
+        </Link>
 
-				{/* <div>
+        {/* <div>
 					<ul
 						className='lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-nowrap md:flex-wrap pl-0 md:mr-14 mr-4'
 						role='tablist'
@@ -283,70 +283,70 @@ const Publication = () => {
 						</li>
 					</ul>
 				</div> */}
-				<div className='publication-content md:px-14 lg:px-40 relative'>
-					<div className='absolute right-0 w-[38%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40'>
-						<img src={bgDer} alt='Blob Derecho' />
-					</div>
+        <div className="publication-content md:px-14 lg:px-40 relative">
+          <div className="absolute right-0 w-[38%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40">
+            <img src={bgDer} alt="Blob Derecho" />
+          </div>
 
-					<div className='absolute left-0 bottom-0 w-[48%] md:w-[24%] lg:w-[18%] 3xl:w-[14%] opacity-40'>
-						<img src={bgIzq} alt='Blob Izquierdo' />
-					</div>
+          <div className="absolute left-0 bottom-0 w-[48%] md:w-[24%] lg:w-[18%] 3xl:w-[14%] opacity-40">
+            <img src={bgIzq} alt="Blob Izquierdo" />
+          </div>
 
-					<div>
-						{windowWidth > mobileBreakpoint && (
-							<DetailDesktop publication={publication} />
-						)}
-						{windowWidth <= mobileBreakpoint && (
-							<DetailMobile publication={publication} />
-						)}
-					</div>
+          <div>
+            {windowWidth > mobileBreakpoint && (
+              <DetailDesktop publication={publication} />
+            )}
+            {windowWidth <= mobileBreakpoint && (
+              <DetailMobile publication={publication} />
+            )}
+          </div>
 
-					<div className='relative innova-text container w-5/5 mx-auto py-5'>
-						<h2 className='pt-8 page-title'>PREGUNTAS RELACIONADAS</h2>
-						<div className='innova-text'>
-							{publication?.questions.map((item, index) => (
-								<div key={index} className='p-2'>
-									<div
-										className='bg-blue-100 flex justify-between items-center cursor-pointer p-3 rounded-lg'
-										onClick={() => toggleQuestion(index)}
-									>
-										<div className='p-2'>{item.question}</div>
-										<svg
-											className={`w-5 h-5 transition-transform ${
-												activeIndex === index ? 'transform rotate-180' : ''
-											}`}
-											xmlns='http://www.w3.org/2000/svg'
-											viewBox='0 0 24 24'
-											fill='none'
-											stroke='currentColor'
-											strokeWidth='2'
-											strokeLinecap='round'
-											strokeLinejoin='round'
-										>
-											<path d='M19 9l-7 7-7-7' />
-										</svg>
-									</div>
-									{activeIndex === index && (
-										<div className='p-4 bg-gray-100 bg-opacity-60 rounded mt-2'>
-											{item.answer}
-										</div>
-									)}
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-			</div>
-			{showButton && (
-				<button
-					className='fixed bottom-2 right-2 w-12 h-12 bg-gray-800 rounded-full text-white flex items-center justify-center hover:opacity-90'
-					onClick={handleScrollToTop}
-				>
-					<FontAwesomeIcon icon={faArrowUp} className='text-2xl' />
-				</button>
-			)}
-		</>
-	);
+          <div className="relative innova-text container w-5/5 mx-auto py-5">
+            <h2 className="pt-8 page-title">PREGUNTAS RELACIONADAS</h2>
+            <div className="innova-text">
+              {publication?.questions.map((item, index) => (
+                <div key={index} className="p-2">
+                  <div
+                    className="bg-blue-100 flex justify-between items-center cursor-pointer p-3 rounded-lg"
+                    onClick={() => toggleQuestion(index)}
+                  >
+                    <div className="p-2">{item.question}</div>
+                    <svg
+                      className={`w-5 h-5 transition-transform ${
+                        activeIndex === index ? 'transform rotate-180' : ''
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                  {activeIndex === index && (
+                    <div className="p-4 bg-gray-100 bg-opacity-60 rounded mt-2">
+                      {item.answer}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      {showButton && (
+        <button
+          className="fixed bottom-2 right-2 w-12 h-12 bg-gray-800 rounded-full text-white flex items-center justify-center hover:opacity-90"
+          onClick={handleScrollToTop}
+        >
+          <FontAwesomeIcon icon={faArrowUp} className="text-2xl" />
+        </button>
+      )}
+    </>
+  );
 };
 
 export default Publication;
