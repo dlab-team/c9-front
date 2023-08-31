@@ -248,7 +248,7 @@ const Publication = () => {
 					</div>
 				</Link>
 
-				<div>
+				{/* <div>
 					<ul
 						className='lg:hidden ml-52 md:ml-96 flex list-none flex-row flex-nowrap md:flex-wrap pl-0 md:mr-14 mr-4'
 						role='tablist'
@@ -282,7 +282,7 @@ const Publication = () => {
 							</a>
 						</li>
 					</ul>
-				</div>
+				</div> */}
 				<div className='publication-content md:px-14 lg:px-40 relative'>
 					<div className='absolute right-0 w-[38%] md:w-[20%] lg:w-[16%] 2xl:w-[12%] opacity-40'>
 						<img src={bgDer} alt='Blob Derecho' />
