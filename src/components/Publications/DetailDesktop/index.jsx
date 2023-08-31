@@ -40,7 +40,7 @@ const DetailDesktop = ({ publication }) => {
 						<p className='text-green-600 text-lg'>{publication?.visits}</p>
 					</div>
 					<ul
-						className='xs:hidden lg:block mr-4 flex list-none flex-row flex-wrap pl-0'
+						className='lg:block mr-4 flex list-none flex-row flex-wrap pl-0'
 						role='tablist'
 						data-te-nav-ref
 					>
