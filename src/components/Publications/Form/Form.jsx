@@ -393,7 +393,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        'https://api.openai.com/v1/completions',
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         optionsQA
       );
       const data = await response.json();
@@ -478,7 +478,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        'https://api.openai.com/v1/completions',
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         options
       );
 
@@ -567,7 +567,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        'https://api.openai.com/v1/completions',
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         options
       );
       const data = await response.json();
@@ -657,7 +657,7 @@ const Form = ({ publication } = null) => {
                   className="text-blue-500 cursor-pointer"
                   onClick={() => {
                     setIsModalOpen(true);
-                    setModalContent('El campo promp SUGERIDO sirve para ....');
+                    setModalContent('El prompt sugerido serve para tener algunas sugerencias de texto que podria ser utilizado para la traduccion de la noticia y son totalmente editables');
                   }}
                 />
               </p>
@@ -667,22 +667,22 @@ const Form = ({ publication } = null) => {
                 onChange={handleSelectChange}
               >
                 <option value="">Seleccione una opción</option>
-                <option value="Convertir la noticia en una publicación para un niño de 6 años">
-                  Convertir la noticia en una publicación para un niño de 6 años
+                <option value="Convierte el Texto en una noticia comprensible para un niño de x años, con una extensión de x caracteres, en un texto de tipo expositivo">
+                Convierte el Texto en una noticia comprensible para un niño de x años, con una extensión de x caracteres, en un texto de tipo expositivo.
                 </option>
                 <option
-                  value="Convertir la noticia en una publicación para un niño de 10
-                  años"
+                  value="Adapta esta noticia a una formato de conversación entre un abuelo y su hijo, termina con una enseñanza, y que su extensión sean 3 párrafos.
+                  "
                 >
-                  Convertir la noticia en una publicación para un niño de 10
-                  años
+                  Adapta esta noticia a una formato de conversación entre un abuelo y su hijo de tres parrafos.
+
                 </option>
                 <option
-                  value=" Convertir la noticia en una publicación para un niño de 16
-                  años"
+                  value="Analiza esta entrevista, mantiene el formato pero simplifica el lenguaje teniendo como publico objetivo adolescentes de 16 años, elimina el contenido que no sea apto para menores de 18 años como violencia y palabras disonantes.
+                  "
                 >
-                  Convertir la noticia en una publicación para un niño de 16
-                  años
+                 Analiza esta entrevista, mantiene el formato pero simplifica el lenguaje teniendo como publico objetivo adolescentes de 16 años.
+
                 </option>
               </select>
               <p className="page-subtitle">
@@ -692,7 +692,7 @@ const Form = ({ publication } = null) => {
                   className="text-blue-500 cursor-pointer"
                   onClick={() => {
                     setIsModalOpen(true);
-                    setModalContent('El campo promp BASICO sirve para ....');
+                    setModalContent('El prompt basico serve para traducir la noticia y es totalmente editable');
                   }}
                 />
               </p>
