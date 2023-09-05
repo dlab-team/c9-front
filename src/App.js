@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import './App.css';
 import SplashScreen from './components/SplashScreen/SplashScreen';
 import { LoadingProvider } from './context/LoadingContext';
-
+import { ColorProvider } from './context/ColorContext/ColorContext'; // Importa el proveedor de contexto de ColorContext
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +29,9 @@ const App = () => {
           <BrowserRouter>
             <ToastContainer />
               <LoadingProvider>
-                <AppRoutes/>
+                <ColorProvider> {/* Envuelve tus componentes con el proveedor de contexto de ColorContext */}
+                  <AppRoutes/>
+                </ColorProvider>
               </LoadingProvider>
           </BrowserRouter>
         </FiltersContextProvider>

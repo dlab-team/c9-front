@@ -3,3 +3,4 @@ export { default as Filters } from './Gallery/Filters/Filters';
 export { default as Gallery } from './Gallery/Gallery';
 export { default as Footer } from './Footer/Footer';
 export { default as Sharedbar } from './Sharedbar/Sharedbar';
+export { default as Chatbox } from './Chatbox/Chatbox';
