@@ -10,7 +10,7 @@ on:
       - main
 
 env:
-  REACT_APP_BACKEND_URL: 'https://c9-back-production.up.railway.app'
+  REACT_APP_BACKEND_URL: 'https://innovaxdbackend.azurewebsites.net'
   REACT_APP_OPENAI_API_KEY: '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'
 
 jobs:
