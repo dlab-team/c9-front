@@ -9,7 +9,7 @@ import {
 
 const TextToSpeech = ({ text }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const readingSpeed = 1; //define la velo de lectura
+  const readingSpeed = 1; //define la velo de lectura 0.5 muy lento - 1 normal - 1.5 rapido - 2 muy rapido
   const [cleanedText, setCleanedText] = useState("");
 
   const toggleSpeaking = () => {
@@ -52,6 +52,7 @@ const TextToSpeech = ({ text }) => {
     return chunks.map((chunk) => {
       const utterance = new SpeechSynthesisUtterance(chunk);
       utterance.lang = "es-ES";
+      utterance.rate = readingSpeed; // sobreescribe la velo de lectura
       return utterance;
     });
   };
