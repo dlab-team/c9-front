@@ -13,6 +13,7 @@ import NotFound from '../pages/NotFound';
 import Publication from '../pages/Publication';
 import ProtectedRoute from './ProtectedRoute';
 import Acceso from '../pages/Acceso';
+import Registro from '../pages/Registro';
 import LoginLinkedin from '../pages/LoginLinkedin';
 import Profile from '../pages/Profile';
 import Confirm from '../pages/Admin/Users/Confirm';
@@ -23,7 +24,7 @@ import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
 import AdminAuthorNew from '../pages/Admin/Authors/New';
 import SplashScreen from '../components/SplashScreen/SplashScreen';
 import ByKeyword from '../pages/ByKeyword/byKeyword';
-import { useLoading } from '../context/LoadingContext'; 
+import { useLoading } from '../context/LoadingContext';
 import EditUserView from '../pages/Admin/EditUser';
 
 const AppRoutes = () => {
@@ -40,7 +41,6 @@ const AppRoutes = () => {
     setShowSplash(false);
     setIsLoading(false); // Actualizamos el estado de isLoading cuando se oculta el SplashScreen
   };
-
 
   return (
     <Routes>
@@ -73,6 +73,7 @@ const AppRoutes = () => {
         }
       />
       <Route exact path="/acceso" element={<Acceso />} />
+      <Route exact path="/registro" element={<Registro />} />
       <Route exact path="/loginLinkedin/:token" element={<LoginLinkedin />} />
       <Route
         exact

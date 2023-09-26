@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthContext/AuthContext';
 import logoBlue from '../../assets/images/logo_innova_blue.png';
 import waves from '../../assets/images/wave-blue.png';
 import googleIcon from '../../assets/images/google-icon.png';
-import fondo from '../../assets/images/innovafondoazul.jpeg';
+import fondo from '../../assets/images/innovafondonaranjo.jpg';
 import logoMercurio from '../../assets/images/0_mercurio-logo.png';
 import logoMicrosoft from '../../assets/images/0_microsoft_logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,11 +32,27 @@ const loginService = async (email, password) => {
   }
 };
 
+const registerService = async (nombre, email, password) => {
+  const endPoint = `${process.env.REACT_APP_BACKEND_URL}/users/register`;
+  try {
+    const { data } = await axios.post(endPoint, { nombre, email, password });
+
+    if (!data.email) {
+      throw new Error('Error al registrar al usuario');
+    }
+
+    return data.email;
+  } catch (error) {
+    throw new Error('Error al registrar al usuario');
+  }
+};
+
 const Admin = () => {
   const { setUserLogin } = useContext(AuthContext);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const [errors, setErrors] = useState({ email: '', password: '' });
+  const nombreRef = useRef(null);
+  const [errors, setErrors] = useState({ nombre: '', email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [loginMessage, setLoginMessage] = useState('');
   const navigate = useNavigate();
@@ -52,10 +68,17 @@ const Admin = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log('enviar');
     e.preventDefault();
 
     let isValid = true;
-    const newErrors = { email: '', password: '' };
+    const newErrors = { nombre: '', email: '', password: '' };
+
+    // Validar nombre
+    if (!nombreRef.current.value) {
+      isValid = false;
+      newErrors.nombre = 'El nombre es requerido';
+    }
 
     // Validar email
     if (!emailRef.current.value) {
@@ -79,16 +102,32 @@ const Admin = () => {
     setErrors(newErrors);
 
     if (isValid) {
+      console.log('datos validos');
       try {
         setIsLoading(true);
-        const token = await loginService(
+
+        // Registro
+        const newUser = await registerService(
+          nombreRef.current.value,
           emailRef.current.value,
           passwordRef.current.value
         );
-        setUserLogin(token);
-        navigate('/admin/publications');
-        setLoginMessage('Te has logueado con éxito');
-        toast.success('Te has logueado con éxito');
+
+        console.log('=>', newUser);
+
+        if (newUser) {
+          // Login
+          const token = await loginService(
+            emailRef.current.value,
+            passwordRef.current.value
+          );
+          setUserLogin(token);
+          navigate('/');
+          setLoginMessage('Te has registrado con éxito');
+          toast.success('Te has registrado con éxito');
+        } else {
+          toast.error('Error al registrar al usuario');
+        }
       } catch (error) {
         setIsLoading(false);
         toast(error.message, {
@@ -173,7 +212,7 @@ const Admin = () => {
                 className="text-4xl md:text-5xl lg:text-4xl 2xl:text-5xl mt-8 font-bold text-center 
             text-primary font-['Caveat_Brush'] leading-3 tracking-widest font-normal uppercase"
               >
-                Bienvenido!
+                Bienvenido Profesor!
               </h2>
               {isLoading && (
                 <div className="mt-14 flex items-center justify-center">
@@ -185,6 +224,31 @@ const Admin = () => {
                 className="mt-10 mx-12 md:mx-auto lg:mx-28 2xl:mx-56"
                 noValidate
               >
+                <div className="relative mb-1">
+                  <label
+                    htmlFor="inputName"
+                    className="block mb-2 text-sm font-medium text-primary"
+                  >
+                    Nombre Completo
+                  </label>
+                  <input
+                    type="nombre"
+                    className={`block min-h-[auto] w-full rounded-md border-2 ${
+                      errors.email
+                        ? 'border-b-red-600 focus:border-red-600'
+                        : ''
+                    } focus:border-blue-500 focus:outline-none bg-gray-200 px-3 py-[0.20rem] 2xl:py-[0.50rem] leading-[1.6]`}
+                    id="inputName"
+                    name="inputName"
+                    aria-describedby="nombre"
+                    placeholder="Nombre Apellido"
+                    ref={nombreRef}
+                  />
+                </div>
+                {errors.nombre && (
+                  <span className="text-red-500 text-xs">{errors.nombre}</span>
+                )}
+
                 <div className="relative mb-1">
                   <label
                     htmlFor="inputEmail"
@@ -248,7 +312,7 @@ const Admin = () => {
                       isLoading
                         ? 'cursor-not-allowed bg-gray-400 hover:bg-gray-400'
                         : ''
-                    } inline-block w-full rounded-md bg-secondary hover:bg-yellow hover:text-primary px-6 pb-2 pt-2.5 text-xs mt-6 font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out`}
+                    } inline-block w-full rounded-md bg-warning hover:bg-yellow hover:text-primary px-6 pb-2 pt-2.5 text-xs mt-6 font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out`}
                   >
                     Ingresando...
                   </button>
@@ -260,65 +324,13 @@ const Admin = () => {
                       isLoading
                         ? 'cursor-not-allowed bg-gray-400 hover:bg-gray-400'
                         : ''
-                    } inline-block w-full rounded-md bg-secondary hover:bg-yellow hover:text-primary px-6 pb-2 pt-2.5 text-xs mt-6 font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out`}
+                    } inline-block w-full rounded-md bg-warning hover:bg-yellow hover:text-primary px-6 pb-2 pt-2.5 text-xs mt-6 font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out`}
                   >
-                    Ingresa
+                    Ingresar
                   </button>
                 )}
-                <section className="text-center mt-4">
-                  <p className="text-sm font-medium text-primary">
-                    Si eres profesor y aún no te has registrado, lo puedes hacer
-                    <Link
-                      to="/registro"
-                      className="text-secondary hover:text-yellow"
-                    >
-                      {' '}
-                      aquí
-                    </Link>
-                  </p>
-                </section>
-                <section className="iniciaSesionCon text-center mb-16 md:m-20 lg:m-16 nowrap">
-                  <p className="text-2xl md:text-3xl lg:text-2xl mt-10 font-normal text-[#00235C] font-['Caveat'] italic leading-4 tracking-wide">
-                    Inicia sesión con
-                  </p>
-                  <div className="flex gap-8 lg:gap-6 mt-6 justify-center">
-                    {/* <img
-                      src={googleIcon}
-                      className="w-6 h-6 md:w-9 md:h-9 lg:w-6 lg:h-6"
-                      alt="google-icon"
-                    /> */}
-                    <div
-                      onClick={handleLinkedInLogin}
-                      className="cursor-pointer"
-                    >
-                      <FontAwesomeIcon
-                        icon={faLinkedin}
-                        className="w-8 h-8 md:w-12 md:h-12"
-                        style={{ color: '#3b68b5' }}
-                      />
-                    </div>
-                    {/* <FontAwesomeIcon
-                      icon={faFacebook}
-                      className="w-6 h-7 md:w-9 md:h-9 lg:w-6 lg:h-6"
-                      style={{ color: '#3e74d0' }}
-                    /> */}
-                  </div>
-                </section>
               </form>
             </div>
-            <section className="logos flex justify-between items-center md:shrink-0 mx-14 md:mx-3 lg:mx-28 2xl:mx-56">
-              <img
-                className="h-6 w-24 md:w-36 md:h-8 lg:w-28 lg:h-6"
-                src={logoMicrosoft}
-                alt="logo-microsoft"
-              />
-
-              <img
-                className="h-5 w-20 md:w-32 md:h-6 lg:w-32 lg:h-5"
-                src={logoMercurio}
-                alt="logo-mercurio"
-              />
-            </section>
           </div>
         </div>
       </div>
