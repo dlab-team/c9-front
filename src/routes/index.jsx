@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import Layout from '../layout/Layout';
-import AcercaDe from '../pages/AcercaDe';
-import Admin from '../pages/Admin';
-import AdminPublications from '../pages/Admin/Publications';
-import EditOne from '../pages/Admin/Publications/Edit';
-import AdminPublicationsNew from '../pages/Admin/Publications/new';
-import AdminUsers from '../pages/Admin/Users';
-import Home from '../pages/Home';
-import Busqueda from '../pages/Busqueda';
-import NotFound from '../pages/NotFound';
-import Publication from '../pages/Publication';
-import ProtectedRoute from './ProtectedRoute';
-import Acceso from '../pages/Acceso';
-import Registro from '../pages/Registro';
-import LoginLinkedin from '../pages/LoginLinkedin';
-import Profile from '../pages/Profile';
-import Confirm from '../pages/Admin/Users/Confirm';
-import AdminRegiones from '../pages/Admin/Regiones';
-import AdminComunas from '../pages/Admin/Comunas';
-import Authors from '../pages/Admin/Authors';
-import AdminAuthorEdit from '../pages/Admin/Authors/Edit';
-import AdminAuthorNew from '../pages/Admin/Authors/New';
-import SplashScreen from '../components/SplashScreen/SplashScreen';
-import ByKeyword from '../pages/ByKeyword/byKeyword';
-import { useLoading } from '../context/LoadingContext';
-import EditUserView from '../pages/Admin/EditUser';
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import Layout from "../layout/Layout";
+import AcercaDe from "../pages/AcercaDe";
+import Admin from "../pages/Admin";
+import AdminPublications from "../pages/Admin/Publications";
+import EditOne from "../pages/Admin/Publications/Edit";
+import AdminPublicationsNew from "../pages/Admin/Publications/new";
+import AdminUsers from "../pages/Admin/Users";
+import Home from "../pages/Home";
+import Busqueda from "../pages/Busqueda";
+import NotFound from "../pages/NotFound";
+import Publication from "../pages/Publication";
+import ProtectedRoute from "./ProtectedRoute";
+import Acceso from "../pages/Acceso";
+import Registro from "../pages/Registro";
+import LoginLinkedin from "../pages/LoginLinkedin";
+import Profile from "../pages/Profile";
+import Confirm from "../pages/Admin/Users/Confirm";
+import AdminRegiones from "../pages/Admin/Regiones";
+import AdminComunas from "../pages/Admin/Comunas";
+import Authors from "../pages/Admin/Authors";
+import AdminAuthorEdit from "../pages/Admin/Authors/Edit";
+import AdminAuthorNew from "../pages/Admin/Authors/New";
+import SplashScreen from "../components/SplashScreen/SplashScreen";
+import ByKeyword from "../pages/ByKeyword/byKeyword";
+import { useLoading } from "../context/LoadingContext";
+import EditUserView from "../pages/Admin/EditUser";
 
 const AppRoutes = () => {
   const { isLoading, setIsLoading } = useLoading(); // Usamos el contexto para acceder a isLoading
   const [showSplash, setShowSplash] = useState(true);
   const location = useLocation();
-  const isHome = location.pathname === '/';
+  const isHome = location.pathname === "/";
 
   useEffect(() => {
     setShowSplash(isLoading);
@@ -138,34 +138,38 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+      </Route> 
+
+      <Route element={<ProtectedRoute redirectTo="/" requiredAdminRole={true} />}>
         <Route
-          exact
-          path="admin/publications"
-          element={
-            <Layout>
-              <AdminPublications />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="admin/publications/new"
-          element={
-            <Layout>
-              <AdminPublicationsNew />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="admin/publications/edit/:slug"
-          element={
-            <Layout>
-              <EditOne />
-            </Layout>
-          }
-        />
+            exact
+            path="admin/publications"
+            element={
+              <Layout>
+                <AdminPublications />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="admin/publications/new"
+            element={
+              <Layout>
+                <AdminPublicationsNew />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="admin/publications/edit/:slug"
+            element={
+              <Layout>
+                <EditOne />
+              </Layout>
+            }
+          /> 
       </Route>
+      
       <Route element={<ProtectedRoute requiredAdminRole={true} />}>
         <Route
           exact
