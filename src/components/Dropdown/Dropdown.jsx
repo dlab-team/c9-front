@@ -79,18 +79,20 @@ const Dropdown = ({ isAdmin }) => {
 							Mi Perfil
 						</Link>
 					</li>
-					<li>
-						<Link
-							to='/admin/publications'
-							className='block px-4 py-2 hover:bg-blue-100 dark:hover:bg-gray-600 dark:hover:text-white transition duration-300'
-						>
-							<FontAwesomeIcon
-								icon={faPenToSquare}
-								className='h-4 pr-2 text-gray-700'
-							/>
-							Publicaciones
-						</Link>
-					</li>
+					{isAdmin && (
+						<li>						
+							<Link
+								to='/admin/publications'
+								className='block px-4 py-2 hover:bg-blue-100 dark:hover:bg-gray-600 dark:hover:text-white transition duration-300'
+							>
+								<FontAwesomeIcon
+									icon={faPenToSquare}
+									className='h-4 pr-2 text-gray-700'
+								/>
+								Publicaciones
+							</Link>
+						</li>
+					)}
 					{isAdmin && (
 						<li>
 							<Link
