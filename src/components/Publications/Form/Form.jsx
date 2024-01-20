@@ -363,28 +363,28 @@ const Form = ({ publication } = null) => {
         Authorization: `Bearer ${API_KEY}`,
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify({
-      //   model: 'gpt-4',
-      //   temperature: 1,
-      //   max_tokens: 8000,
-      //   n: 15,
-      //   messages: [
-      //     {
-      //       role: 'user',
-      //       content: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
-      //   1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
-
-      //     '''${translatedText}'''`,
-      //     },
-      //   ],
-      // }),
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
         temperature: 1,
-        max_tokens: 2048,
+        max_tokens: 8000,
         n: 15,
-        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
+        messages: [
+          {
+            role: 'user',
+            content: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+        1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
+
+          '''${translatedText}'''`,
+          },
+        ],
       }),
+      // body: JSON.stringify({
+      //   model: 'gpt-3.5-turbo',
+      //   temperature: 1,
+      //   max_tokens: 2048,
+      //   n: 15,
+      //   prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
+      // }),
     };
 
     try {
