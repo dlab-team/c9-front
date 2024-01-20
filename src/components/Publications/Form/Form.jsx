@@ -555,7 +555,7 @@ const Form = ({ publication } = null) => {
       //   ],
       // }),
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'text-davinci-003',
         temperature: 0,
         max_tokens: 2048,
         n: 1,
