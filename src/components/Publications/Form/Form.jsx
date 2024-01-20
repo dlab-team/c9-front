@@ -393,7 +393,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         optionsQA
       );
       const data = await response.json();
@@ -478,7 +478,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         options
       );
 
@@ -567,7 +567,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         options
       );
       const data = await response.json();
