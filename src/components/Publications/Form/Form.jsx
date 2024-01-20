@@ -379,7 +379,7 @@ const Form = ({ publication } = null) => {
       //   ],
       // }),
       body: JSON.stringify({
-        model: 'text-davinci-003',
+        model: 'gpt-3.5-turbo',
         temperature: 1,
         max_tokens: 2048,
         n: 15,
@@ -393,7 +393,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
+        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
         optionsQA
       );
       const data = await response.json();
@@ -451,7 +451,7 @@ const Form = ({ publication } = null) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'text-davinci-003',
+        model: 'gpt-3.5-turbo',
         temperature: 0,
         max_tokens: 2048,
         n: 1,
@@ -478,7 +478,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
+        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
         options
       );
 
@@ -555,7 +555,7 @@ const Form = ({ publication } = null) => {
       //   ],
       // }),
       body: JSON.stringify({
-        model: 'text-davinci-003',
+        model: 'gpt-3.5-turbo',
         temperature: 0,
         max_tokens: 2048,
         n: 1,
@@ -567,7 +567,7 @@ const Form = ({ publication } = null) => {
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
+        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
         options
       );
       const data = await response.json();
