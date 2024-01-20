@@ -447,29 +447,29 @@ const Form = ({ publication } = null) => {
         Authorization: `Bearer ${API_KEY}`,
         'Content-Type': 'application/json',
       },
+      // body: JSON.stringify({
+      //   model: 'gpt-3.5-turbo',
+      //   temperature: 0,
+      //   max_tokens: 2048,
+      //   n: 1,
+      //   prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+      //   1) ${customPrompt}
+      //     '''${originalText}'''`,
+      // }),
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
         temperature: 0,
-        max_tokens: 2048,
+        max_tokens: 8000,
         n: 1,
-        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+        messages: [
+          {
+            role: 'user',
+            content: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) ${customPrompt}
           '''${originalText}'''`,
+          },
+        ],
       }),
-      // body: JSON.stringify({
-      //   model: 'gpt-4',
-      //   temperature: 0,
-      //   max_tokens: 8000,
-      //   n: 1,
-      //   messages: [
-      //     {
-      //       role: 'user',
-      //       content: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
-      //   1) ${customPrompt}
-      //     '''${originalText}'''`,
-      //     },
-      //   ],
-      // }),
     };
 
     try {
@@ -538,27 +538,27 @@ const Form = ({ publication } = null) => {
         Authorization: `Bearer ${API_KEY}`,
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify({
-      //   model: 'gpt-4',
-      //   temperature: 0,
-      //   max_tokens: 8000,
-      //   n: 1,
-      //   messages: [
-      //     {
-      //       role: 'user',
-      //       content: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
-      //   texto: '''${translatedText}'''`,
-      //     },
-      //   ],
-      // }),
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
         temperature: 0,
-        max_tokens: 2048,
+        max_tokens: 8000,
         n: 1,
-        prompt: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
-      //   texto: '''${translatedText}'''`,
+        messages: [
+          {
+            role: 'user',
+            content: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
+        texto: '''${translatedText}'''`,
+          },
+        ],
       }),
+      // body: JSON.stringify({
+      //   model: 'gpt-3.5-turbo',
+      //   temperature: 0,
+      //   max_tokens: 2048,
+      //   n: 1,
+      //   prompt: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
+      // //   texto: '''${translatedText}'''`,
+      // }),
     };
 
     try {
