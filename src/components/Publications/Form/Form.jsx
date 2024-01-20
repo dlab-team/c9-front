@@ -381,7 +381,7 @@ const Form = ({ publication } = null) => {
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
         temperature: 1,
-        max_tokens: 2048,
+        max_tokens: 4096,
         n: 15,
         message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
       }),
@@ -450,7 +450,7 @@ const Form = ({ publication } = null) => {
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
         temperature: 0,
-        max_tokens: 2048,
+        max_tokens: 4096,
         n: 1,
         message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) ${customPrompt}
@@ -554,7 +554,7 @@ const Form = ({ publication } = null) => {
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
         temperature: 0,
-        max_tokens: 2048,
+        max_tokens: 4096,
         n: 1,
         message: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
       //   texto: '''${translatedText}'''`,
