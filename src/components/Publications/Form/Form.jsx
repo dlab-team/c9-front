@@ -389,8 +389,8 @@ const Form = ({ publication } = null) => {
 
     try {
       const response = await fetch(
-        // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+         'https://api.openai.com/v1/chat/completions',
+        //`${process.env.REACT_APP_BACKEND_URL}/turbo`,
         optionsQA
       );
       const data = await response.json();
@@ -474,8 +474,8 @@ const Form = ({ publication } = null) => {
 
     try {
       const response = await fetch(
-        // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+        'https://api.openai.com/v1/chat/completions',
+        //`${process.env.REACT_APP_BACKEND_URL}/turbo`,
         options
       );
 
@@ -563,8 +563,8 @@ const Form = ({ publication } = null) => {
 
     try {
       const response = await fetch(
-        // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+         'https://api.openai.com/v1/chat/completions',
+        //`${process.env.REACT_APP_BACKEND_URL}/turbo`,
         options
       );
       const data = await response.json();
