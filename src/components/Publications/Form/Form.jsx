@@ -383,10 +383,7 @@ const Form = ({ publication } = null) => {
         temperature: 1,
         max_tokens: 2048,
         n: 15,
-        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
-      //   1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
-
-      //     '''${translatedText}'''`,
+        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
       }),
     };
 
@@ -399,8 +396,8 @@ const Form = ({ publication } = null) => {
       const data = await response.json();
 
       const dataChoices = data.choices.map((item) => {
-        // const aText = item.message.content.split(';');
-        const aText = item.text.split(';');
+         const aText = item.message.content.split(';');
+        //const aText = item.text.split(';');
         // remove palabra Pregunta: y palabra Respuesta:
         const question = aText[0].replace('Pregunta:', '').trim();
         const answer = aText[1].replace('Respuesta:', '').trim();
@@ -483,8 +480,8 @@ const Form = ({ publication } = null) => {
       );
 
       const resp = await response.json();
-      // const text = resp.choices[0].message.content;
-      const text = resp.choices[0].text;
+       const text = resp.choices[0].message.content;
+      //const text = resp.choices[0].text;
 
       const aText = text.split('------');
       const content = aText[0].trim();
@@ -574,8 +571,8 @@ const Form = ({ publication } = null) => {
       const dataChoices = data.choices;
       setIsLoading(false);
       //sacar el texto en ingles
-      // return dataChoices[0].message.content;
-      return dataChoices[0].text;
+       return dataChoices[0].message.content;
+      //return dataChoices[0].text;
     } catch (error) {
       setIsLoading(false);
       toast('Error al traducir el texto', {
