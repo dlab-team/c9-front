@@ -697,7 +697,7 @@ const Form = ({ publication } = null) => {
                 className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
                 type="text"
                 placeholder=""
-                defaultValue="Convertir la noticia en una publicación para un niño de 6 años"
+                defaultValue="Convertir la noticia en una publicación para un niño de 9 años, agrega emojis para resaltar algunas emociones."
                 ref={promptInput}
               />
               <div className="grid grid-cols-2 gap-0 col-span-2 mt-2">
