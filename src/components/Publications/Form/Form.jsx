@@ -697,7 +697,7 @@ const Form = ({ publication } = null) => {
                 className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
                 type="text"
                 placeholder=""
-                defaultValue="Convertir la noticia en una publicación para un niño de 9 años, simplificando el contenido y cambiando palabras técnicas por descripciones que se entiendan con ejemplos. No hables en primera persona. No saludes al iniciar tu explicación. Agrega emojis para resaltar algunas emociones en algunos párrafos. No partas con emojis."
+                defaultValue="Convertir la noticia en una publicación para un niño de 9 años, simplificando el contenido y cambiando palabras técnicas por descripciones que se entiendan con ejemplos. No hables en primera persona. No saludes al iniciar tu explicación. Agrega emojis para resaltar algunas emociones en algunos párrafos. No partas con emojis. No adaptes el texto como si fuera un cuento."
                 ref={promptInput}
               />
               <div className="grid grid-cols-2 gap-0 col-span-2 mt-2">
