@@ -395,8 +395,8 @@ const Form = ({ publication } = null) => {
       const data = await response.json();
 
       const dataChoices = data.choices.map((item) => {
-        const aText = item.message.content.split(';');
-        //const aText = item.text.split(';');
+        //const aText = item.message.content.split(';');
+        const aText = item.text.split(';');
         // remove palabra Pregunta: y palabra Respuesta:
         const question = aText[0].replace('Pregunta:', '').trim();
         const answer = aText[1].replace('Respuesta:', '').trim();
