@@ -381,9 +381,11 @@ const Form = ({ publication } = null) => {
         model: 'gpt-4-0125-preview',
         temperature: 1,
         n: 15,
-        message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
+        message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 5 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
       }),
     };
+
+    // PREGUNTAS AQUÍ
 
     try {
       const response = await fetch(
