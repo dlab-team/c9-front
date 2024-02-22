@@ -415,6 +415,7 @@ const Form = ({ publication } = null) => {
     }
   };
 
+  // ini
   useEffect(() => {
     setPreguntas(QA.slice(0, 5));
   }, [QA]);
@@ -429,9 +430,10 @@ const Form = ({ publication } = null) => {
         };
       });
       console.log(dataChoices);
-      // setQA(dataChoices);
+      setQA(dataChoices);
     }
   }, []);
+  // fin
 
   const transformContent = async (event) => {
     setIsLoading(true);
