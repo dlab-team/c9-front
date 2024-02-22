@@ -380,7 +380,6 @@ const Form = ({ publication } = null) => {
       body: JSON.stringify({
         model: 'gpt-4-0125-preview',
         temperature: 1,
-        max_tokens: 4096,
         n: 15,
         message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
       }),
@@ -395,8 +394,8 @@ const Form = ({ publication } = null) => {
       const data = await response.json();
 
       const dataChoices = data.choices.map((item) => {
-        //const aText = item.message.content.split(';');
-        const aText = item.text.split(';');
+        const aText = item.message.content.split(';');
+        //const aText = item.text.split(';');
         // remove palabra Pregunta: y palabra Respuesta:
         const question = aText[0].replace('Pregunta:', '').trim();
         const answer = aText[1].replace('Respuesta:', '').trim();
