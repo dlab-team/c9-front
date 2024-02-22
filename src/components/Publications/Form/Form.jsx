@@ -550,7 +550,7 @@ const Form = ({ publication } = null) => {
         model: 'gpt-4-0125-preview',
         temperature: 0,
         n: 1,
-        message: "Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas. Texto: ${translatedText}",
+        message: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas. Texto: '''${translatedText}'''`,
       }),
     };
 
