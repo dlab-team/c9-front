@@ -363,27 +363,27 @@ const Form = ({ publication } = null) => {
         Authorization: `Bearer ${API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model: 'gpt-4-0125-preview',
-        temperature: 1,
-        n: 15,
-        messages: [
-          {
-            role: 'user',
-            content: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
-        1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
-
-          '''${translatedText}'''`,
-          },
-        ],
-      }),
       // body: JSON.stringify({
       //   model: 'gpt-4-0125-preview',
       //   temperature: 1,
-      //   max_tokens: 4096,
       //   n: 15,
-      //   message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
+      //   messages: [
+      //     {
+      //       role: 'user',
+      //       content: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+      //   1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
+
+      //     '''${translatedText}'''`,
+      //     },
+      //   ],
       // }),
+      body: JSON.stringify({
+        model: 'gpt-4-0125-preview',
+        temperature: 1,
+        max_tokens: 4096,
+        n: 15,
+        message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
+      }),
     };
 
     try {
@@ -446,28 +446,27 @@ const Form = ({ publication } = null) => {
         Authorization: `Bearer ${API_KEY}`,
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify({
-      //   model: 'gpt-4-0125-preview',
-      //   temperature: 0,
-      //   max_tokens: 4096,
-      //   n: 1,
-      //   message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
-      //   1) ${customPrompt}
-      //     '''${originalText}'''`,
-      // }),
       body: JSON.stringify({
         model: 'gpt-4-0125-preview',
         temperature: 0,
         n: 1,
-        messages: [
-          {
-            role: 'user',
-            content: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+        message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) ${customPrompt}
           '''${originalText}'''`,
-          },
-        ],
       }),
+      // body: JSON.stringify({
+      //   model: 'gpt-4-0125-preview',
+      //   temperature: 0,
+      //   n: 1,
+      //   messages: [
+      //     {
+      //       role: 'user',
+      //       content: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+      //   1) ${customPrompt}
+      //     '''${originalText}'''`,
+      //     },
+      //   ],
+      // }),
     };
 
     try {
