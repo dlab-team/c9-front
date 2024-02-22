@@ -415,23 +415,23 @@ const Form = ({ publication } = null) => {
     }
   };
 
-  // useEffect(() => {
-  //   setPreguntas(QA.slice(0, 5));
-  // }, [QA]);
+  useEffect(() => {
+    setPreguntas(QA.slice(0, 5));
+  }, [QA]);
 
-  // useEffect(() => {
-  //   if (publication) {
-  //     const dataChoices = publication.questions.map((item, index) => {
-  //       return {
-  //         index,
-  //         question: item.question,
-  //         answer: item.answer,
-  //       };
-  //     });
-  //     console.log(dataChoices);
-  //     // setQA(dataChoices);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (publication) {
+      const dataChoices = publication.questions.map((item, index) => {
+        return {
+          index,
+          question: item.question,
+          answer: item.answer,
+        };
+      });
+      console.log(dataChoices);
+      // setQA(dataChoices);
+    }
+  }, []);
 
   const transformContent = async (event) => {
     setIsLoading(true);
