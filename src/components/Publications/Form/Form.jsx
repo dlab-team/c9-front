@@ -579,7 +579,8 @@ const Form = ({ publication } = null) => {
 
   const handleTabChange = async (language) => {
     setContentLanguage(language);
-    if (language === 'en' && finalContent_en.length < 15) {
+    //if (language === 'en' && finalContent_en.length < 15) {
+    if (language === 'en') {
       const text_en = await translateTextToEnglishGptService();
       setFinalContent_en(text_en);
     }
