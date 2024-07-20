@@ -25,6 +25,7 @@ import SplashScreen from '../components/SplashScreen/SplashScreen';
 import ByKeyword from '../pages/ByKeyword/byKeyword';
 import { useLoading } from '../context/LoadingContext'; 
 import EditUserView from '../pages/Admin/EditUser';
+import Category from '../pages/Categories/Category'
 
 const AppRoutes = () => {
   const { isLoading, setIsLoading } = useLoading(); // Usamos el contexto para acceder a isLoading
@@ -243,6 +244,15 @@ const AppRoutes = () => {
         element={
           <Layout>
             <ByKeyword />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/publications/category/:categoryId"
+        element={
+          <Layout>
+            <Category />
           </Layout>
         }
       />
