@@ -80,7 +80,7 @@ const Form = ({ publication } = null) => {
   const [imageFiles, setImageFiles] = useState(null);
   const [labels, setLabels] = useState({
     location: publication?.location || [],
-    category: publication?.category || [],
+  category: publication?{ value: publication.category.id, label: publication.category.name } : [] || [],
     city: publication?.location?.city || [],
   });
   const promptInput = useRef(null);
@@ -257,7 +257,9 @@ const Form = ({ publication } = null) => {
     );
 
     formData.append('author', JSON.stringify(currentAutor));
-    formData.append('category', JSON.stringify(labels.category));
+    formData.append('category', JSON.stringify({
+      id:labels.category.value, name: labels.category.label
+    }));
     formData.append('fecha_publicacion', selectedPublicationDate);
     formData.append('featured', featuredInput.current.checked);
     formData.append(
@@ -278,7 +280,7 @@ const Form = ({ publication } = null) => {
         formData.append('images', image);
       });
     }
-
+    
     if (publication) {
       return axios
         .put(
@@ -611,7 +613,7 @@ const Form = ({ publication } = null) => {
         event.preventDefault();
     }
   };
-
+  
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -896,18 +898,13 @@ const Form = ({ publication } = null) => {
                 //   // labels.category.includes(option.value)
                 // )}
                 value={
-                  publication
-                    ? {
-                        value: publication.category.id,
-                        label: publication.category.name,
-                      }
-                    : []
+                  labels.category
                 }
-                isMulti
+                
                 onChange={(selectedOptions) =>
                   setLabels((oldState) => ({
                     ...oldState,
-                    category: selectedOptions.map((option) => option.value),
+                    category: selectedOptions,
                   }))
                 }
                 placeholder="Seleccione categorías"
