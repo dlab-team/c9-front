@@ -180,7 +180,7 @@ const Gallery = ({ searchValue = '', keyword = '' }) => {
             className={`${
               searchValue !== ''
                 ? 'gap-6 container mx-auto'
-                : 'columns-2 sm:columns-2 lg:columns-3 gap-6 container mx-auto mb-10'
+                : 'grid grid-cols-2 lg:grid-cols-3 gap-6 container mx-auto mb-10'
             }`}
           >
             {publicationsToRender
