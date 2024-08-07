@@ -166,6 +166,7 @@ const Gallery = ({ searchValue = '', keyword = '' }) => {
                 <PublicationCard
                   key={publication.id}
                   publication={publication}
+                  heigth='h-96'
                   className={`${
                     index === 0
                       ? 'col-span-3 lg:col-span-2'
@@ -196,6 +197,7 @@ const Gallery = ({ searchValue = '', keyword = '' }) => {
                   <PublicationCard
                     key={publication.id}
                     publication={publication}
+                    heigth='h-56'
                     className={`${index === 0 ? 'lg:hidden' : ''}`}
                   />
                 )
