@@ -305,6 +305,8 @@ const Form = ({ publication } = null) => {
         });
     }
 
+    console.log([...formData.entries()]);
+
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData, {
         headers: {
@@ -328,6 +330,7 @@ const Form = ({ publication } = null) => {
             type: 'error',
             autoClose: 3000,
           });
+          console.error(error);
         }
       );
   };
@@ -982,11 +985,12 @@ const Form = ({ publication } = null) => {
           <h2 className="mt-6 text-[28px] text-primary font-principal">
             Agregar Fotos
           </h2>
+          <div>
           <ImagesUploader
             onImagesChange={(images) => setImageFiles(images)}
             imagesUrls={publication ? publication.images : null}
           />
-
+          </div>
           <h2 className="mt-6 mb-3 text-[28px] text-primary font-principal">
             Agregar Preguntas
           </h2>
