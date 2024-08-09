@@ -14,7 +14,7 @@ export function formatoFecha(fecha) {
   return dia + ' ' + mesYAnio;
 }
 
-const PublicationCard = ({ publication, className = '' }) => {
+const PublicationCard = ({ publication, className = '', heigth = '' }) => {
   const navigate = useNavigate();
   // Define el ancho máximo para considerar la pantalla como pequeña
   const isSmallScreen = useMediaQuery({ maxWidth: 640 });
@@ -35,7 +35,7 @@ const PublicationCard = ({ publication, className = '' }) => {
       )}
       <img
         className={`w-full ${
-          isSmallScreen ? 'h-48' : 'max-h-96'
+          isSmallScreen ? 'h-48' : heigth || 'max-h-96'
         } object-cover object-center rounded-t-lg transition duration-300 ease-in-out hover:opacity-60`}
         src={
           (publication?.images && publication?.images[0]?.url) ||
