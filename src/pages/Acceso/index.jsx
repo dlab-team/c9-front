@@ -265,18 +265,6 @@ const Admin = () => {
                     Ingresa
                   </button>
                 )}
-                <section className="text-center mt-4">
-                  <p className="text-sm font-medium text-primary">
-                    Si eres profesor y aún no te has registrado, lo puedes hacer
-                    <Link
-                      to="/registro"
-                      className="text-secondary hover:text-yellow"
-                    >
-                      {' '}
-                      aquí
-                    </Link>
-                  </p>
-                </section>
                 <section className="iniciaSesionCon text-center mb-16 md:m-20 lg:m-16 nowrap">
                   <p className="text-2xl md:text-3xl lg:text-2xl mt-10 font-normal text-[#00235C] font-['Caveat'] italic leading-4 tracking-wide">
                     Inicia sesión con
