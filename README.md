@@ -1,6 +1,6 @@
 # c9-front
 
-Frontend para C9 InnovaXD 
+Frontend para C9 InnovaXD
 
 # Descripción del proyecto InnovaXD
 

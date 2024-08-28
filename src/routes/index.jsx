@@ -27,12 +27,11 @@ import { useLoading } from '../context/LoadingContext';
 import EditUserView from '../pages/Admin/EditUser';
 import Category from '../pages/Categories/Category'
 
-
 const AppRoutes = () => {
   const { isLoading, setIsLoading } = useLoading(); // Usamos el contexto para acceder a isLoading
   const [showSplash, setShowSplash] = useState(true);
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     setShowSplash(isLoading);
@@ -42,6 +41,7 @@ const AppRoutes = () => {
     setShowSplash(false);
     setIsLoading(false); // Actualizamos el estado de isLoading cuando se oculta el SplashScreen
   };
+
 
   return (
     <Routes>
@@ -74,7 +74,6 @@ const AppRoutes = () => {
         }
       />
       <Route exact path="/acceso" element={<Acceso />} />
-      <Route exact path="/registro" element={<Registro />} />
       <Route exact path="/loginLinkedin/:token" element={<LoginLinkedin />} />
       <Route
         exact
@@ -139,38 +138,34 @@ const AppRoutes = () => {
             </Layout>
           }
         />
-      </Route> 
-
-      <Route element={<ProtectedRoute redirectTo="/" requiredAdminRole={true} />}>
         <Route
-            exact
-            path="admin/publications"
-            element={
-              <Layout>
-                <AdminPublications />
-              </Layout>
-            }
-          />
-          <Route
-            exact
-            path="admin/publications/new"
-            element={
-              <Layout>
-                <AdminPublicationsNew />
-              </Layout>
-            }
-          />
-          <Route
-            exact
-            path="admin/publications/edit/:slug"
-            element={
-              <Layout>
-                <EditOne />
-              </Layout>
-            }
-          /> 
+          exact
+          path="admin/publications"
+          element={
+            <Layout>
+              <AdminPublications />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/publications/new"
+          element={
+            <Layout>
+              <AdminPublicationsNew />
+            </Layout>
+          }
+        />
+        <Route
+          exact
+          path="admin/publications/edit/:slug"
+          element={
+            <Layout>
+              <EditOne />
+            </Layout>
+          }
+        />
       </Route>
-      
       <Route element={<ProtectedRoute requiredAdminRole={true} />}>
         <Route
           exact

@@ -369,8 +369,9 @@ const Form = ({ publication } = null) => {
         'Content-Type': 'application/json',
       },
       // body: JSON.stringify({
-      //   model: 'gpt-4-0125-preview',
+      //   model: 'gpt-4',
       //   temperature: 1,
+      //   max_tokens: 8000,
       //   n: 15,
       //   messages: [
       //     {
@@ -383,26 +384,28 @@ const Form = ({ publication } = null) => {
       //   ],
       // }),
       body: JSON.stringify({
-        model: 'gpt-4-0125-preview',
+        model: 'text-davinci-003',
         temperature: 1,
+        max_tokens: 2048,
         n: 15,
-        message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas. 1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ; '''${translatedText}'''`,
+        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+      //   1) Determina 1 pregunta acerca del contenido y su respuesta por separado. Entrega la pregunta y la respuesta separadas por ;
+
+      //     '''${translatedText}'''`,
       }),
     };
 
-    // PREGUNTAS AQUÍ!!!!!!!!!!!!!!!***************
-
     try {
       const response = await fetch(
-         //'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+        // 'https://api.openai.com/v1/chat/completions',
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         optionsQA
       );
       const data = await response.json();
 
       const dataChoices = data.choices.map((item) => {
-        const aText = item.message.content.split(';');
-        //const aText = item.text.split(';');
+        // const aText = item.message.content.split(';');
+        const aText = item.text.split(';');
         // remove palabra Pregunta: y palabra Respuesta:
         const question = aText[0].replace('Pregunta:', '').trim();
         const answer = aText[1].replace('Respuesta:', '').trim();
@@ -422,25 +425,23 @@ const Form = ({ publication } = null) => {
     }
   };
 
-  // ini
-  useEffect(() => {
-    setPreguntas(QA.slice(0, 5));
-  }, [QA]);
+  // useEffect(() => {
+  //   setPreguntas(QA.slice(0, 5));
+  // }, [QA]);
 
-  useEffect(() => {
-    if (publication) {
-      const dataChoices = publication.questions.map((item, index) => {
-        return {
-          index,
-          question: item.question,
-          answer: item.answer,
-        };
-      });
-      console.log(dataChoices);
-      setQA(dataChoices);
-    }
-  }, []);
-  // fin
+  // useEffect(() => {
+  //   if (publication) {
+  //     const dataChoices = publication.questions.map((item, index) => {
+  //       return {
+  //         index,
+  //         question: item.question,
+  //         answer: item.answer,
+  //       };
+  //     });
+  //     console.log(dataChoices);
+  //     // setQA(dataChoices);
+  //   }
+  // }, []);
 
   const transformContent = async (event) => {
     setIsLoading(true);
@@ -455,16 +456,18 @@ const Form = ({ publication } = null) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4-0125-preview',
+        model: 'text-davinci-003',
         temperature: 0,
+        max_tokens: 2048,
         n: 1,
-        message: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
+        prompt: `Analiza el texto delmitado por ''' ''',  y realiza las siguientes tareas.
         1) ${customPrompt}
           '''${originalText}'''`,
       }),
       // body: JSON.stringify({
-      //   model: 'gpt-4-0125-preview',
+      //   model: 'gpt-4',
       //   temperature: 0,
+      //   max_tokens: 8000,
       //   n: 1,
       //   messages: [
       //     {
@@ -479,14 +482,14 @@ const Form = ({ publication } = null) => {
 
     try {
       const response = await fetch(
-        //'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+        // 'https://api.openai.com/v1/chat/completions',
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         options
       );
 
       const resp = await response.json();
-       const text = resp.choices[0].message.content;
-      //const text = resp.choices[0].text;
+      // const text = resp.choices[0].message.content;
+      const text = resp.choices[0].text;
 
       const aText = text.split('------');
       const content = aText[0].trim();
@@ -544,8 +547,9 @@ const Form = ({ publication } = null) => {
         'Content-Type': 'application/json',
       },
       // body: JSON.stringify({
-      //   model: 'gpt-4-0125-preview',
+      //   model: 'gpt-4',
       //   temperature: 0,
+      //   max_tokens: 8000,
       //   n: 1,
       //   messages: [
       //     {
@@ -556,25 +560,27 @@ const Form = ({ publication } = null) => {
       //   ],
       // }),
       body: JSON.stringify({
-        model: 'gpt-4-0125-preview',
+        model: 'text-davinci-003',
         temperature: 0,
+        max_tokens: 2048,
         n: 1,
-        message: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas, eliminando ''' dentro del texto. Texto: '''${translatedText}'''`,
+        prompt: `Traduce en ingles el siguiente texto manteniendo las etiquetas HTML, estilos, emojis y saltos de lineas,
+      //   texto: '''${translatedText}'''`,
       }),
     };
 
     try {
       const response = await fetch(
         // 'https://api.openai.com/v1/chat/completions',
-        `${process.env.REACT_APP_BACKEND_URL}/turbo`,
+        `${process.env.REACT_APP_BACKEND_URL}/davinci`,
         options
       );
       const data = await response.json();
       const dataChoices = data.choices;
       setIsLoading(false);
       //sacar el texto en ingles
-       return dataChoices[0].message.content;
-      //return dataChoices[0].text;
+      // return dataChoices[0].message.content;
+      return dataChoices[0].text;
     } catch (error) {
       setIsLoading(false);
       toast('Error al traducir el texto', {
@@ -587,7 +593,6 @@ const Form = ({ publication } = null) => {
   const handleTabChange = async (language) => {
     setContentLanguage(language);
     if (language === 'en' && finalContent_en.length < 15) {
-    //if (language === 'en') {
       const text_en = await translateTextToEnglishGptService();
       setFinalContent_en(text_en);
     }
@@ -700,7 +705,7 @@ const Form = ({ publication } = null) => {
                 className="p-4 col-span-2 col-start-1 border rounded w-full border-primary"
                 type="text"
                 placeholder=""
-                defaultValue="Convertir la noticia en una publicación para un niño de 9 años, simplificando el contenido y cambiando palabras técnicas por descripciones que se entiendan con ejemplos. No hables en primera persona. No saludes al iniciar tu explicación. Agrega emojis para resaltar algunas emociones en algunos párrafos. No partas con emojis. No adaptes el texto como si fuera un cuento."
+                defaultValue="Convertir la noticia en una publicación para un niño de 6 años"
                 ref={promptInput}
               />
               <div className="grid grid-cols-2 gap-0 col-span-2 mt-2">
