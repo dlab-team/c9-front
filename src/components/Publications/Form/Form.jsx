@@ -80,7 +80,7 @@ const Form = ({ publication } = null) => {
   const [imageFiles, setImageFiles] = useState(null);
   const [labels, setLabels] = useState({
     location: publication?.location || [],
-    category: publication?.category || [],
+  category: publication?{ value: publication.category.id, label: publication.category.name } : [] || [],
     city: publication?.location?.city || [],
   });
   const promptInput = useRef(null);
@@ -257,7 +257,9 @@ const Form = ({ publication } = null) => {
     );
 
     formData.append('author', JSON.stringify(currentAutor));
-    formData.append('category', JSON.stringify(labels.category));
+    formData.append('category', JSON.stringify({
+      id:labels.category.value, name: labels.category.label
+    }));
     formData.append('fecha_publicacion', selectedPublicationDate);
     formData.append('featured', featuredInput.current.checked);
     formData.append(
@@ -278,7 +280,7 @@ const Form = ({ publication } = null) => {
         formData.append('images', image);
       });
     }
-
+    
     if (publication) {
       return axios
         .put(
@@ -303,6 +305,8 @@ const Form = ({ publication } = null) => {
         });
     }
 
+    console.log([...formData.entries()]);
+
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/publications`, formData, {
         headers: {
@@ -326,6 +330,7 @@ const Form = ({ publication } = null) => {
             type: 'error',
             autoClose: 3000,
           });
+          console.error(error);
         }
       );
   };
@@ -606,7 +611,7 @@ const Form = ({ publication } = null) => {
         event.preventDefault();
     }
   };
-
+  
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -891,18 +896,13 @@ const Form = ({ publication } = null) => {
                 //   // labels.category.includes(option.value)
                 // )}
                 value={
-                  publication
-                    ? {
-                        value: publication.category.id,
-                        label: publication.category.name,
-                      }
-                    : []
+                  labels.category
                 }
-                isMulti
+                
                 onChange={(selectedOptions) =>
                   setLabels((oldState) => ({
                     ...oldState,
-                    category: selectedOptions.map((option) => option.value),
+                    category: selectedOptions,
                   }))
                 }
                 placeholder="Seleccione categorías"
@@ -980,11 +980,12 @@ const Form = ({ publication } = null) => {
           <h2 className="mt-6 text-[28px] text-primary font-principal">
             Agregar Fotos
           </h2>
+          <div>
           <ImagesUploader
             onImagesChange={(images) => setImageFiles(images)}
             imagesUrls={publication ? publication.images : null}
           />
-
+          </div>
           <h2 className="mt-6 mb-3 text-[28px] text-primary font-principal">
             Agregar Preguntas
           </h2>
